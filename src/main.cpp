@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "sprite.h"
+#include "grass_block.h"
 #include "input_state.h"
 
 const int SCREEN_WIDTH = 640;
@@ -33,6 +34,7 @@ int main(int argc, char* argv[])
     }
 
 	Sprite* character = new Sprite(renderer, "res/character.png", 100, 100 , 48, 64);
+    GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	InputState* input_state = new InputState();
     // Wait for a key press
     bool quit = false;
@@ -72,7 +74,9 @@ int main(int argc, char* argv[])
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			SDL_RenderClear(renderer);
 			//render
-			character->render(renderer);
+			block1->render(renderer);
+            character->render(renderer);
+            
 			// Update the renderer
 			SDL_RenderPresent(renderer);
 		}

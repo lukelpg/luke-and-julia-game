@@ -15,6 +15,9 @@ public:
 private:
     SDL_Texture* texture;
     SDL_Rect position;
+    int speed_x;
+    int speed_y;
+    bool can_jump;
     void applyInputState(InputState* input_state);
 };
 
