@@ -9,6 +9,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 add_executable(luke_game 
 	src/main.cpp
+	src/background.cpp
 	src/sprite.cpp
 	src/grass_block.cpp
 	src/input_state.cpp

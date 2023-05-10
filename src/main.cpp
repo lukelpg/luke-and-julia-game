@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include "sprite.h"
 #include "grass_block.h"
+#include "background.h"
 #include "input_state.h"
 
 const int SCREEN_WIDTH = 640;
@@ -33,9 +34,11 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-	Sprite* character = new Sprite(renderer, "res/character.png", 100, 100 , 48, 64);
+    Background* background = new Background(renderer, "res/poop.png", 0, 0, 640, 480);
+	Sprite* character = new Sprite(renderer, "res/AKITKIT.png", 100, 100 , 48, 64);
     GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	InputState* input_state = new InputState();
+
     // Wait for a key press
     bool quit = false;
 	Uint32 last_time = SDL_GetTicks();
@@ -73,7 +76,9 @@ int main(int argc, char* argv[])
 			// Clear the renderer
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			SDL_RenderClear(renderer);
+
 			//render
+            background->render(renderer);
 			block1->render(renderer);
             character->render(renderer);
             
