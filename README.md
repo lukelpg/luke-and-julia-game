@@ -10,9 +10,11 @@
 - sudo apt-get install libsdl2-gfx-dev
 
 ### Run
-- if no build folder, from luke-and-julia-game, run: mkdir build
-- then navigate to build and complile and bluid using the following commands
-- cd build 
-- cmake ..
-- make
-- ./luke_game
+- if no build directory, from luke-and-julia-game, run: 
+  - mkdir build
+- then, navigate to build directory with: 
+  - cd build 
+- next, complile and bluid using the following commands:
+  - cmake ..
+  - make
+  - ./luke_game
