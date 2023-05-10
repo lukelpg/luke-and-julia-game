@@ -10,7 +10,11 @@
 - libsdl2-mixer-dev
 - libsdl2-gfx-dev
 
-Instrctions
+Instructions
 
 - use wsl
 - sudo apt get install     for those above
+
+- go into build directory and type 'cmake ..' //compiles
+- type 'make' //builds 
+- type './luke_game'
