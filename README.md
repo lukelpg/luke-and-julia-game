@@ -1,6 +1,7 @@
 # Luke Game
 
-### Install (in wsl):
+### Installs (in wsl):
+
 - sudo apt-get install clang
 - sudo apt-get install cmake
 - sudo apt-get install libsdl2-dev
@@ -10,10 +11,11 @@
 - sudo apt-get install libsdl2-gfx-dev
 
 ### Run
-- if no build directory, from luke-and-julia-game, run: 
+
+- if no build directory, from luke-and-julia-game, run:
   - mkdir build
-- then, navigate to build directory with: 
-  - cd build 
+- then, navigate to build directory with:
+  - cd build
 - next, complile and bluid using the following commands:
   - cmake ..
   - make
