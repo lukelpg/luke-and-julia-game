@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    Background* background = new Background(renderer, "res/basicBackground.png", 0, 0, 640, 480);
-    // Background* background = new Background(renderer, "res/basicBackground.png", 0, 770, 640, 480);
+    Background* background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
+    Background* background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
 	Sprite* character = new Sprite(renderer, "res/me.png", 288, 100 , 48, 64);
     Npc* bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
     GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
@@ -77,7 +77,8 @@ int main(int argc, char* argv[])
 
 			//update
 			character->update(input_state);
-            background->update(input_state);
+            background1->update(input_state);
+            background2->update(input_state);
             bad_kat->update(input_state);
 
 			// Clear the renderer
@@ -85,7 +86,8 @@ int main(int argc, char* argv[])
 			SDL_RenderClear(renderer);
 
 			//render
-            background->render(renderer);
+            background1->render(renderer);
+            background2->render(renderer);
 			block1->render(renderer);
             character->render(renderer);
             bad_kat->render(renderer);
