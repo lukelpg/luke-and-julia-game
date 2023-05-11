@@ -11,6 +11,7 @@ add_executable(luke_game
 	src/main.cpp
 	src/background.cpp
 	src/sprite.cpp
+	src/npc.cpp
 	src/grass_block.cpp
 	src/input_state.cpp
 )

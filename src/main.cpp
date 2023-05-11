@@ -5,6 +5,7 @@
 #include "grass_block.h"
 #include "background.h"
 #include "input_state.h"
+#include "npc.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -34,8 +35,10 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    Background* background = new Background(renderer, "res/poop.png", 0, 0, 640, 480);
-	Sprite* character = new Sprite(renderer, "res/AKITKIT.png", 100, 100 , 48, 64);
+    Background* background = new Background(renderer, "res/basicBackground.png", 0, 0, 640, 480);
+    // Background* background = new Background(renderer, "res/basicBackground.png", 0, 770, 640, 480);
+	Sprite* character = new Sprite(renderer, "res/me.png", 288, 100 , 48, 64);
+    Npc* bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
     GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	InputState* input_state = new InputState();
 
@@ -43,6 +46,8 @@ int main(int argc, char* argv[])
     bool quit = false;
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
+
+    //game loop
     while (!quit) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -72,6 +77,8 @@ int main(int argc, char* argv[])
 
 			//update
 			character->update(input_state);
+            background->update(input_state);
+            bad_kat->update(input_state);
 
 			// Clear the renderer
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -81,6 +88,7 @@ int main(int argc, char* argv[])
             background->render(renderer);
 			block1->render(renderer);
             character->render(renderer);
+            bad_kat->render(renderer);
             
 			// Update the renderer
 			SDL_RenderPresent(renderer);
