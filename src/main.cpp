@@ -35,6 +35,36 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    // Create tiles surface
+    SDL_Surface* tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
+    SDL_Texture* tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
+    SDL_FreeSurface(tile_map_surface);
+
+    // Create tile map
+    int tilemap[13][10];
+
+    for(int x=0; x < 13; x++){
+        for(int y=0; y < 10; y++){
+            tilemap[x][y] = rand() %4 + 1;
+        }
+    }
+
+    SDL_Rect tile[13][10];
+    for(int x=0; x < 13; x++){
+        for(int y=0; y < 10; y++){
+            tile[x][y].x = x*50;
+            tile[x][y].y = y*50;
+            tile[x][y].w = 50;
+            tile[x][y].h = 50;
+        }
+    }
+
+    SDL_Rect select_tile;
+    select_tile.x = 0;
+    select_tile.y = 0;
+    select_tile.w = 308;
+    select_tile.h = 309;
+
     Background* background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     Background* background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
 	Sprite* character = new Sprite(renderer, "res/me.png", 288, 100 , 48, 64);
@@ -85,16 +115,37 @@ int main(int argc, char* argv[])
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			SDL_RenderClear(renderer);
 
-			//render
+
+            
+			
+            
+            //render
             background1->render(renderer);
             background2->render(renderer);
-			block1->render(renderer);
+            
+            // render tile map
+            for(int x=0; x < 13; x++){
+                for(int y=0; y < 10; y++){
+                    switch (tilemap[x][y]){
+                        case 1:
+                            SDL_RenderCopy(renderer, tile_texture, &select_tile, &tile[x][y]);
+                            break;
+                    }
+                }
+            }    
+
+			// block1->render(renderer);
             character->render(renderer);
             bad_kat->render(renderer);
+            
+            
             
 			// Update the renderer
 			SDL_RenderPresent(renderer);
 		}
+
+        
+
     }
 
     // Clean up resources
