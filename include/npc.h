@@ -5,12 +5,12 @@
 #include <SDL2/SDL_image.h>
 #include "input_state.h"
 
-class Npc {
+class Npc{
 public:
     Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Npc();
     void render(SDL_Renderer* renderer);
-    void update(InputState* input_state);
+    void update();
 
 private:
     SDL_Texture* texture;
