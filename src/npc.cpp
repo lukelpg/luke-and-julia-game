@@ -10,7 +10,7 @@ Npc::Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    speed_x = 0;
+    speed_x = 1;
     speed_y = 0;
     can_jump = false;
     position.x = x;
@@ -20,15 +20,18 @@ Npc::Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int
     SDL_FreeSurface(surface);
 }
 
-void Npc::update(InputState* input_state) {
-    applyInputState(input_state);
+void Npc::update() {
     speed_y+=GRAVITY;
     position.y+=speed_y;
 
+    position.x += speed_x;
+
     if (position.x < 0) {
         position.x = 0;
+        speed_x = 1;
     } else if (position.x > 640 - position.w) {
         position.x = 640 - position.w;
+        speed_x = -1;
     }
     if (position.y < 0) {
         position.y = 0;
@@ -37,25 +40,6 @@ void Npc::update(InputState* input_state) {
         position.y = 480 - position.h;
         can_jump = true;
         speed_y = 0;
-    }
-}
-
-void Npc::applyInputState(InputState* input_state) {
-    if (input_state->getLeft()) {
-        position.x -= 3;
-    }
-    if (input_state->getRight()) {
-        position.x += 3;
-    }
-    if (input_state->getUp()) {
-        position.y -= 3;
-        if(can_jump){
-            speed_y = -15;
-            can_jump = false;
-        } 
-    }
-    if (input_state->getDown()) {
-        position.y += 3;
     }
 }
 
