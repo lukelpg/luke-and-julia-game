@@ -1,4 +1,5 @@
 #include "npc.h"
+#include "sprite.h"
 #include "input_state.h"
 #include <iostream>
 
