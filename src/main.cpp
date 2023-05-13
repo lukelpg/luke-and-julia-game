@@ -50,6 +50,10 @@ int main(int argc, char* argv[])
     }
 
     SDL_Rect tile[13][10];
+    // SDL_Rect screenRect[][];
+    
+
+    //in function next
     for(int x=0; x < 13; x++){
         for(int y=0; y < 10; y++){
             tile[x][y].x = x*50;
@@ -128,6 +132,7 @@ int main(int argc, char* argv[])
                 for(int y=0; y < 10; y++){
                     switch (tilemap[x][y]){
                         case 1:
+                            // screenRect = tile[][]
                             SDL_RenderCopy(renderer, tile_texture, &select_tile, &tile[x][y]);
                             break;
                     }
