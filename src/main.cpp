@@ -43,11 +43,55 @@ int main(int argc, char* argv[])
     // Create tile map
     int tilemap[13][10];
 
-    for(int x=0; x < 13; x++){
-        for(int y=0; y < 10; y++){
-            tilemap[x][y] = rand() %4 + 1;
+    // for(int x=0; x < 13; x++){
+    //     for(int y = 0; y < 10; y++){
+    //         tilemap[x][y] = rand() %4 + 1;
+    //     }
+    // }
+
+    int heights[13];
+
+	for(int x=0; x < 13; x++){
+		heights[x] = rand() %9 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
+	}
+
+    //RANDOM WALK ALGORITHM
+
+	for (int x = 1; x < 13; x++) {
+		int roll = rand() %2;  
+		if( 0 == roll ){
+			heights[x] = heights[x-1] + 1; 
+
+		} else {
+			heights [x] = heights[x-1]- 1; 
+			if (heights[x] < 0 ){
+				heights[x] = 0; 
+            }
+		}
+		
+	} 
+    
+
+    // 'SMOOTHEN OUT' ALGORITHM (take the average)
+
+	for(int x = 0; x < 11; x++){
+		heights[x] = ( heights[x] + heights[x+1] + heights[x+2])/3 ; 
+	}
+
+	for(int x = 0; x < 13; x++) {
+        int stackHeight = heights[x];
+
+        for(int y=0; y <15; y++){
+
+            if(y > stackHeight){
+                tilemap[x][y] = 1;
+
+            }else{
+                tilemap[x][y] = 0; 
+            }
         }
     }
+
 
     SDL_Rect tile[13][10];
     // SDL_Rect screenRect[][];
@@ -118,10 +162,6 @@ int main(int argc, char* argv[])
 			// Clear the renderer
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			SDL_RenderClear(renderer);
-
-
-            
-			
             
             //render
             background1->render(renderer);
