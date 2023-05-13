@@ -62,8 +62,8 @@ int main(int argc, char* argv[])
     SDL_Rect select_tile;
     select_tile.x = 0;
     select_tile.y = 0;
-    select_tile.w = 308;
-    select_tile.h = 309;
+    select_tile.w = 100;  //308
+    select_tile.h = 100;  //309
 
     Background* background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     Background* background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
@@ -114,10 +114,6 @@ int main(int argc, char* argv[])
 			// Clear the renderer
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			SDL_RenderClear(renderer);
-
-
-            
-			
             
             //render
             background1->render(renderer);
