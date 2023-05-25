@@ -1,7 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "sprite.h"
 #include "player.h"
 #include "grass_block.h"
 #include "background.h"
@@ -116,7 +115,7 @@ int main(int argc, char* argv[])
 
     Background* background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     Background* background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	Sprite* character = new Sprite(renderer, "res/me.png", 288, 100 , 48, 64);
+	Player* character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     Npc* bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
     GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	InputState* input_state = new InputState();
