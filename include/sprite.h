@@ -12,7 +12,7 @@ public:
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state);
 
-private:
+protected:
     SDL_Texture* texture;
     SDL_Rect position;
     int speed_x;
