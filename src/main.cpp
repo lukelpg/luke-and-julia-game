@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
 			character->update(input_state);
             background1->update(input_state);
             background2->update(input_state);
-            bad_kat->update();
+            bad_kat->update(input_state);
 
 			// Clear the renderer
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
