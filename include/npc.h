@@ -12,7 +12,7 @@ public:
     Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Npc();
     // void render(SDL_Renderer* renderer);
-    // void update();
+    void update();
 
 private:
     
