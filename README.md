@@ -24,4 +24,4 @@
   - next, complile and bluid using the following commands:
     - cmake ..
     - make
-    - ./luke_gam
+    - ./luke_game
