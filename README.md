@@ -12,11 +12,16 @@
 
 ### Run
 
-- if no build directory, from luke-and-julia-game, run:
-  - mkdir build
-- then, navigate to build directory with:
-  - cd build
-- next, complile and bluid using the following commands:
-  - cmake ..
-  - make
-  - ./luke_game
+- From /luke-game run:
+
+  - bash ./scripts/run.sh
+- IF THIS DOESNT WORK, do it manually as follows:
+
+  - if no build directory, from luke-and-julia-game, run:
+    - mkdir build
+  - then, navigate to build directory with:
+    - cd build
+  - next, complile and bluid using the following commands:
+    - cmake ..
+    - make
+    - ./luke_gam
