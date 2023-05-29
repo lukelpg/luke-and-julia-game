@@ -6,6 +6,7 @@
 #include "background.h"
 #include "input_state.h"
 #include "npc.h"
+#include "game_object.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
     int heights[13];
 
 	for(int x=0; x < 13; x++){
-		heights[x] = rand() %9 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
+		heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
 	}
 
     //RANDOM WALK ALGORITHM
@@ -115,7 +116,7 @@ int main(int argc, char* argv[])
 
     Background* background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     Background* background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	Sprite* character = new Sprite(renderer, "res/me.png", 288, 100 , 48, 64);
+	Player* character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     Npc* bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
     GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	InputState* input_state = new InputState();
@@ -179,7 +180,7 @@ int main(int argc, char* argv[])
                 }
             }    
 
-            //check for collisions
+            // check for collisions
             if(bad_kat->isColliding(*character)){
                 std::cout << "is colliding" << std::endl;
             }else{
