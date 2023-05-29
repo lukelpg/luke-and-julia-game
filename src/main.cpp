@@ -182,9 +182,13 @@ int main(int argc, char* argv[])
 
             // check for collisions
             if(bad_kat->isColliding(*character)){
-                std::cout << "is colliding" << std::endl;
+                std::cout << character->health << std::endl;
+                character->health--;
+                if(character->health <= 0){
+                    quit = true;
+                }
             }else{
-                std::cout << "not colliding" << std::endl;
+                std::cout << character->health << std::endl;
             }
 
 			// block1->render(renderer);

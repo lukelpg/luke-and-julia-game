@@ -5,7 +5,10 @@
 
 const int GRAVITY = 1;
 
-Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(renderer, file_path, x, y, w, h) {}
+Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(renderer, file_path, x, y, w, h) {
+    health = 100;
+}
+
 
 
 // void Player::update(InputState* input_state) {
