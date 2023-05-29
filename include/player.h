@@ -12,6 +12,7 @@ public:
 	~Player();
     // void render(SDL_Renderer* renderer);
     // void update(InputState* input_state);
+    int health;
 
 private:
     // void applyInputState(InputState* input_state);
