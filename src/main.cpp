@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 
     Background* background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     Background* background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	Player* character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
+	Sprite* character = new Sprite(renderer, "res/me.png", 288, 100 , 48, 64);
     Npc* bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
     GrassBlock* block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	InputState* input_state = new InputState();
@@ -179,6 +179,13 @@ int main(int argc, char* argv[])
                 }
             }    
 
+            //check for collisions
+            if(bad_kat->isColliding(*character)){
+                std::cout << "is colliding" << std::endl;
+            }else{
+                std::cout << "not colliding" << std::endl;
+            }
+
 			// block1->render(renderer);
             character->render(renderer);
             bad_kat->render(renderer);
@@ -195,6 +202,7 @@ int main(int argc, char* argv[])
 
     // Clean up resources
     delete character;
+    SDL_DestroyTexture(tile_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

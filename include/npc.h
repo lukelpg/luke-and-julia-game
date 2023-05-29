@@ -13,8 +13,10 @@ public:
     ~Npc();
     // void render(SDL_Renderer* renderer);
     void update();
-
+    SDL_bool isColliding(Sprite& obj);
+    SDL_Rect GetRectangle();
 private:
+    
     
 };
 

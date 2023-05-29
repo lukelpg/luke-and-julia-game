@@ -10,6 +10,14 @@ Npc::Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int
     speed_y = 1;
 }
 
+SDL_bool Npc::isColliding(Sprite& obj){
+    const SDL_Rect temp = obj.GetRectangle();
+    return SDL_HasIntersection(&position, &temp);
+}
+
+SDL_Rect Npc::GetRectangle() {
+    return position;
+}
 
 void Npc::update() {
 	// speed_y+=GRAVITY;
