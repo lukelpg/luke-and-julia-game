@@ -1,3 +1,2 @@
-#!/bin/bash
-
-scripts/build.sh && ./build/luke_game
+./scripts/build.sh 
+./build/luke_game 
