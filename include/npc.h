@@ -7,20 +7,17 @@
 #include "sprite.h"
 
 
-class Npc{
+class Npc : public Sprite{
 public:
     Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Npc();
-    void render(SDL_Renderer* renderer);
+    // void render(SDL_Renderer* renderer);
     void update();
-
+    SDL_bool isColliding(Sprite& obj);
+    SDL_Rect GetRectangle();
 private:
-    SDL_Texture* texture;
-    SDL_Rect position;
-    int speed_x;
-    int speed_y;
-    bool can_jump;
-    void applyInputState(InputState* input_state);
+    
+    
 };
 
 #endif

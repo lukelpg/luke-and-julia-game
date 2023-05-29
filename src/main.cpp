@@ -6,6 +6,7 @@
 #include "background.h"
 #include "input_state.h"
 #include "npc.h"
+#include "game_object.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
     int heights[13];
 
 	for(int x=0; x < 13; x++){
-		heights[x] = rand() %9 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
+		heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
 	}
 
     //RANDOM WALK ALGORITHM
@@ -179,6 +180,13 @@ int main(int argc, char* argv[])
                 }
             }    
 
+            // check for collisions
+            if(bad_kat->isColliding(*character)){
+                std::cout << "is colliding" << std::endl;
+            }else{
+                std::cout << "not colliding" << std::endl;
+            }
+
 			// block1->render(renderer);
             character->render(renderer);
             bad_kat->render(renderer);
@@ -195,6 +203,7 @@ int main(int argc, char* argv[])
 
     // Clean up resources
     delete character;
+    SDL_DestroyTexture(tile_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

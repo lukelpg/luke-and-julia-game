@@ -25,12 +25,12 @@ void Background::update(InputState* input_state) {
 }
 
 void Background::applyInputState(InputState* input_state) {
-    if (input_state->getLeft()) {
-        position.x += 6;
-    }
-    if (input_state->getRight()) {
-        position.x -= 6;
-    }
+    // if (input_state->getLeft()) {
+    //     position.x += 6;
+    // }
+    // if (input_state->getRight()) {
+    //     position.x -= 6;
+    // }
 }
 
 Background::~Background() {
