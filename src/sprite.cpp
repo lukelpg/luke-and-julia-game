@@ -1,4 +1,5 @@
 #include "sprite.h"
+#include "npc.h"
 #include "input_state.h"
 #include <iostream>
 
@@ -20,15 +21,24 @@ Sprite::Sprite(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
     SDL_FreeSurface(surface);
 }
 
+SDL_bool Sprite::isColliding(Sprite& obj){
+    const SDL_Rect temp = obj.GetRectangle();
+    return SDL_HasIntersection(&position, &temp);
+}
+
+SDL_Rect Sprite::GetRectangle() {
+    return position;
+}
+
 void Sprite::update(InputState* input_state) {
     applyInputState(input_state);
     speed_y+=GRAVITY;
     position.y+=speed_y;
 
     if (position.x < 0) {
-        // position.x = 0;
+        position.x = 0;
     } else if (position.x > 640 - position.w) {
-        // position.x = 640 - position.w;
+        position.x = 640 - position.w;
     }
     if (position.y < 0) {
         position.y = 0;
@@ -41,12 +51,12 @@ void Sprite::update(InputState* input_state) {
 }
 
 void Sprite::applyInputState(InputState* input_state) {
-    // if (input_state->getLeft()) {
-    //     position.x -= 6;
-    // }
-    // if (input_state->getRight()) {
-    //     position.x += 6;
-    // }
+    if (input_state->getLeft()) {
+        position.x -= 6;
+    }
+    if (input_state->getRight()) {
+        position.x += 6;
+    }
     if (input_state->getUp()) {
         position.y -= 3;
         if(can_jump){
