@@ -15,10 +15,11 @@ class Game {
 public:
     Game();
     ~Game();
-    void run();
+    int run();
     void endGame();
 
 private:
+    int error;
     SDL_Window* window;
     SDL_Renderer* renderer;
     Background* background1;

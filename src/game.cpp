@@ -1,22 +1,16 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
-#include "player.h"
-#include "grass_block.h"
-#include "background.h"
-#include "input_state.h"
-#include "npc.h"
 #include "game.h"
 
 const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_HEIGHT = 480; 
 
 Game::Game(){
     // Initialize SDL2
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init error: " << SDL_GetError() << std::endl;
-        return 1;
+        error = 1;
     }
 
     // Create a window
@@ -24,7 +18,7 @@ Game::Game(){
     if (window == nullptr) {
         std::cerr << "SDL_CreateWindow error: " << SDL_GetError() << std::endl;
         SDL_Quit();
-        return 1;
+        error = 1;
     }
 
     // Create a renderer for the window
@@ -33,7 +27,7 @@ Game::Game(){
         std::cerr << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(window);
         SDL_Quit();
-        return 1;
+        error = 1;
     }
 
     //create characters and backgrounds(for now)
@@ -51,8 +45,13 @@ Game::Game(){
     SDL_FreeSurface(tile_map_surface);
 }
 
-Game::run(){
+int Game::run(){
     std::cout << "here2" << std::endl;
+    
+    if(error == 1){
+        return error;
+    }
+
     // Create tile map
     int tilemap[13][10];
     int heights[13];
@@ -204,17 +203,13 @@ Game::run(){
 }
 
 void Game::endGame(){
-
 }
 
+// void Game::render(){
+// }
 
-void Game::render(){
-    
-}
-
-void Game::update(){
-
-}
+// void Game::update(){
+// }
 
 Game::~Game(){
     // Clean up resources
