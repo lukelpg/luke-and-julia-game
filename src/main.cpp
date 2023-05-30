@@ -11,12 +11,11 @@
 int main(int argc, char* argv[])
 {
     Game* game = new Game();
-    
+
     if(game->run() == 1){
         return 1;
     }
 
-    std::cout << "here" << std::endl;
     game->endGame();
 
     return 0;

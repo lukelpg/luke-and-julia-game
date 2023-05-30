@@ -46,8 +46,7 @@ Game::Game(){
 }
 
 int Game::run(){
-    std::cout << "here2" << std::endl;
-    
+    //return error if constructor gives error
     if(error == 1){
         return error;
     }
@@ -76,9 +75,7 @@ int Game::run(){
 		
 	} 
     
-
     // 'SMOOTHEN OUT' ALGORITHM (take the average)
-
 	for(int x = 0; x < 11; x++){
 		heights[x] = ( heights[x] + heights[x+1] + heights[x+2])/3 ; 
 	}
