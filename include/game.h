@@ -10,6 +10,7 @@
 #include "input_state.h"
 #include "npc.h"
 #include "game.h"
+#include "game_state.h"
 
 class Game {
 public:
@@ -41,7 +42,7 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
 
-    // GameState gameState; 
+    GameState gameState;
 
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;
@@ -50,10 +51,5 @@ private:
 
     bool quit;
 };
-
-// enum class GameState {
-//     START,
-//     PLAYING
-// }
 
 #endif

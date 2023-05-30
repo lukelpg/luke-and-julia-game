@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "game.h"
+#include "game_state.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480; 
@@ -30,7 +31,7 @@ Game::Game(){
         error = 1;
     }
 
-    // gameState = GameState::START;
+    gameState = GameState::PLAYING;
 
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -47,6 +48,7 @@ Game::Game(){
 
     quit = false;
 }
+
 
 int Game::run(){
     //return error if constructor gives error
@@ -74,20 +76,20 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
-            // if(gameState == GameState::START){
+            if(gameState == GameState::START){
 
-            // }
-            // if(gameState == GameState::PLAYING){
-                
-            // }
-
+            }
+            if(gameState == GameState::PLAYING){
+                this->collisionChecks();
+            }
+            
 			this->update();
-            this->collisionChecks();
             this->render();
 			
 		}
     }
 }
+
 
 void Game::start(){
 
@@ -190,31 +192,32 @@ void Game::render(){
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    // if(gameState == GameState::START){
-    //     background2->render(renderer);
-    // }
-    // if(gameState == GameState::PLAYING){
-    // }
-
-    //render background
-    background1->render(renderer);
-    background2->render(renderer);
-    
-    // render tile map
-    for(int x=0; x < 13; x++){
-        for(int y=0; y < 10; y++){
-            switch (this->tilemap[x][y]){
-                case 1:
-                    SDL_RenderCopy(renderer, tile_texture, &this->select_tile, &this->tile[x][y]);
-                    break;
+    if(gameState == GameState::START){
+        background1->render(renderer);
+    }
+    if(gameState == GameState::PLAYING){
+        //render background
+        background1->render(renderer);
+        background2->render(renderer);
+        
+        // render tile map
+        for(int x=0; x < 13; x++){
+            for(int y=0; y < 10; y++){
+                switch (this->tilemap[x][y]){
+                    case 1:
+                        SDL_RenderCopy(renderer, tile_texture, &this->select_tile, &this->tile[x][y]);
+                        break;
+                }
             }
-        }
-    }   
+        }   
 
 
-    //render sprites
-    character->render(renderer);
-    bad_kat->render(renderer);
+        //render sprites
+        character->render(renderer);
+        bad_kat->render(renderer);
+    }
+
+    
     
     
     // Update the renderer
