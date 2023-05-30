@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "game.h"
-#include "game_state.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480; 
@@ -31,6 +30,7 @@ Game::Game(){
         error = 1;
     }
 
+    // Initilize game to starting state
     gameState = GameState::PLAYING;
 
     //create characters and backgrounds(for now)
@@ -39,7 +39,6 @@ Game::Game(){
 	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
-    
     
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
@@ -53,7 +52,7 @@ Game::Game(){
 int Game::run(){
     //return error if constructor gives error
     if(error == 1){
-        return error;
+        return 1;
     }
 
     this->generateTileMap();
@@ -61,7 +60,6 @@ int Game::run(){
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
-
 
     //game loop
     while (!quit) {
@@ -113,7 +111,12 @@ void Game::getInput(){
         } else if (event.type == SDL_KEYUP) { 
             SDL_Keycode key = event.key.keysym.sym;
             input_state->applyKeyUp(key);
-        }
+        } 
+        // else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+        //     // Left-click detected
+        //     int mouseX = event.button.x;
+        //     int mouseY = event.button.y;
+        // }
     }
 }
 
@@ -122,8 +125,9 @@ void Game::collisionChecks(){
     if(bad_kat->isColliding(*character)){
         std::cout << character->health << std::endl;
         character->health--;
+
         if(character->health <= 0){
-            this->quit = true;
+            this->gameState = GameState::START;
         }
     }else{
         std::cout << character->health << std::endl;
@@ -211,15 +215,11 @@ void Game::render(){
             }
         }   
 
-
         //render sprites
         character->render(renderer);
         bad_kat->render(renderer);
     }
 
-    
-    
-    
     // Update the renderer
 	SDL_RenderPresent(renderer);
 }

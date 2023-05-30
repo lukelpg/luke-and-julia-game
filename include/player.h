@@ -10,11 +10,19 @@ class Player : public Sprite {
 public:
 	Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
 	~Player();
-    // void render(SDL_Renderer* renderer);
+    void render(SDL_Renderer* renderer);
     // void update(InputState* input_state);
     int health;
 
+    // class healthBar {
+        int heartNum;
+    // };
+
 private:
+    SDL_Texture* heartTexture;
+    SDL_Rect heartPosition;
+
+    SDL_Surface* heartSurface;
     // void applyInputState(InputState* input_state);
 };
 
