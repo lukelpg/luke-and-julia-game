@@ -7,7 +7,6 @@
 #include "input_state.h"
 #include "npc.h"
 #include "game.h"
-#include "game_state.h"
 
 int main(int argc, char* argv[])
 {

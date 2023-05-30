@@ -10,7 +10,11 @@
 #include "input_state.h"
 #include "npc.h"
 #include "game.h"
-#include "game_state.h"
+
+enum class GameState {
+    START,
+    PLAYING
+};
 
 class Game {
 public:
