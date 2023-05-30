@@ -20,11 +20,14 @@ public:
     void update();
 
     int run();
+    void start();
     void getInput();
     void endGame();
 
     void generateTileMap();
     void collisionChecks();
+    
+    
 
 private:
     int error;
@@ -38,6 +41,8 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
 
+    // GameState gameState; 
+
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;
     int tilemap[13][10];
@@ -45,5 +50,10 @@ private:
 
     bool quit;
 };
+
+// enum class GameState {
+//     START,
+//     PLAYING
+// }
 
 #endif

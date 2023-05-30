@@ -30,6 +30,8 @@ Game::Game(){
         error = 1;
     }
 
+    // gameState = GameState::START;
+
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
@@ -58,6 +60,7 @@ int Game::run(){
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
 
+
     //game loop
     while (!quit) {
         this->getInput();
@@ -71,12 +74,23 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
+            // if(gameState == GameState::START){
+
+            // }
+            // if(gameState == GameState::PLAYING){
+                
+            // }
+
 			this->update();
             this->collisionChecks();
             this->render();
 			
 		}
     }
+}
+
+void Game::start(){
+
 }
 
 void Game::endGame(){
@@ -168,13 +182,19 @@ void Game::generateTileMap(){
     this->select_tile.y = 0;
     this->select_tile.w = 308;
     this->select_tile.h = 309;
-}
+} 
 
 
 void Game::render(){
     // Clear the renderer
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
+
+    // if(gameState == GameState::START){
+    //     background2->render(renderer);
+    // }
+    // if(gameState == GameState::PLAYING){
+    // }
 
     //render background
     background1->render(renderer);
@@ -195,6 +215,7 @@ void Game::render(){
     //render sprites
     character->render(renderer);
     bad_kat->render(renderer);
+    
     
     // Update the renderer
 	SDL_RenderPresent(renderer);
