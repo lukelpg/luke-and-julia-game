@@ -35,7 +35,6 @@ Game::Game(){
     background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
 	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
-    block1 = new GrassBlock(renderer, "res/grassBlock.png", 590, 430, 50, 50);
 	input_state = new InputState();
     
     
@@ -43,6 +42,8 @@ Game::Game(){
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
     tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
     SDL_FreeSurface(tile_map_surface);
+
+    quit = false;
 }
 
 int Game::run(){
@@ -51,95 +52,15 @@ int Game::run(){
         return error;
     }
 
-    // Create tile map
-    int tilemap[13][10];
-    int heights[13];
-
-	for(int x=0; x < 13; x++){
-		heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
-	}
-
-    //RANDOM WALK ALGORITHM
-
-	for (int x = 1; x < 13; x++) {
-		int roll = rand() %2;  
-		if( 0 == roll ){
-			heights[x] = heights[x-1] + 1; 
-
-		} else {
-			heights [x] = heights[x-1]- 1; 
-			if (heights[x] < 0 ){
-				heights[x] = 0; 
-            }
-		}
-		
-	} 
-    
-    // 'SMOOTHEN OUT' ALGORITHM (take the average)
-	for(int x = 0; x < 11; x++){
-		heights[x] = ( heights[x] + heights[x+1] + heights[x+2])/3 ; 
-	}
-
-	for(int x = 0; x < 13; x++) {
-        int stackHeight = heights[x];
-
-        for(int y=0; y <15; y++){
-
-            if(y > stackHeight){
-                tilemap[x][y] = 1;
-
-            }else{
-                tilemap[x][y] = 0; 
-            }
-        }
-    }
-
-
-    SDL_Rect tile[13][10];
-    // SDL_Rect screenRect[][];
-    
-
-    //in function next
-    for(int x=0; x < 13; x++){
-        for(int y=0; y < 10; y++){
-            tile[x][y].x = x*50;
-            tile[x][y].y = y*50;
-            tile[x][y].w = 50;
-            tile[x][y].h = 50;
-        }
-    }
-
-    SDL_Rect select_tile;
-    select_tile.x = 0;
-    select_tile.y = 0;
-    select_tile.w = 308;
-    select_tile.h = 309;
-
-
+    this->generateTileMap();
 
     // Wait for a key press
-    bool quit = false;
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
 
     //game loop
     while (!quit) {
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                quit = true;
-            } else if (event.type == SDL_KEYDOWN) {
-				SDL_Keycode key = event.key.keysym.sym;
-				if (key == SDLK_ESCAPE) {
-					quit = true;
-				} else {
-					input_state->applyKeyDown(key);
-				}
-			} else if (event.type == SDL_KEYUP) { 
-				SDL_Keycode key = event.key.keysym.sym;
-				input_state->applyKeyUp(key);
-			}
-        }
+        this->getInput();
 
 		// Get the elapsed time since the last frame
 		Uint32 current_time = SDL_GetTicks();
@@ -150,51 +71,10 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
-			//update
-			character->update(input_state);
-            background1->update(input_state);
-            background2->update(input_state);
-            bad_kat->update();
-
-			// Clear the renderer
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-			SDL_RenderClear(renderer);
-            
-            //render
-            background1->render(renderer);
-            background2->render(renderer);
-            
-            // render tile map
-            for(int x=0; x < 13; x++){
-                for(int y=0; y < 10; y++){
-                    switch (tilemap[x][y]){
-                        case 1:
-                            // screenRect = tile[][]
-                            SDL_RenderCopy(renderer, tile_texture, &select_tile, &tile[x][y]);
-                            break;
-                    }
-                }
-            }    
-
-            // check for collisions
-            if(bad_kat->isColliding(*character)){
-                std::cout << character->health << std::endl;
-                character->health--;
-                if(character->health <= 0){
-                    quit = true;
-                }
-            }else{
-                std::cout << character->health << std::endl;
-            }
-
-			// block1->render(renderer);
-            character->render(renderer);
-            bad_kat->render(renderer);
-            
-            
-            
-			// Update the renderer
-			SDL_RenderPresent(renderer);
+			this->update();
+            this->collisionChecks();
+            this->render();
+			
 		}
     }
 }
@@ -202,11 +82,131 @@ int Game::run(){
 void Game::endGame(){
 }
 
-// void Game::render(){
-// }
+void Game::getInput(){
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            quit = true;
+        } else if (event.type == SDL_KEYDOWN) {
+            SDL_Keycode key = event.key.keysym.sym;
+            if (key == SDLK_ESCAPE) {
+                quit = true;
+            } else {
+                input_state->applyKeyDown(key);
+            }
+        } else if (event.type == SDL_KEYUP) { 
+            SDL_Keycode key = event.key.keysym.sym;
+            input_state->applyKeyUp(key);
+        }
+    }
+}
 
-// void Game::update(){
-// }
+void Game::collisionChecks(){
+    // check for collisions
+    if(bad_kat->isColliding(*character)){
+        std::cout << character->health << std::endl;
+        character->health--;
+        if(character->health <= 0){
+            this->quit = true;
+        }
+    }else{
+        std::cout << character->health << std::endl;
+    }
+}
+
+void Game::generateTileMap(){
+    // Create tile map
+	for(int x=0; x < 13; x++){
+		this->heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
+	}
+
+    //RANDOM WALK ALGORITHM
+	for (int x = 1; x < 13; x++) {
+		int roll = rand() %2;  
+		if( 0 == roll ){
+			this->heights[x] = this->heights[x-1] + 1; 
+
+		} else {
+			this->heights [x] = this->heights[x-1]- 1; 
+			if (this->heights[x] < 0 ){
+				this->heights[x] = 0; 
+            }
+		}
+		
+	} 
+    
+    // 'SMOOTHEN OUT' ALGORITHM (take the average)
+	for(int x = 0; x < 11; x++){
+		this->heights[x] = ( this->heights[x] + this->heights[x+1] + this->heights[x+2])/3 ; 
+	}
+
+	for(int x = 0; x < 13; x++) {
+        int stackHeight = this->heights[x];
+
+        for(int y=0; y <15; y++){
+
+            if(y > stackHeight){
+                this->tilemap[x][y] = 1;
+
+            }else{
+                this->tilemap[x][y] = 0; 
+            }
+        }
+    }
+
+    //in function next
+    for(int x=0; x < 13; x++){
+        for(int y=0; y < 10; y++){
+            this->tile[x][y].x = x*50;
+            this->tile[x][y].y = y*50;
+            this->tile[x][y].w = 50;
+            this->tile[x][y].h = 50;
+        }
+    }
+
+    this->select_tile.x = 0;
+    this->select_tile.y = 0;
+    this->select_tile.w = 308;
+    this->select_tile.h = 309;
+}
+
+
+void Game::render(){
+    // Clear the renderer
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
+
+    //render background
+    background1->render(renderer);
+    background2->render(renderer);
+    
+    // render tile map
+    for(int x=0; x < 13; x++){
+        for(int y=0; y < 10; y++){
+            switch (this->tilemap[x][y]){
+                case 1:
+                    SDL_RenderCopy(renderer, tile_texture, &this->select_tile, &this->tile[x][y]);
+                    break;
+            }
+        }
+    }   
+
+
+    //render sprites
+    character->render(renderer);
+    bad_kat->render(renderer);
+    
+    // Update the renderer
+	SDL_RenderPresent(renderer);
+}
+
+void Game::update(){
+    //update
+    character->update(input_state);
+    background1->update(input_state);
+    background2->update(input_state);
+    bad_kat->update();
+}
 
 Game::~Game(){
     // Clean up resources

@@ -28,18 +28,18 @@ void Npc::update() {
 
     if (position.x < 0) {
         position.x = 0;
-        speed_x = 1;
+        speed_x = 5;
     } else if (position.x > 640 - position.w) {
         position.x = 640 - position.w;
-        speed_x = -1;
+        speed_x = -5;
     }
     if (position.y <= 0) {
         position.y = 0;
-        speed_y = 1;
+        speed_y = 5;
     } else if (position.y > 480 - position.h) {
         position.y = 480 - position.h;
         can_jump = true;
-        speed_y = -1;
+        speed_y = -5;
     }
 }
 
