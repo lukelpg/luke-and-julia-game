@@ -15,8 +15,16 @@ class Game {
 public:
     Game();
     ~Game();
+    
+    void render();
+    void update();
+
     int run();
+    void getInput();
     void endGame();
+
+    void generateTileMap();
+    void collisionChecks();
 
 private:
     int error;
@@ -26,10 +34,16 @@ private:
     Background* background2;
 	Player* character;
     Npc* bad_kat;
-    GrassBlock* block1;
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
+
+    SDL_Rect tile[13][10];
+    SDL_Rect select_tile;
+    int tilemap[13][10];
+    int heights[13];
+
+    bool quit;
 };
 
 #endif
