@@ -10,6 +10,7 @@
 #include "input_state.h"
 #include "npc.h"
 #include "game.h"
+#include "game_state.h"
 
 class Game {
 public:
@@ -20,11 +21,14 @@ public:
     void update();
 
     int run();
+    void start();
     void getInput();
     void endGame();
 
     void generateTileMap();
     void collisionChecks();
+    
+    
 
 private:
     int error;
@@ -37,6 +41,8 @@ private:
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
+
+    GameState gameState;
 
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;
