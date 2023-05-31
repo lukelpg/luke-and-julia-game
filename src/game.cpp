@@ -31,7 +31,7 @@ Game::Game(){
     }
 
     // Initilize game to starting state
-    gameState = GameState::PLAYING;
+    gameState = GameState::START;
 
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -39,6 +39,7 @@ Game::Game(){
 	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
+    button = new Button(renderer, 120, 300, 200, 75);
     
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
@@ -75,7 +76,7 @@ int Game::run(){
 			last_time = current_time;
 
             if(gameState == GameState::START){
-
+                character->health = 100;
             }
             if(gameState == GameState::PLAYING){
                 this->collisionChecks();
@@ -111,12 +112,15 @@ void Game::getInput(){
         } else if (event.type == SDL_KEYUP) { 
             SDL_Keycode key = event.key.keysym.sym;
             input_state->applyKeyUp(key);
-        } 
-        // else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-        //     // Left-click detected
-        //     int mouseX = event.button.x;
-        //     int mouseY = event.button.y;
-        // }
+        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            int mouseX = event.button.x;
+            int mouseY = event.button.y;
+
+            input_state->handleMouseClick(mouseX, mouseY, event.button, button, gameState);
+            gameState = input_state->getGameState();
+            
+            std::cout << mouseX << ", " << mouseY << std::endl;
+        }
     }
 }
 
@@ -130,7 +134,7 @@ void Game::collisionChecks(){
             this->gameState = GameState::START;
         }
     }else{
-        std::cout << character->health << std::endl;
+        // std::cout << character->health << std::endl;
     }
 }
 
@@ -198,6 +202,7 @@ void Game::render(){
 
     if(gameState == GameState::START){
         background1->render(renderer);
+        button->render(renderer);
     }
     if(gameState == GameState::PLAYING){
         //render background
@@ -226,10 +231,15 @@ void Game::render(){
 
 void Game::update(){
     //update
-    character->update(input_state);
-    background1->update(input_state);
-    background2->update(input_state);
-    bad_kat->update();
+    if(gameState == GameState::START){
+
+    }
+    if(gameState == GameState::PLAYING){
+        character->update(input_state);
+        background1->update(input_state);
+        background2->update(input_state);
+        bad_kat->update();
+    }
 }
 
 Game::~Game(){
