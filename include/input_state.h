@@ -4,6 +4,15 @@
 #include "button.h"
 #include "game_state.h"
 
+typedef struct MouseData {
+    bool left;
+    bool middle;
+    bool right;
+
+    int x;
+    int y;
+}MouseData;
+
 class InputState {
 public:
     InputState();
@@ -15,10 +24,12 @@ public:
     int getUp();
     int getDown();
 
-    void handleMouseClick(int x, int y, SDL_MouseButtonEvent& mouseEvent, Button* button, GameState gameState);
-	void handleLeftClick(int x, int y, Button* button, GameState gameState);
-	void handleRightClick(int x, int y, Button* button, GameState gameState);
-	void handleMiddleClick(int x, int y, Button* button, GameState gameState);
+    void handleMouseDown(SDL_MouseButtonEvent& mouseEvent, Button* button, GameState gameState);
+	void handleLeftClick(Button* button, GameState gameState);
+	void handleRightClick(Button* button, GameState gameState);
+	void handleMiddleClick(Button* button, GameState gameState);
+
+    void handleMouseUp();
 
     GameState getGameState();
 
@@ -29,6 +40,8 @@ private:
     bool right;
 
     GameState gameState;
+
+    MouseData mouseData;
     
     void applyKey(SDL_Keycode key, bool value);
 };

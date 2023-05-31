@@ -109,17 +109,17 @@ void Game::getInput(){
             } else {
                 input_state->applyKeyDown(key);
             }
+
         } else if (event.type == SDL_KEYUP) { 
             SDL_Keycode key = event.key.keysym.sym;
             input_state->applyKeyUp(key);
-        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            int mouseX = event.button.x;
-            int mouseY = event.button.y;
 
-            input_state->handleMouseClick(mouseX, mouseY, event.button, button, gameState);
-            gameState = input_state->getGameState();
-            
-            std::cout << mouseX << ", " << mouseY << std::endl;
+        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            input_state->handleMouseDown(event.button, button, gameState);
+            gameState = input_state->getGameState(); 
+
+        } else if (event.type == SDL_MOUSEBUTTONUP){
+            input_state->handleMouseUp();
         }
     }
 }
@@ -177,24 +177,24 @@ void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, 
             // Collision from the left
             objectA.x = prevBX - objectA.w;
 
-            // std::cout << "from left" << std::endl;
+            std::cout << "from left" << std::endl;
         } else if (prevAX > prevBX) {
             // Collision from the right
             objectA.x = prevBX + objectB.w;
 
-            // std::cout << "from right" << std::endl;
+            std::cout << "from right" << std::endl;
         }
 
         if (prevAY + objectA.h < prevBY + objectB.h) {
             // Collision from above
             objectA.y = prevBY - objectA.h;
 
-            // std::cout << "from above" << std::endl;
+            std::cout << "from above" << std::endl;
         } else if (prevAY > prevBY) {
             // Collision from below
             objectA.y = prevBY + objectB.h;
 
-            // std::cout << "from below" << std::endl;
+            std::cout << "from below" << std::endl;
         }
     }
 }
