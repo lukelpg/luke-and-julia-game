@@ -9,12 +9,8 @@
 #include "background.h"
 #include "input_state.h"
 #include "npc.h"
-#include "game.h"
-
-enum class GameState {
-    START,
-    PLAYING
-};
+#include "button.h"
+#include "game_state.h"
 
 class Game {
 public:
@@ -30,8 +26,7 @@ public:
     void endGame();
 
     void generateTileMap();
-    void collisionChecks();
-    
+    void collisionChecks();   
     
 
 private:
@@ -45,6 +40,7 @@ private:
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
+    Button* button;
 
     GameState gameState;
 
