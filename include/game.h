@@ -44,7 +44,8 @@ private:
     Block* blockGrid[13][10];
     Block* block;
 
-    GameState gameState;
+    // GameState gameState;
+    StateData* gameStateData;
 
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;

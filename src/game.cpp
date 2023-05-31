@@ -31,7 +31,7 @@ Game::Game(){
     }
 
     // Initilize game to starting state
-    gameState = GameState::START;
+    gameStateData = new StateData();
 
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -75,10 +75,10 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
-            if(gameState == GameState::START){
+            if(gameStateData->gameState == GameState::START_MENU){
                 character->health = 100;
             }
-            if(gameState == GameState::PLAYING){
+            if(gameStateData->gameState == GameState::GAMEPLAY){
                 this->collisionChecks();
             }
             
@@ -115,8 +115,8 @@ void Game::getInput(){
             input_state->applyKeyUp(key);
 
         } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            input_state->handleMouseDown(event.button, button, gameState);
-            gameState = input_state->getGameState(); 
+            input_state->handleMouseDown(event.button, button, gameStateData);
+            gameStateData->gameState = input_state->getGameState(); 
 
         } else if (event.type == SDL_MOUSEBUTTONUP){
             input_state->handleMouseUp();
@@ -131,7 +131,7 @@ void Game::collisionChecks(){
         character->health--;
 
         if(character->health <= 0){
-            this->gameState = GameState::START;
+            gameStateData->gameState = GameState::START_MENU;
         }
 
         // checkCollisionDirection(character->position, bad_kat->position, character->speed_x, character->speed_y, bad_kat->speed_x, bad_kat->speed_y);
@@ -254,11 +254,11 @@ void Game::render(){
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    if(gameState == GameState::START){
+    if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
         button->render(renderer);
     }
-    if(gameState == GameState::PLAYING){
+    if(gameStateData->gameState == GameState::GAMEPLAY){
         //render background
         background1->render(renderer);
         background2->render(renderer);
@@ -285,10 +285,10 @@ void Game::render(){
 
 void Game::update(){
     //update
-    if(gameState == GameState::START){
+    if(gameStateData->gameState == GameState::START_MENU){
 
     }
-    if(gameState == GameState::PLAYING){
+    if(gameStateData->gameState == GameState::GAMEPLAY){
         character->update(input_state);
         background1->update(input_state);
         background2->update(input_state);

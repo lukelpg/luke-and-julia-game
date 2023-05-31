@@ -24,10 +24,10 @@ public:
     int getUp();
     int getDown();
 
-    void handleMouseDown(SDL_MouseButtonEvent& mouseEvent, Button* button, GameState gameState);
-	void handleLeftClick(Button* button, GameState gameState);
-	void handleRightClick(Button* button, GameState gameState);
-	void handleMiddleClick(Button* button, GameState gameState);
+    void handleMouseDown(SDL_MouseButtonEvent& mouseEvent, Button* button, StateData* gameStateData);
+	void handleLeftClick(Button* button, StateData* gameStateData);
+	void handleRightClick(Button* button, StateData* gameStateData);
+	void handleMiddleClick(Button* button, StateData* gameStateData);
 
     void handleMouseUp();
 
