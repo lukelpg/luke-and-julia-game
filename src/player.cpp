@@ -13,12 +13,21 @@ Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
     heartTexture = SDL_CreateTextureFromSurface(renderer, heartSurface);
-
     heartPosition.x = 10;
     heartPosition.y = 10;
 	heartPosition.w = 50;
 	heartPosition.h = 50;
     SDL_FreeSurface(heartSurface);
+}
+
+// Function to find the player's position in the grid
+void Player::findPlayerPosition() {
+    // Calculate the row and column indices
+    int cellWidth = 50;
+    int cellHeight = 50;
+    
+    // playerRow = position.y / cellHeight;
+    // playerCol = position.x / cellWidth;
 }
 
 // void Player::update(InputState* input_state) {

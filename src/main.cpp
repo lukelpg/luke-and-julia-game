@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "player.h"
-#include "grass_block.h"
 #include "background.h"
 #include "input_state.h"
 #include "npc.h"

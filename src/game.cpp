@@ -133,10 +133,72 @@ void Game::collisionChecks(){
         if(character->health <= 0){
             this->gameState = GameState::START;
         }
+
+        // checkCollisionDirection(character->position, bad_kat->position, character->speed_x, character->speed_y, bad_kat->speed_x, bad_kat->speed_y);
     }else{
         // std::cout << character->health << std::endl;
     }
+
+    
+
+    //check for collisions with blocks
+    // character->findPlayerPosition();
+    // checkCollisionDirection(character, blockGrid[character->playerCol][character->playerRow-1]);
+
+    // for(int x=0; x < 13; x++){
+    //     for(int y=0; y < 10; y++){
+    //         switch (this->tilemap[x][y]){
+    //             case 1:
+    //                 checkCollisionDirection(character, blockGrid[x][y]);
+    //                 break;
+    //         }
+    //     }
+    // }   
 }
+
+void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby) {
+   
+    // Previous positions
+    int prevAX = objectA.x - Vax;
+    int prevAY = objectA.y - Vay;
+    int prevBX = objectB.x - Vbx;
+    int prevBY = objectB.y - Vby;
+
+    // Check x-axis collision
+    bool collisionX = (prevAX + objectA.w >= prevBX) && (prevAX <= prevBX + objectB.w);
+
+    // Check y-axis collision
+    bool collisionY = (prevAY + objectA.h >= prevBY) && (prevAY <= prevBY + objectB.h);
+
+    // Determine collision direction
+    if (collisionX && collisionY) {
+        // std::cout << "here" << std::endl;
+        if (prevAX + objectA.w < prevBX + objectB.w) {
+            // Collision from the left
+            objectA.x = prevBX - objectA.w;
+
+            // std::cout << "from left" << std::endl;
+        } else if (prevAX > prevBX) {
+            // Collision from the right
+            objectA.x = prevBX + objectB.w;
+
+            // std::cout << "from right" << std::endl;
+        }
+
+        if (prevAY + objectA.h < prevBY + objectB.h) {
+            // Collision from above
+            objectA.y = prevBY - objectA.h;
+
+            // std::cout << "from above" << std::endl;
+        } else if (prevAY > prevBY) {
+            // Collision from below
+            objectA.y = prevBY + objectB.h;
+
+            // std::cout << "from below" << std::endl;
+        }
+    }
+}
+
 
 void Game::generateTileMap(){
     // Create tile map
@@ -166,25 +228,22 @@ void Game::generateTileMap(){
 
 	for(int x = 0; x < 13; x++) {
         int stackHeight = this->heights[x];
-
         for(int y=0; y <15; y++){
-
             if(y > stackHeight){
                 this->tilemap[x][y] = 1;
-
             }else{
                 this->tilemap[x][y] = 0; 
             }
         }
     }
 
-    //in function next
+    //add blocks to spots function next
     for(int x=0; x < 13; x++){
         for(int y=0; y < 10; y++){
-            this->tile[x][y].x = x*50;
-            this->tile[x][y].y = y*50;
-            this->tile[x][y].w = 50;
-            this->tile[x][y].h = 50;
+            if(this->tilemap[x][y]){
+                block = new Block(renderer, "res/grassBlock.png" , y, x, 50);
+                blockGrid[x][y] = block;
+            } 
         }
     }
 
@@ -214,7 +273,8 @@ void Game::render(){
             for(int y=0; y < 10; y++){
                 switch (this->tilemap[x][y]){
                     case 1:
-                        SDL_RenderCopy(renderer, tile_texture, &this->select_tile, &this->tile[x][y]);
+                        blockGrid[x][y]->render(renderer);
+                        // SDL_RenderCopy(renderer, tile_texture, &this->select_tile, &this->tile[x][y]);
                         break;
                 }
             }
