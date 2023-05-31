@@ -13,12 +13,14 @@ public:
     void update(InputState* input_state);
     SDL_bool isColliding(Sprite& obj);
     SDL_Rect GetRectangle();
-protected:
-    SDL_Texture* texture;
     SDL_Rect position;
-    
     int speed_x;
     int speed_y;
+protected:
+    SDL_Texture* texture;
+    
+    
+    
     bool can_jump;
     void applyInputState(InputState* input_state);
 };

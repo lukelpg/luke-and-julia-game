@@ -18,6 +18,7 @@ Sprite::Sprite(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
     position.y = y;
 	position.w = w;
 	position.h = h;
+
     SDL_FreeSurface(surface);
 }
 
