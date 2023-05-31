@@ -1,27 +1,28 @@
-#include "grass_block.h"
+#include "block.h"
 #include <iostream>
 
-GrassBlock::GrassBlock(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
+Block::Block(SDL_Renderer* renderer, const char* file_path, int row, int col, int size) {
     SDL_Surface* surface = IMG_Load(file_path);
 	 if (surface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    position.x = x;
-    position.y = y;
-	position.w = w;
-	position.h = h;
+    position.x = col*size;
+    position.y = row*size;
+	position.w = size;
+	position.h = size;
+    speed_x = 0;
+    speed_y = 0;
     SDL_FreeSurface(surface);
 }
 
-void GrassBlock::update(InputState* input_state) {
-    
+void Block::update(InputState* input_state) {
 }
 
-GrassBlock::~GrassBlock() {
+Block::~Block() {
     SDL_DestroyTexture(texture);
 }
 
-void GrassBlock::render(SDL_Renderer* renderer) {
+void Block::render(SDL_Renderer* renderer) {
     SDL_RenderCopy(renderer, texture, NULL, &position);
 }

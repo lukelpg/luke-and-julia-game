@@ -12,6 +12,9 @@ public:
 	~Player();
     void render(SDL_Renderer* renderer);
     // void update(InputState* input_state);
+    void findPlayerPosition();
+    int playerRow;
+    int playerCol;
     int health;
 
     // class healthBar {

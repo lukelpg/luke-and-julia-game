@@ -5,16 +5,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "player.h"
-#include "grass_block.h"
 #include "background.h"
 #include "input_state.h"
 #include "npc.h"
-#include "game.h"
-
-enum class GameState {
-    START,
-    PLAYING
-};
+#include "button.h"
+#include "game_state.h"
+#include "block.h"
 
 class Game {
 public:
@@ -30,9 +26,8 @@ public:
     void endGame();
 
     void generateTileMap();
-    void collisionChecks();
-    
-    
+    void collisionChecks();   
+    void checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby);
 
 private:
     int error;
@@ -45,6 +40,9 @@ private:
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
+    Button* button;
+    Block* blockGrid[13][10];
+    Block* block;
 
     GameState gameState;
 
