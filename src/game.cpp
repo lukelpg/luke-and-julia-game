@@ -246,11 +246,6 @@ void Game::generateTileMap(){
             } 
         }
     }
-
-    this->select_tile.x = 0;
-    this->select_tile.y = 0;
-    this->select_tile.w = 308;
-    this->select_tile.h = 309;
 } 
 
 
@@ -274,7 +269,6 @@ void Game::render(){
                 switch (this->tilemap[x][y]){
                     case 1:
                         blockGrid[x][y]->render(renderer);
-                        // SDL_RenderCopy(renderer, tile_texture, &this->select_tile, &this->tile[x][y]);
                         break;
                 }
             }
