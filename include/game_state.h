@@ -17,10 +17,14 @@ typedef struct Gameplay {
 typedef struct Pause {
 }Pause;
 
+typedef struct Respawn {
+}Respawn;
+
 
 enum class GameState {
     START_MENU,
     GAMEPLAY,
+    RESPAWN,
     PAUSE
 };
 
@@ -28,14 +32,16 @@ class StateData {
 public:
     StateData();
     ~StateData();
-    void updateState(InputState* input_state);
+    void updateState(InputState* input_state, int tempHealth);
     // void getState();
 
     InputState* input_state;
     
     StartMenu* startMenu;
     Gameplay* gameplay;
-    Pause* pause;
+    // Respawn* Respawn;
+    // Pause* Pause;
+
     GameState gameState;
 private:
     
