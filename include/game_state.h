@@ -1,7 +1,11 @@
-#include "button.h"
-
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+#include "input_state.h"
+#include "button.h"
 
 typedef struct StartMenu {
     Button* startButton;
@@ -24,8 +28,10 @@ class StateData {
 public:
     StateData();
     ~StateData();
-    void updateState();
-    void getState();
+    void updateState(InputState* input_state);
+    // void getState();
+
+    InputState* input_state;
     
     StartMenu* startMenu;
     Gameplay* gameplay;

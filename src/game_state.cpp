@@ -5,9 +5,14 @@ StateData::StateData(){
     gameState = GameState::START_MENU;
 };
 
-void StateData::updateState(){
+void StateData::updateState(InputState* input_state){
     switch (this->gameState) {
         case GameState::START_MENU:
+                if(this->startMenu->startButton->isClicked(input_state->mouseData.x, input_state->mouseData.y)){
+                    this->gameState = GameState::GAMEPLAY;
+                }else{
+                    this->gameState = GameState::START_MENU;
+                }
             break;
 
         case GameState::GAMEPLAY:
@@ -18,9 +23,9 @@ void StateData::updateState(){
     }
 };
 
-void StateData::getState(){
-
-};
+// GameState StateData::getState(){
+//     return this->gameState;
+// };
 
 StateData::~StateData(){
 };

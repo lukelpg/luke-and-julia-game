@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
 #include "player.h"
 #include "background.h"
 #include "input_state.h"
@@ -23,6 +24,7 @@ public:
     int run();
     void start();
     void getInput();
+    // GameState getState();
     void endGame();
 
     void generateTileMap();
