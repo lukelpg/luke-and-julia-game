@@ -30,8 +30,7 @@ Game::Game(){
         error = 1;
     }
 
-    // Initilize game to starting state
-    gameStateData = new StateData();
+    
 
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -41,6 +40,8 @@ Game::Game(){
 	input_state = new InputState();
     
     //create all state data
+    gameStateData = new StateData();
+    gameStateData->startMenu = new StartMenu();
     gameStateData->startMenu->startButton = new Button(renderer, 120, 300, 200, 75);
 
     // Create tiles surface
@@ -117,8 +118,7 @@ void Game::getInput(){
             input_state->applyKeyUp(key);
 
         } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            input_state->handleMouseDown(event.button, gameStateData->startMenu->startButton , gameStateData);
-            gameStateData->gameState = input_state->getGameState(); 
+            input_state->handleMouseDown(event.button); 
 
         } else if (event.type == SDL_MOUSEBUTTONUP){
             input_state->handleMouseUp();
@@ -286,8 +286,10 @@ void Game::render(){
 }
 
 void Game::update(){
-    //update
-    if(gameStateData->gameState == GameState::START_MENU){
+    //update state
+    gameStateData->updateState(input_state);
+
+    if(gameStateData->gameState == GameState::START_MENU){ 
 
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
