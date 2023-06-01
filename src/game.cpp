@@ -30,8 +30,7 @@ Game::Game(){
         error = 1;
     }
 
-    // Initilize game to starting state
-    gameState = GameState::START;
+    
 
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -39,8 +38,12 @@ Game::Game(){
 	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
-    button = new Button(renderer, 120, 300, 200, 75);
     
+    //create all state data
+    gameStateData = new StateData();
+    gameStateData->startMenu = new StartMenu();
+    gameStateData->startMenu->startButton = new Button(renderer, 120, 300, 200, 75);
+
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
     tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
@@ -75,10 +78,10 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
-            if(gameState == GameState::START){
+            if(gameStateData->gameState == GameState::START_MENU){
                 character->health = 100;
             }
-            if(gameState == GameState::PLAYING){
+            if(gameStateData->gameState == GameState::GAMEPLAY){
                 this->collisionChecks();
             }
             
@@ -109,17 +112,16 @@ void Game::getInput(){
             } else {
                 input_state->applyKeyDown(key);
             }
+
         } else if (event.type == SDL_KEYUP) { 
             SDL_Keycode key = event.key.keysym.sym;
             input_state->applyKeyUp(key);
-        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            int mouseX = event.button.x;
-            int mouseY = event.button.y;
 
-            input_state->handleMouseClick(mouseX, mouseY, event.button, button, gameState);
-            gameState = input_state->getGameState();
-            
-            std::cout << mouseX << ", " << mouseY << std::endl;
+        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            input_state->handleMouseDown(event.button); 
+
+        } else if (event.type == SDL_MOUSEBUTTONUP){
+            input_state->handleMouseUp();
         }
     }
 }
@@ -131,7 +133,7 @@ void Game::collisionChecks(){
         character->health--;
 
         if(character->health <= 0){
-            this->gameState = GameState::START;
+            gameStateData->gameState = GameState::START_MENU;
         }
 
         // checkCollisionDirection(character->position, bad_kat->position, character->speed_x, character->speed_y, bad_kat->speed_x, bad_kat->speed_y);
@@ -177,24 +179,24 @@ void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, 
             // Collision from the left
             objectA.x = prevBX - objectA.w;
 
-            // std::cout << "from left" << std::endl;
+            std::cout << "from left" << std::endl;
         } else if (prevAX > prevBX) {
             // Collision from the right
             objectA.x = prevBX + objectB.w;
 
-            // std::cout << "from right" << std::endl;
+            std::cout << "from right" << std::endl;
         }
 
         if (prevAY + objectA.h < prevBY + objectB.h) {
             // Collision from above
             objectA.y = prevBY - objectA.h;
 
-            // std::cout << "from above" << std::endl;
+            std::cout << "from above" << std::endl;
         } else if (prevAY > prevBY) {
             // Collision from below
             objectA.y = prevBY + objectB.h;
 
-            // std::cout << "from below" << std::endl;
+            std::cout << "from below" << std::endl;
         }
     }
 }
@@ -254,11 +256,11 @@ void Game::render(){
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    if(gameState == GameState::START){
+    if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
-        button->render(renderer);
+        gameStateData->startMenu->startButton->render(renderer);
     }
-    if(gameState == GameState::PLAYING){
+    if(gameStateData->gameState == GameState::GAMEPLAY){
         //render background
         background1->render(renderer);
         background2->render(renderer);
@@ -284,11 +286,13 @@ void Game::render(){
 }
 
 void Game::update(){
-    //update
-    if(gameState == GameState::START){
+    //update state
+    gameStateData->updateState(input_state);
+
+    if(gameStateData->gameState == GameState::START_MENU){ 
 
     }
-    if(gameState == GameState::PLAYING){
+    if(gameStateData->gameState == GameState::GAMEPLAY){
         character->update(input_state);
         background1->update(input_state);
         background2->update(input_state);
@@ -299,6 +303,9 @@ void Game::update(){
 Game::~Game(){
     // Clean up resources
     delete character;
+    delete background1;
+    delete background2;
+    delete bad_kat;
     SDL_DestroyTexture(tile_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

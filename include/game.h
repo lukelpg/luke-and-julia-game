@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
 #include "player.h"
 #include "background.h"
 #include "input_state.h"
@@ -23,6 +24,7 @@ public:
     int run();
     void start();
     void getInput();
+    // GameState getState();
     void endGame();
 
     void generateTileMap();
@@ -40,11 +42,14 @@ private:
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
-    Button* button;
+    
     Block* blockGrid[13][10];
     Block* block;
 
-    GameState gameState;
+    // GameState gameState;
+    StateData* gameStateData;
+    StartMenu* startMenu;
+    Button* startButton;
 
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;

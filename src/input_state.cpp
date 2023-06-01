@@ -9,35 +9,42 @@ InputState::InputState() {
 	left = false;
 	right = false;
 
-	gameState = GameState::START;
+	mouseData.left = false;
+	mouseData.right = false;
+	mouseData.middle = false;
 }
 
-void InputState::handleMouseClick(int x, int y, SDL_MouseButtonEvent& mouseEvent, Button* button, GameState gameState) {
+void InputState::handleMouseDown(SDL_MouseButtonEvent& mouseEvent) {
+	mouseData.x = mouseEvent.x;
+	mouseData.y = mouseEvent.y;
+	std::cout << mouseData.x << ", " << mouseData.y << std::endl;
+
 	if (mouseEvent.button == SDL_BUTTON_LEFT) {
-		handleLeftClick(x, y, button, gameState);
+		handleLeftClick();
 	} else if (mouseEvent.button == SDL_BUTTON_RIGHT) {
-		handleRightClick(x, y, button, gameState);		
+		handleRightClick();
 	} else if (mouseEvent.button == SDL_BUTTON_MIDDLE) {
-		handleMiddleClick(x, y, button, gameState);		
+		handleMiddleClick();
 	}
 }
 
-void InputState::handleLeftClick(int x, int y, Button* button, GameState gameState) {
-	if(gameState == GameState::START){
-		if(button->isClicked(x, y)){
-			this->gameState = GameState::PLAYING;
-		}else{
-			this->gameState = GameState::START;
-		}
-	}
+void InputState::handleMouseUp(){
+	mouseData.left = false;
+	mouseData.right = false;
+	mouseData.middle = false;
+};
+
+
+void InputState::handleLeftClick() {
+	mouseData.left = true;
 }
 
-void InputState::handleRightClick(int x, int y, Button* button, GameState gameState) {
-	this->gameState = gameState;
+void InputState::handleRightClick() {
+	mouseData.right = true;
 }
 
-void InputState::handleMiddleClick(int x, int y, Button* button, GameState gameState) {
-	this->gameState = gameState;
+void InputState::handleMiddleClick() {
+	mouseData.middle = true;
 }
 
 
@@ -70,9 +77,9 @@ void InputState::applyKey(SDL_Keycode key, bool value) {
 	}
 }
 
-GameState InputState::getGameState(){
-	return this->gameState;
-}
+// struct InputState::getMouseData(){
+// 	return this->mouseData;
+// }
 
 int InputState::getRight() {
 	return this->right;
