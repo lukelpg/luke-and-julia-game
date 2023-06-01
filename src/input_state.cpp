@@ -9,35 +9,53 @@ InputState::InputState() {
 	left = false;
 	right = false;
 
-	gameState = GameState::START;
+	mouseData.left = false;
+	mouseData.right = false;
+	mouseData.middle = false;
+
+	gameState = GameState::START_MENU;
 }
 
-void InputState::handleMouseClick(int x, int y, SDL_MouseButtonEvent& mouseEvent, Button* button, GameState gameState) {
+void InputState::handleMouseDown(SDL_MouseButtonEvent& mouseEvent, Button* button, StateData* gameStateData) {
+	mouseData.x = mouseEvent.x;
+	mouseData.y = mouseEvent.y;
+	std::cout << mouseData.x << ", " << mouseData.y << std::endl;
+
 	if (mouseEvent.button == SDL_BUTTON_LEFT) {
-		handleLeftClick(x, y, button, gameState);
+		handleLeftClick(button, gameStateData);
+		mouseData.left = true;
 	} else if (mouseEvent.button == SDL_BUTTON_RIGHT) {
-		handleRightClick(x, y, button, gameState);		
+		handleRightClick(button, gameStateData);
+		mouseData.right = true;
 	} else if (mouseEvent.button == SDL_BUTTON_MIDDLE) {
-		handleMiddleClick(x, y, button, gameState);		
+		handleMiddleClick(button, gameStateData);
+		mouseData.middle = true;	
 	}
 }
 
-void InputState::handleLeftClick(int x, int y, Button* button, GameState gameState) {
-	if(gameState == GameState::START){
-		if(button->isClicked(x, y)){
-			this->gameState = GameState::PLAYING;
+void InputState::handleMouseUp(){
+	mouseData.left = false;
+	mouseData.right = false;
+	mouseData.middle = false;
+};
+
+
+void InputState::handleLeftClick(Button* button, StateData* gameStateData) {
+	if(gameStateData->gameState == GameState::START_MENU){
+		if(button->isClicked(mouseData.x, mouseData.y)){
+			this->gameState = GameState::GAMEPLAY;
 		}else{
-			this->gameState = GameState::START;
+			this->gameState = GameState::START_MENU;
 		}
 	}
 }
 
-void InputState::handleRightClick(int x, int y, Button* button, GameState gameState) {
-	this->gameState = gameState;
+void InputState::handleRightClick(Button* button, StateData* gameStateData) {
+	this->gameState;
 }
 
-void InputState::handleMiddleClick(int x, int y, Button* button, GameState gameState) {
-	this->gameState = gameState;
+void InputState::handleMiddleClick(Button* button, StateData* gameStateData) {
+	this->gameState;
 }
 
 
