@@ -1,7 +1,10 @@
+#include "button.h"
+
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
 typedef struct StartMenu {
+    Button* startButton;
 }StartMenu;
 
 typedef struct Gameplay {
@@ -9,7 +12,6 @@ typedef struct Gameplay {
 
 typedef struct Pause {
 }Pause;
-
 
 
 enum class GameState {

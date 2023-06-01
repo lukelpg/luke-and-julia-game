@@ -40,12 +40,14 @@ private:
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
-    Button* button;
+    
     Block* blockGrid[13][10];
     Block* block;
 
     // GameState gameState;
     StateData* gameStateData;
+    StartMenu* startMenu;
+    Button* startButton;
 
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;

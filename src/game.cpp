@@ -39,8 +39,10 @@ Game::Game(){
 	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
-    button = new Button(renderer, 120, 300, 200, 75);
     
+    //create all state data
+    gameStateData->startMenu->startButton = new Button(renderer, 120, 300, 200, 75);
+
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
     tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
@@ -115,7 +117,7 @@ void Game::getInput(){
             input_state->applyKeyUp(key);
 
         } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            input_state->handleMouseDown(event.button, button, gameStateData);
+            input_state->handleMouseDown(event.button, gameStateData->startMenu->startButton , gameStateData);
             gameStateData->gameState = input_state->getGameState(); 
 
         } else if (event.type == SDL_MOUSEBUTTONUP){
@@ -256,7 +258,7 @@ void Game::render(){
 
     if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
-        button->render(renderer);
+        gameStateData->startMenu->startButton->render(renderer);
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
         //render background
@@ -299,6 +301,9 @@ void Game::update(){
 Game::~Game(){
     // Clean up resources
     delete character;
+    delete background1;
+    delete background2;
+    delete bad_kat;
     SDL_DestroyTexture(tile_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
