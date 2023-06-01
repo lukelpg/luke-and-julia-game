@@ -78,7 +78,7 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
-            if(gameStateData->gameState == GameState::START_MENU){
+            if(gameStateData->gameState == GameState::RESPAWN){
                 character->health = 100;
             }
             if(gameStateData->gameState == GameState::GAMEPLAY){
@@ -131,17 +131,11 @@ void Game::collisionChecks(){
     if(bad_kat->isColliding(*character)){
         std::cout << character->health << std::endl;
         character->health--;
-
-        if(character->health <= 0){
-            gameStateData->gameState = GameState::START_MENU;
-        }
-
+        
         // checkCollisionDirection(character->position, bad_kat->position, character->speed_x, character->speed_y, bad_kat->speed_x, bad_kat->speed_y);
     }else{
         // std::cout << character->health << std::endl;
     }
-
-    
 
     //check for collisions with blocks
     // character->findPlayerPosition();
@@ -287,17 +281,18 @@ void Game::render(){
 
 void Game::update(){
     //update state
-    gameStateData->updateState(input_state);
+   
+    gameStateData->updateState(input_state, character->health);
 
     if(gameStateData->gameState == GameState::START_MENU){ 
-
+        
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
         character->update(input_state);
         background1->update(input_state);
         background2->update(input_state);
         bad_kat->update();
-    }
+    } 
 }
 
 Game::~Game(){
