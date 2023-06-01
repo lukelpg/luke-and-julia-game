@@ -39,8 +39,6 @@ private:
     bool left;
     bool right;
 
-    
-    
     void applyKey(SDL_Keycode key, bool value);
 };
 
