@@ -197,6 +197,9 @@ void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, 
 
 
 void Game::generateTileMap(){
+    int seed = 3;
+    srand(seed);
+    
     // Create tile map
 	for(int x=0; x < 13; x++){
 		this->heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
