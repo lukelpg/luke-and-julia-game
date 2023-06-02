@@ -12,6 +12,7 @@
 #include "button.h"
 #include "game_state.h"
 #include "block.h"
+#include "world.h"
 
 class Game {
 public:
@@ -24,10 +25,9 @@ public:
     int run();
     void start();
     void getInput();
-    // GameState getState();
+    
     void endGame();
 
-    void generateTileMap();
     void collisionChecks();   
     void checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby);
 
@@ -43,14 +43,16 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
     
-    Block* blockGrid[13][10];
-    Block* block;
+    World* world;
 
     // GameState gameState;
     StateData* gameStateData;
     StartMenu* startMenu;
     Button* startButton;
-
+    
+    //world gen stuff
+    Block* blockGrid[13][10];
+    Block* block;
     SDL_Rect tile[13][10];
     SDL_Rect select_tile;
     int tilemap[13][10];
