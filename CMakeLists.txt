@@ -13,6 +13,7 @@ add_executable(luke_game
 	src/sprite.cpp
 	src/npc.cpp
 	src/game.cpp
+	src/world.cpp
 	src/game_state.cpp
 	src/button.cpp
 	src/player.cpp
