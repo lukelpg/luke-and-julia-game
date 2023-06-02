@@ -177,7 +177,7 @@ void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, 
             // Collision from the left
             objectA.x = prevBX - objectA.w;
 
-            // std::cout << "from left" << std::endl;
+             std::cout << "from left" << std::endl;
         } else if (prevAX > prevBX) {
             // Collision from the right
             objectA.x = prevBX + objectB.w;
