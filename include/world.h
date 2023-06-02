@@ -9,8 +9,8 @@ class World {
 public:
     World();
     ~World();
-    // void render(SDL_Renderer* renderer);
-    // void update(InputState* input_state);
+    void render(SDL_Renderer* renderer);
+    void update(InputState* input_state);
 
     void generateTileMap(int seed, SDL_Renderer* renderer);
     

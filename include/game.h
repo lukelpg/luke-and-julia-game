@@ -25,10 +25,9 @@ public:
     int run();
     void start();
     void getInput();
-    // GameState getState();
+    
     void endGame();
 
-    void generateTileMap();
     void collisionChecks();   
     void checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby);
 
@@ -44,7 +43,7 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
     
-    
+    World* world;
 
     // GameState gameState;
     StateData* gameStateData;

@@ -55,6 +55,23 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     }
 } 
 
+void World::update(InputState* input_state){
+
+}
+
+void World::render(SDL_Renderer* renderer){
+    // render tile map
+    for(int x=0; x < 13; x++){
+        for(int y=0; y < 10; y++){
+            switch (this->tilemap[x][y]){
+                case 1:
+                    blockGrid[x][y]->render(renderer);
+                    break;
+            }
+        }
+    }   
+}
+
 World::~World(){
     
 }
