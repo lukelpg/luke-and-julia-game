@@ -36,8 +36,8 @@ Game::Game(){
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
-    bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
+	character = new Player(this, renderer, "res/me.png", 288, 100 , 48, 64);
+    bad_kat = new Npc(this, renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
     
     //create all state data
