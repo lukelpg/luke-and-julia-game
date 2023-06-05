@@ -58,18 +58,26 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 
 void World::update(InputState* input_state, SDL_Renderer* renderer){
     
-    if(input_state->mouseData.middle){
+
+    if(input_state->mouseData.left){
         int x = std::floor((input_state->mouseData.x)/50);
         int y = std::floor((input_state->mouseData.y)/50);
-
-        std::cout << x << ", " << y << std::endl;
-
 
         if(!tilemap[x][y]){
             block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
             blockGrid[x][y] = block;
             tilemap[x][y] = 1;
-            std::cout << "heresa"<< std::endl;
+            std::cout << "Placed block at "<< x << ", " << y <<std::endl;
+        }
+        
+    }else if(input_state->mouseData.right){
+        int x = std::floor((input_state->mouseData.x)/50);
+        int y = std::floor((input_state->mouseData.y)/50);
+        
+        if(tilemap[x][y]){
+            blockGrid[x][y] = nullptr;
+            tilemap[x][y] = 0;
+            std::cout << "Removed block at "<< x << ", " << y <<std::endl;
         }
         
     }
