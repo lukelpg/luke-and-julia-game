@@ -30,6 +30,7 @@ Game::Game(){
         error = 1;
     }
 
+    //create new World called world
     world = new World();
 
     //create characters and backgrounds(for now)
@@ -174,8 +175,8 @@ void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, 
         if (prevAX + objectA.w < prevBX + objectB.w) {
             // Collision from the left
             objectA.x = prevBX - objectA.w;
-
             std::cout << "from left" << std::endl;
+          
         } else if (prevAX > prevBX) {
             // Collision from the right
             objectA.x = prevBX + objectB.w;
