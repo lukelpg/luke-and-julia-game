@@ -14,6 +14,7 @@ public:
     void update(InputState* input_state, SDL_Renderer* renderer);
 
     void generateTileMap(int seed, SDL_Renderer* renderer);
+    bool isBesideBlock(int x, int y);
     
 protected:
     SDL_Rect tile[13][10];
