@@ -49,14 +49,6 @@ private:
     StateData* gameStateData;
     StartMenu* startMenu;
     Button* startButton;
-    
-    //world gen stuff
-    Block* blockGrid[13][10];
-    Block* block;
-    SDL_Rect tile[13][10];
-    SDL_Rect select_tile;
-    int tilemap[13][10];
-    int heights[13];
 
     bool quit;
 };
