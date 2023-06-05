@@ -29,7 +29,6 @@ Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
 
 
 
-
     waterSurface = IMG_Load("res/woobiegoobie.png");
     	if (waterSurface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
