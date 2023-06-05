@@ -18,10 +18,7 @@ public:
     int health;
     void healthBar(); 
     void waterBar(); 
-
-    // class healthBar {
     int heartNum;
-    // };
 
 private:
 

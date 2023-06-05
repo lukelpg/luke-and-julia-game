@@ -63,7 +63,7 @@ void World::update(InputState* input_state, SDL_Renderer* renderer){
         int x = std::floor((input_state->mouseData.x)/50);
         int y = std::floor((input_state->mouseData.y)/50);
 
-        if(!tilemap[x][y]){
+        if(!tilemap[x][y] && isBesideBlock(x, y)){
             block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
             blockGrid[x][y] = block;
             tilemap[x][y] = 1;
@@ -81,7 +81,26 @@ void World::update(InputState* input_state, SDL_Renderer* renderer){
         }
         
     }
+}
 
+bool World::isBesideBlock(int x, int y){
+    int startX = -1;
+    int startY = -1;
+    int endX = startX+3;
+    int endY = startY+3;
+    if(x == 0){startX = 0;}
+    if(x == 12){endX = startX+2;}
+    if(y == 0){startY = 0;}
+    if(y == 9){endY = startY+2;}
+    
+    for(int i = startX; i<endX; i++){
+        for(int j = startY; j<endY; j++){
+            if(tilemap[x+i][y+j]){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void World::render(SDL_Renderer* renderer){
