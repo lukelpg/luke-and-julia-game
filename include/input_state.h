@@ -1,8 +1,16 @@
 #ifndef INPUT_STATE_H
 #define INPUT_STATE_H
+
 #include <SDL2/SDL.h>
-#include "button.h"
-#include "game_state.h"
+
+typedef struct MouseData {
+    bool left;
+    bool middle;
+    bool right;
+
+    int x;
+    int y;
+}MouseData;
 
 class InputState {
 public:
@@ -15,12 +23,15 @@ public:
     int getUp();
     int getDown();
 
-    void handleMouseClick(int x, int y, SDL_MouseButtonEvent& mouseEvent, Button* button, GameState gameState);
-	void handleLeftClick(int x, int y, Button* button, GameState gameState);
-	void handleRightClick(int x, int y, Button* button, GameState gameState);
-	void handleMiddleClick(int x, int y, Button* button, GameState gameState);
+    void handleMouseDown(SDL_MouseButtonEvent& mouseEvent);
+	void handleLeftClick();
+	void handleRightClick();
+	void handleMiddleClick();
 
-    GameState getGameState();
+    void handleMouseUp();
+    MouseData mouseData;
+
+    // struct getMouseData();
 
 private:
     bool up;
@@ -28,8 +39,6 @@ private:
     bool left;
     bool right;
 
-    GameState gameState;
-    
     void applyKey(SDL_Keycode key, bool value);
 };
 

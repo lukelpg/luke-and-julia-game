@@ -11,6 +11,7 @@ Block::Block(SDL_Renderer* renderer, const char* file_path, int row, int col, in
     position.y = row*size;
 	position.w = size;
 	position.h = size;
+    
     speed_x = 0;
     speed_y = 0;
     SDL_FreeSurface(surface);

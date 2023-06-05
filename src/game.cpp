@@ -30,8 +30,7 @@ Game::Game(){
         error = 1;
     }
 
-    // Initilize game to starting state
-    gameState = GameState::START;
+    world = new World();
 
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -39,8 +38,12 @@ Game::Game(){
 	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
     bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
-    button = new Button(renderer, 120, 300, 200, 75);
     
+    //create all state data
+    gameStateData = new StateData();
+    gameStateData->startMenu = new StartMenu();
+    gameStateData->startMenu->startButton = new Button(renderer, 120, 300, 200, 75);
+
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
     tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
@@ -56,7 +59,9 @@ int Game::run(){
         return 1;
     }
 
-    this->generateTileMap();
+    //make world
+    int seed = 3;
+    world->generateTileMap(seed, renderer);
 
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();
@@ -75,10 +80,10 @@ int Game::run(){
 			// Update the last time
 			last_time = current_time;
 
-            if(gameState == GameState::START){
+            if(gameStateData->gameState == GameState::RESPAWN){
                 character->health = 100;
             }
-            if(gameState == GameState::PLAYING){
+            if(gameStateData->gameState == GameState::GAMEPLAY){
                 this->collisionChecks();
             }
             
@@ -109,17 +114,16 @@ void Game::getInput(){
             } else {
                 input_state->applyKeyDown(key);
             }
+
         } else if (event.type == SDL_KEYUP) { 
             SDL_Keycode key = event.key.keysym.sym;
             input_state->applyKeyUp(key);
-        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            int mouseX = event.button.x;
-            int mouseY = event.button.y;
 
-            input_state->handleMouseClick(mouseX, mouseY, event.button, button, gameState);
-            gameState = input_state->getGameState();
-            
-            std::cout << mouseX << ", " << mouseY << std::endl;
+        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            input_state->handleMouseDown(event.button); 
+
+        } else if (event.type == SDL_MOUSEBUTTONUP){
+            input_state->handleMouseUp();
         }
     }
 }
@@ -129,17 +133,11 @@ void Game::collisionChecks(){
     if(bad_kat->isColliding(*character)){
         std::cout << character->health << std::endl;
         character->health--;
-
-        if(character->health <= 0){
-            this->gameState = GameState::START;
-        }
-
+        
         // checkCollisionDirection(character->position, bad_kat->position, character->speed_x, character->speed_y, bad_kat->speed_x, bad_kat->speed_y);
     }else{
         // std::cout << character->health << std::endl;
     }
-
-    
 
     //check for collisions with blocks
     // character->findPlayerPosition();
@@ -176,77 +174,28 @@ void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, 
         if (prevAX + objectA.w < prevBX + objectB.w) {
             // Collision from the left
             objectA.x = prevBX - objectA.w;
-
-             std::cout << "from left" << std::endl;
+            std::cout << "from left" << std::endl;
+          
         } else if (prevAX > prevBX) {
             // Collision from the right
             objectA.x = prevBX + objectB.w;
 
-            // std::cout << "from right" << std::endl;
+            std::cout << "from right" << std::endl;
         }
 
         if (prevAY + objectA.h < prevBY + objectB.h) {
             // Collision from above
             objectA.y = prevBY - objectA.h;
 
-            // std::cout << "from above" << std::endl;
+            std::cout << "from above" << std::endl;
         } else if (prevAY > prevBY) {
             // Collision from below
             objectA.y = prevBY + objectB.h;
 
-            // std::cout << "from below" << std::endl;
+            std::cout << "from below" << std::endl;
         }
     }
 }
-
-
-void Game::generateTileMap(){
-    // Create tile map
-	for(int x=0; x < 13; x++){
-		this->heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
-	}
-
-    //RANDOM WALK ALGORITHM
-	for (int x = 1; x < 13; x++) {
-		int roll = rand() %2;  
-		if( 0 == roll ){
-			this->heights[x] = this->heights[x-1] + 1; 
-
-		} else {
-			this->heights [x] = this->heights[x-1]- 1; 
-			if (this->heights[x] < 0 ){
-				this->heights[x] = 0; 
-            }
-		}
-		
-	} 
-    
-    // 'SMOOTHEN OUT' ALGORITHM (take the average)
-	for(int x = 0; x < 11; x++){
-		this->heights[x] = ( this->heights[x] + this->heights[x+1] + this->heights[x+2])/3 ; 
-	}
-
-	for(int x = 0; x < 13; x++) {
-        int stackHeight = this->heights[x];
-        for(int y=0; y <15; y++){
-            if(y > stackHeight){
-                this->tilemap[x][y] = 1;
-            }else{
-                this->tilemap[x][y] = 0; 
-            }
-        }
-    }
-
-    //add blocks to spots function next
-    for(int x=0; x < 13; x++){
-        for(int y=0; y < 10; y++){
-            if(this->tilemap[x][y]){
-                block = new Block(renderer, "res/grassBlock.png" , y, x, 50);
-                blockGrid[x][y] = block;
-            } 
-        }
-    }
-} 
 
 
 void Game::render(){
@@ -254,25 +203,16 @@ void Game::render(){
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    if(gameState == GameState::START){
+    if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
-        button->render(renderer);
+        gameStateData->startMenu->startButton->render(renderer);
     }
-    if(gameState == GameState::PLAYING){
+    if(gameStateData->gameState == GameState::GAMEPLAY){
         //render background
         background1->render(renderer);
         background2->render(renderer);
-        
-        // render tile map
-        for(int x=0; x < 13; x++){
-            for(int y=0; y < 10; y++){
-                switch (this->tilemap[x][y]){
-                    case 1:
-                        blockGrid[x][y]->render(renderer);
-                        break;
-                }
-            }
-        }   
+
+        world->render(renderer);
 
         //render sprites
         character->render(renderer);
@@ -284,21 +224,27 @@ void Game::render(){
 }
 
 void Game::update(){
-    //update
-    if(gameState == GameState::START){
+    //update state
+   
+    gameStateData->updateState(input_state, character->health);
 
+    if(gameStateData->gameState == GameState::START_MENU){ 
+        
     }
-    if(gameState == GameState::PLAYING){
+    if(gameStateData->gameState == GameState::GAMEPLAY){
         character->update(input_state);
         background1->update(input_state);
         background2->update(input_state);
         bad_kat->update();
-    }
+    } 
 }
 
 Game::~Game(){
     // Clean up resources
     delete character;
+    delete background1;
+    delete background2;
+    delete bad_kat;
     SDL_DestroyTexture(tile_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
