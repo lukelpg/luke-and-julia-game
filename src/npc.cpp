@@ -5,7 +5,7 @@
 
 const int GRAVITY = 1;
 
-Npc::Npc(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(renderer, file_path, x, y, w, h) {
+Npc::Npc(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
     speed_x = 1;
     speed_y = 1;
 }

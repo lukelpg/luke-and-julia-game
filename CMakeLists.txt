@@ -19,6 +19,7 @@ add_executable(luke_game
 	src/player.cpp
 	src/block.cpp
 	src/input_state.cpp
+	src/physics.cpp
 )
 
 target_include_directories(luke_game 
