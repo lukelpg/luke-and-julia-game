@@ -5,10 +5,12 @@
 
 const int GRAVITY = 1;
 
-Sprite::Sprite(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
+Sprite::Sprite(Game* parent_game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
+    game = parent_game;
     SDL_Surface* surface = IMG_Load(file_path);
-	 if (surface == nullptr) {
+	if (surface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
+        throw std::runtime_error("IMG_Load error");
     }
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     speed_x = 0;
@@ -33,17 +35,24 @@ SDL_Rect Sprite::GetRectangle() {
 
 void Sprite::update(InputState* input_state) {
     applyInputState(input_state);
+    simple_physics();
+    bounds_detection();
+}
+
+void Sprite::simple_physics() {
     speed_y+=GRAVITY;
     position.y+=speed_y;
+}
 
+void Sprite::bounds_detection() {
     if (position.x < 0) {
         position.x = 0;
     } else if (position.x > 640 - position.w) {
         position.x = 640 - position.w;
     }
     if (position.y < 0) {
-        position.y = 0;
-        speed_y = 0;
+        // position.y = 0;
+        // speed_y = 0;
     } else if (position.y > 480 - position.h) {
         position.y = 480 - position.h;
         can_jump = true;
