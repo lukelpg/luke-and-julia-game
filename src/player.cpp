@@ -19,13 +19,34 @@ Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
 
     heartPosition.x = 10;
     heartPosition.y = 10;
-	heartPosition.w = 50;
-	heartPosition.h = 50;
+	heartPosition.w = 30;
+	heartPosition.h = 30;
 
-    array[0] = heartPosition;
+    arrayHeart[0] = heartPosition;
     
     SDL_FreeSurface(heartSurface);
     healthBar();
+
+
+
+
+    waterSurface = IMG_Load("res/woobiegoobie.png");
+    	if (waterSurface == nullptr) {
+        std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
+    }
+
+    waterTexture = SDL_CreateTextureFromSurface(renderer, waterSurface);
+
+    waterPosition.x = 10;
+    waterPosition.y = 50;
+	waterPosition.w = 30;
+	waterPosition.h = 30;
+
+    arrayWater[0] = waterPosition;
+    
+    SDL_FreeSurface(waterSurface);
+    waterBar(); 
+    
 }
 
 // Function to find the player's position in the grid
@@ -41,6 +62,7 @@ void Player::findPlayerPosition() {
 void Player::update(InputState* input_state) {
 	Sprite::update(input_state);
     heartNum = health/10;
+     
 }
 
 // void Player::applyInputState(InputState* input_state) {
@@ -51,8 +73,18 @@ void Player::healthBar(){
 
     // Update heart position 
     for(int i = 0; i < heartNum; i++) {
-        array[i] = heartPosition;
+        arrayHeart[i] = heartPosition;
         heartPosition.x = heartPosition.x + heartPosition.w + 20;
+    }
+
+}
+
+void Player::waterBar(){    
+
+    // Update water position 
+    for(int i = 0; i < heartNum; i++) {
+        arrayWater[i] = waterPosition;
+        waterPosition.x = waterPosition.x + waterPosition.w + 20;
     }
 
 }
@@ -64,15 +96,21 @@ void Player::render(SDL_Renderer* renderer) {
 
     
     for(int i = 0; i < heartNum; i++) {
-        SDL_RenderCopy(renderer, heartTexture, NULL, &array[i]);
+        SDL_RenderCopy(renderer, heartTexture, NULL, &arrayHeart[i]);
+    }
+
+    // render water stuff
+
+    for(int i = 0; i < heartNum; i++) {
+        SDL_RenderCopy(renderer, waterTexture, NULL, &arrayWater[i]);
     }
 
 
-    //SDL_RenderCopy(renderer, heartTexture, NULL, &heartPosition);
 
 
 }
 
 Player::~Player() {
     SDL_DestroyTexture(heartTexture);
+    SDL_DestroyTexture(waterTexture);
 }
