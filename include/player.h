@@ -17,18 +17,30 @@ public:
     int playerCol;
     int health;
     void healthBar(); 
+    void waterBar(); 
 
     // class healthBar {
     int heartNum;
     // };
 
 private:
+
+    // heart stuff 
+
     SDL_Texture* heartTexture;
     SDL_Rect heartPosition;
-    SDL_Rect array[10]; 
+    SDL_Rect arrayHeart[10]; 
 
     SDL_Surface* heartSurface;
     // void applyInputState(InputState* input_state);
+
+    // water stuff 
+
+    SDL_Texture* waterTexture;
+    SDL_Rect waterPosition;
+    SDL_Rect arrayWater[10]; 
+
+    SDL_Surface* waterSurface;
 };
 
 #endif
