@@ -9,7 +9,7 @@
 
 class Block {
 public:
-    Block(SDL_Renderer* renderer, const char* file_path, int row, int col, int size);
+    Block(SDL_Renderer* renderer, const char* file_path, int col, int row, int size);
     ~Block();
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state);

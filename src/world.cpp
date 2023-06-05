@@ -8,7 +8,7 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     //get random number from seed
     srand(seed);
 
-    // Create tile map
+    // Generate randome height numbers
 	for(int x=0; x < 13; x++){
 		this->heights[x] = rand() %10 +1;   // we can adjust this %9 value to make the hills either bigger or smaller. ie if you put in a bigger value, your hills will be smaller 
 	}
@@ -48,16 +48,32 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     for(int x=0; x < 13; x++){
         for(int y=0; y < 10; y++){
             if(this->tilemap[x][y]){
-                block = new Block(renderer, "res/grassBlock.png" , y, x, 50);
+                block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
                 blockGrid[x][y] = block;
-            } 
+            }
         }
     }
+    
 } 
 
-void World::update(InputState* input_state, GameState* gameState){
-    // block = new Block(renderer, "res/grassBlock.png" , y, x, 50);
-    // blockGrid[x][y] = block;
+void World::update(InputState* input_state, SDL_Renderer* renderer){
+    
+    if(input_state->mouseData.middle){
+        int x = std::floor((input_state->mouseData.x)/50);
+        int y = std::floor((input_state->mouseData.y)/50);
+
+        std::cout << x << ", " << y << std::endl;
+
+
+        if(!tilemap[x][y]){
+            block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
+            blockGrid[x][y] = block;
+            tilemap[x][y] = 1;
+            std::cout << "heresa"<< std::endl;
+        }
+        
+    }
+
 }
 
 void World::render(SDL_Renderer* renderer){
