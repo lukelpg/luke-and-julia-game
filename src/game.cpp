@@ -30,6 +30,7 @@ Game::Game(){
         error = 1;
     }
 
+    //create new World called world
     world = new World();
 
     //create characters and backgrounds(for now)
