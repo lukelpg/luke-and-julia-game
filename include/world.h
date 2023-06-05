@@ -10,7 +10,7 @@ public:
     World();
     ~World();
     void render(SDL_Renderer* renderer);
-    void update(InputState* input_state);
+    void update(InputState* input_state, GameState* gameState);
 
     void generateTileMap(int seed, SDL_Renderer* renderer);
     

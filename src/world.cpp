@@ -55,8 +55,9 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     }
 } 
 
-void World::update(InputState* input_state){
-
+void World::update(InputState* input_state, GameState* gameState){
+    // block = new Block(renderer, "res/grassBlock.png" , y, x, 50);
+    // blockGrid[x][y] = block;
 }
 
 void World::render(SDL_Renderer* renderer){
