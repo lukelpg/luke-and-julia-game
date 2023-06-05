@@ -1,6 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "block.h"
@@ -10,7 +11,7 @@ public:
     World();
     ~World();
     void render(SDL_Renderer* renderer);
-    void update(InputState* input_state, GameState* gameState);
+    void update(InputState* input_state, SDL_Renderer* renderer);
 
     void generateTileMap(int seed, SDL_Renderer* renderer);
     
