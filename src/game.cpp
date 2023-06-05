@@ -61,7 +61,7 @@ int Game::run(){
     }
 
     //make world
-    int seed = 3;
+    int seed = 4;
     world->generateTileMap(seed, renderer);
 
     // Wait for a key press
@@ -233,6 +233,7 @@ void Game::update(){
         
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
+        world->update(input_state, renderer);
         character->update(input_state);
         background1->update(input_state);
         background2->update(input_state);
