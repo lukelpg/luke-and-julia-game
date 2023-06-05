@@ -11,19 +11,21 @@ public:
 	Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
 	~Player();
     void render(SDL_Renderer* renderer);
-    // void update(InputState* input_state);
+    void update(InputState* input_state);
     void findPlayerPosition();
     int playerRow;
     int playerCol;
     int health;
+    void healthBar(); 
 
     // class healthBar {
-        int heartNum;
+    int heartNum;
     // };
 
 private:
     SDL_Texture* heartTexture;
     SDL_Rect heartPosition;
+    SDL_Rect array[10]; 
 
     SDL_Surface* heartSurface;
     // void applyInputState(InputState* input_state);
