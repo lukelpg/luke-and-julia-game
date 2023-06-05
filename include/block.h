@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "input_state.h"
+#include "game_state.h"
 
 class Block {
 public:
