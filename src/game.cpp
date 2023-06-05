@@ -61,7 +61,7 @@ int Game::run(){
     }
 
     //make world
-    int seed = 4;
+    int seed = 6;
     world->generateTileMap(seed, renderer);
 
     // Wait for a key press
