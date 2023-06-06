@@ -10,6 +10,9 @@ const int GRAVITY = 1;
 
 Player::Player(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
 
+
+    // health code 
+
     health = 100;
     heartNum = health/10;
 
@@ -30,7 +33,7 @@ Player::Player(Game* game, SDL_Renderer* renderer, const char* file_path, int x,
     SDL_FreeSurface(heartSurface);
     healthBar();
 
-
+    // thirst code 
 
     waterSurface = IMG_Load("res/woobiegoobie.png");
     	if (waterSurface == nullptr) {
@@ -62,9 +65,11 @@ void Player::findPlayerPosition() {
 }
 
 void Player::update(InputState* input_state) {
-	applyInputState(input_state);
-	simple_physics();
-
+  Sprite::update(input_state);
+  applyInputState(input_state);
+  simple_physics();
+  
+  // updating the number of hearts 
     heartNum = health/10;
 
 	std::vector<Block*> blocks = game->world->blocks;
@@ -83,7 +88,7 @@ void Player::update(InputState* input_state) {
 			speed_y = 0;
 			can_jump = true;
 		} else if (result == CollisionResult::Bottom) {
-			position.y = block->position.y + block->position.h;
+			position.y = block->position.y + block->position.h + 6;
 			speed_y = -speed_y;
 		}
     }
