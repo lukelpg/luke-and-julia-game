@@ -17,8 +17,11 @@ typedef struct Gameplay {
 typedef struct Pause {
 }Pause;
 
-typedef struct Respawn {
-}Respawn;
+typedef struct RespawnMenu {
+    Button* respawnButton;
+    Button* newWorldButton;
+
+}RespawnMenu;
 
 
 enum class GameState {
@@ -36,10 +39,13 @@ public:
     // void getState();
 
     InputState* input_state;
-    
+
+    // Start Menu  
     StartMenu* startMenu;
+
+    // Respawn Menu
+    RespawnMenu* respawnMenu; 
     Gameplay* gameplay;
-    // Respawn* Respawn;
     // Pause* Pause;
 
     GameState gameState;
