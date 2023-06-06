@@ -33,6 +33,7 @@ public:
 
 private:
     int error;
+    int respawnSeed;
     SDL_Window* window;
     SDL_Renderer* renderer;
     Background* background1;
@@ -43,12 +44,23 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
     
+    World* worlds[10];
+    
     World* world;
 
     // GameState gameState;
     StateData* gameStateData;
+
+    // start menu
+
     StartMenu* startMenu;
     Button* startButton;
+
+    // respawn menu 
+    
+    RespawnMenu* respawnMenu; 
+    Button* respawnButton;
+    Button* newWorldButton;
 
     bool quit;
 };

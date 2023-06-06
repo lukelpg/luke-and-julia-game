@@ -42,8 +42,15 @@ Game::Game(){
     
     //create all state data
     gameStateData = new StateData();
+
+    //start menu
     gameStateData->startMenu = new StartMenu();
-    gameStateData->startMenu->startButton = new Button(renderer, 120, 300, 200, 75);
+    gameStateData->startMenu->startButton = new Button(renderer, "res/startButton.png", 120, 300, 200, 75);
+
+    //respawn menu 
+    gameStateData->respawnMenu = new RespawnMenu();
+    gameStateData->respawnMenu->respawnButton = new Button(renderer, "res/diarrhea.png", 250, 200, 200, 75);   
+    gameStateData->respawnMenu->newWorldButton = new Button(renderer, "res/yogabagaba.png", 250, 300, 200, 75); 
 
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
@@ -83,7 +90,24 @@ int Game::run(){
 
             if(gameStateData->gameState == GameState::RESPAWN){
                 character->health = 100;
+                // code to set character's position to starting point once it has respawned 
+                character->position.x = 10; 
+                character->position.y = 250;
+
+                if(gameStateData->respawnMenu->newWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left){  
+                    //generate a new value for the respawn seed 
+                    respawnSeed = std::rand(); 
+
+                    //update the world with the new seed 
+                    worlds[5] = new World();
+                    world = worlds[5];
+                    world->generateTileMap(respawnSeed, renderer);
+
+                    std::cout << "bruegn" << std::endl;
+                }
+
             }
+
             if(gameStateData->gameState == GameState::GAMEPLAY){
                 this->collisionChecks();
             }
@@ -218,6 +242,11 @@ void Game::render(){
         //render sprites
         character->render(renderer);
         bad_kat->render(renderer);
+    }
+    if(gameStateData->gameState == GameState::RESPAWN){
+        background1->render(renderer);
+        gameStateData->respawnMenu->respawnButton->render(renderer);
+        gameStateData->respawnMenu->newWorldButton->render(renderer);
     }
 
     // Update the renderer

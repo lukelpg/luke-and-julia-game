@@ -7,6 +7,9 @@ const int GRAVITY = 1;
 
 Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(renderer, file_path, x, y, w, h) {
 
+
+    // health code 
+
     health = 100;
     heartNum = health/10;
 
@@ -27,7 +30,7 @@ Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
     SDL_FreeSurface(heartSurface);
     healthBar();
 
-
+    // thirst code 
 
 
     waterSurface = IMG_Load("res/woobiegoobie.png");
@@ -61,6 +64,8 @@ void Player::findPlayerPosition() {
 
 void Player::update(InputState* input_state) {
 	Sprite::update(input_state);
+
+    // updating the number of hearts 
     heartNum = health/10;
      
 }
