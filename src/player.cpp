@@ -5,7 +5,6 @@
 #include "game.h"
 #include "block.h"
 #include "physics.h"
-#include <iostream>
 
 const int GRAVITY = 1;
 
@@ -85,7 +84,7 @@ void Player::update(InputState* input_state) {
 			can_jump = true;
 		} else if (result == CollisionResult::Bottom) {
 			position.y = block->position.y + block->position.h;
-			speed_y = 0;
+			speed_y = -speed_y;
 		}
     }
     bounds_detection();
@@ -114,6 +113,44 @@ void Player::waterBar(){
     }
 
 }
+
+
+
+void Inventory::addItem(const Item& item) {
+    // Check if the item already exists in the inventory
+    Item* existingItem = getItem(item.name);
+    if (existingItem) {
+        existingItem->quantity += item.quantity;
+    } else {
+        items.push_back(item);
+    }
+}
+
+void Inventory::removeItem(const Item& item) {
+    // Find the item in the inventory
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it->name == item.name) {
+            // Decrease the quantity or remove the item if necessary
+            if (it->quantity > item.quantity) {
+                it->quantity -= item.quantity;
+            } else {
+                items.erase(it);
+            }
+            break;
+        }
+    }
+}
+
+Item* Inventory::getItem(const std::string& itemName) {
+    for (auto& item : items) {
+        if (item.name == itemName) {
+            return &item;
+        }
+    }
+    return nullptr;
+}
+
+
 
 void Player::render(SDL_Renderer* renderer) {
 	Sprite::render(renderer);

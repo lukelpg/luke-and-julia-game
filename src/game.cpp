@@ -64,6 +64,30 @@ int Game::run(){
     int seed = 6;
     world->generateTileMap(seed, renderer);
 
+
+    //temporary for testing inventory
+    Inventory playerInventory;
+
+    // Add items to the inventory
+    Item sword = { "Sword", "A powerful weapon", 1 };
+    playerInventory.addItem(sword);
+
+    Item potion = { "Potion", "Restores health", 5 };
+    playerInventory.addItem(potion);
+
+    // Remove items from the inventory
+    Item usedPotion = { "Potion", "", 2 };
+    playerInventory.removeItem(usedPotion);
+
+    // Access an item in the inventory
+    Item* foundItem = playerInventory.getItem("Potion");
+    if (foundItem) {
+        std::cout << "Found item: " << foundItem->quantity << std::endl;
+    } else {
+        std::cout << "Item not found." << std::endl;
+    }
+
+
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
