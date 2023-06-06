@@ -6,7 +6,7 @@
 
 class Button {
 public:
-    Button(SDL_Renderer* renderer, int x, int y, int width, int height);
+    Button(SDL_Renderer* renderer, const char* file_path, int x, int y, int width, int height);
 
     bool isClicked(int mouseX, int mouseY);
     void render(SDL_Renderer* renderer);
