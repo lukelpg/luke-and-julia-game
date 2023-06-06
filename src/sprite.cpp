@@ -62,20 +62,20 @@ void Sprite::bounds_detection() {
 
 void Sprite::applyInputState(InputState* input_state) {
     if (input_state->getLeft()) {
-        position.x -= 6;
+        position.x -= 3;
     }
     if (input_state->getRight()) {
-        position.x += 6;
+        position.x += 3;
     }
     if (input_state->getUp()) {
-        position.y -= 3;
+        position.y -= 2;
         if(can_jump){
-            speed_y = -20;
+            speed_y = -15;
             can_jump = false;
         } 
     }
     if (input_state->getDown()) {
-        position.y += 3;
+        position.y += 2;
     }
 }
 

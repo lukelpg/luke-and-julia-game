@@ -115,8 +115,8 @@ int Game::run(){
             if(gameStateData->gameState == GameState::RESPAWN){
                 character->health = 100;
                 // code to set character's position to starting point once it has respawned 
-                character->position.x = 10; 
-                character->position.y = 250;
+                character->position.x = 0; 
+                character->position.y = 0;
 
                 if(gameStateData->respawnMenu->newWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left){  
                     //generate a new value for the respawn seed 
