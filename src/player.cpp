@@ -84,7 +84,7 @@ void Player::update(InputState* input_state) {
 			can_jump = true;
 		} else if (result == CollisionResult::Bottom) {
 			position.y = block->position.y + block->position.h;
-			speed_y = 0;
+			speed_y = -speed_y;
 		}
     }
     bounds_detection();
