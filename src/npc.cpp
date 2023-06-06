@@ -1,6 +1,9 @@
 #include "npc.h"
 #include "sprite.h"
 #include "input_state.h"
+#include "physics.h"
+#include "block.h"
+#include "game.h"
 #include <iostream>
 
 const int GRAVITY = 1;
@@ -26,6 +29,32 @@ void Npc::update() {
     position.x += speed_x;
     position.y += speed_y;
 
+
+    // simple_physics();
+
+	std::vector<Block*> blocks = game->world->blocks;
+     
+ 	for (const auto& block : blocks) {
+		CollisionResult result = rectangle_collision(position, block->position);
+		if (result == CollisionResult::Left) {
+			position.x = block->position.x - position.w;
+			speed_x = -5;
+		} else if (result == CollisionResult::Right) {
+			position.x = block->position.x + block->position.w;
+			speed_x = 5;
+		} else if (result == CollisionResult::Top) {
+			// TODO: fix scuffed code
+			position.y = block->position.y - position.h + 6;
+			speed_y = -5;
+		} else if (result == CollisionResult::Bottom) {
+			position.y = block->position.y + block->position.h;
+			speed_y = 5;
+		}
+    }
+    bounds_detection();
+}
+
+void Npc::bounds_detection() {
     if (position.x < 0) {
         position.x = 0;
         speed_x = 5;

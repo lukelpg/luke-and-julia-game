@@ -83,7 +83,6 @@ void World::update(InputState* input_state, SDL_Renderer* renderer){
             for (int i = 0; i < blocks.size(); ++i) {
                 if((x == std::floor((blocks[i]->position.x)/50)) && (y == std::floor((blocks[i]->position.y)/50))){
                     blocks.erase(blocks.begin() + i);
-                    
                 }
             }
             tilemap[x][y] = 0;
