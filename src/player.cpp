@@ -88,7 +88,7 @@ void Player::update(InputState* input_state) {
 			speed_y = 0;
 			can_jump = true;
 		} else if (result == CollisionResult::Bottom) {
-			position.y = block->position.y + block->position.h;
+			position.y = block->position.y + block->position.h + 6;
 			speed_y = -speed_y;
 		}
     }

@@ -47,8 +47,7 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
   
-  World* worlds[10];
-  World* world;
+    World* worlds[10];
 
     // GameState gameState;
     StateData* gameStateData;
