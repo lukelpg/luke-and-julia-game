@@ -18,6 +18,11 @@ public:
     bool isBesideBlock(int x, int y);
     
     std::vector<Block*> blocks;
+
+    SDL_Rect tile[13][10];
+    SDL_Rect select_tile;
+    int tilemap[13][10];
+    int heights[13];
 };
 
 #endif
