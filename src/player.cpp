@@ -1,11 +1,14 @@
+#include <SDL2/SDL.h>
 #include "sprite.h"
 #include "player.h"
 #include "input_state.h"
-#include <iostream>
+#include "game.h"
+#include "block.h"
+#include "physics.h"
 
 const int GRAVITY = 1;
 
-Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(renderer, file_path, x, y, w, h) {
+Player::Player(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
 
 
     // health code 
@@ -31,7 +34,6 @@ Player::Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int 
     healthBar();
 
     // thirst code 
-
 
     waterSurface = IMG_Load("res/woobiegoobie.png");
     	if (waterSurface == nullptr) {
@@ -63,11 +65,34 @@ void Player::findPlayerPosition() {
 }
 
 void Player::update(InputState* input_state) {
-	Sprite::update(input_state);
-
-    // updating the number of hearts 
+  Sprite::update(input_state);
+  applyInputState(input_state);
+  simple_physics();
+  
+  // updating the number of hearts 
     heartNum = health/10;
+
+	std::vector<Block*> blocks = game->world->blocks;
      
+ 	for (const auto& block : blocks) {
+		CollisionResult result = rectangle_collision(position, block->position);
+		if (result == CollisionResult::Left) {
+			position.x = block->position.x - position.w;
+			speed_x = 0;
+		} else if (result == CollisionResult::Right) {
+			position.x = block->position.x + block->position.w;
+			speed_x = 0;
+		} else if (result == CollisionResult::Top) {
+			// TODO: fix scuffed code
+			position.y = block->position.y - position.h + 6;
+			speed_y = 0;
+			can_jump = true;
+		} else if (result == CollisionResult::Bottom) {
+			position.y = block->position.y + block->position.h;
+			speed_y = -speed_y;
+		}
+    }
+    bounds_detection();
 }
 
 // void Player::applyInputState(InputState* input_state) {
@@ -93,6 +118,44 @@ void Player::waterBar(){
     }
 
 }
+
+
+
+void Inventory::addItem(const Item& item) {
+    // Check if the item already exists in the inventory
+    Item* existingItem = getItem(item.name);
+    if (existingItem) {
+        existingItem->quantity += item.quantity;
+    } else {
+        items.push_back(item);
+    }
+}
+
+void Inventory::removeItem(const Item& item) {
+    // Find the item in the inventory
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it->name == item.name) {
+            // Decrease the quantity or remove the item if necessary
+            if (it->quantity > item.quantity) {
+                it->quantity -= item.quantity;
+            } else {
+                items.erase(it);
+            }
+            break;
+        }
+    }
+}
+
+Item* Inventory::getItem(const std::string& itemName) {
+    for (auto& item : items) {
+        if (item.name == itemName) {
+            return &item;
+        }
+    }
+    return nullptr;
+}
+
+
 
 void Player::render(SDL_Renderer* renderer) {
 	Sprite::render(renderer);

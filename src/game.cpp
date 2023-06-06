@@ -36,8 +36,8 @@ Game::Game(){
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	character = new Player(renderer, "res/me.png", 288, 100 , 48, 64);
-    bad_kat = new Npc(renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
+	character = new Player(this, renderer, "res/me.png", 288, 100 , 48, 64);
+    bad_kat = new Npc(this, renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
     
     //create all state data
@@ -70,6 +70,30 @@ int Game::run(){
     //make world
     int seed = 6;
     world->generateTileMap(seed, renderer);
+
+
+    //temporary for testing inventory
+    Inventory playerInventory;
+
+    // Add items to the inventory
+    Item sword = { "Sword", "A powerful weapon", 1 };
+    playerInventory.addItem(sword);
+
+    Item potion = { "Potion", "Restores health", 5 };
+    playerInventory.addItem(potion);
+
+    // Remove items from the inventory
+    Item usedPotion = { "Potion", "", 2 };
+    playerInventory.removeItem(usedPotion);
+
+    // Access an item in the inventory
+    Item* foundItem = playerInventory.getItem("Potion");
+    if (foundItem) {
+        std::cout << "Found item: " << foundItem->quantity << std::endl;
+    } else {
+        std::cout << "Item not found." << std::endl;
+    }
+
 
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();

@@ -5,10 +5,29 @@
 #include <SDL2/SDL_image.h>
 #include "sprite.h"
 #include "input_state.h"
+#include <iostream>
+#include <vector>
+
+typedef struct Item {
+    std::string name;
+    std::string description;
+    int quantity;
+}Item;
+
+class Inventory {
+public:
+    std::vector<Item> items;
+    
+    void addItem(const Item& item);
+    void removeItem(const Item& item);
+    Item* getItem(const std::string& itemName);
+private:
+    
+};
 
 class Player : public Sprite {
 public:
-	Player(SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+	Player(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
 	~Player();
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state);
@@ -18,10 +37,7 @@ public:
     int health;
     void healthBar(); 
     void waterBar(); 
-
-    // class healthBar {
     int heartNum;
-    // };
 
 private:
 

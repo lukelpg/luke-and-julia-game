@@ -1,5 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
+#pragma once
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -31,11 +32,13 @@ public:
     void collisionChecks();   
     void checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby);
 
+    World* world;
+    SDL_Renderer* renderer;
+
 private:
     int error;
     int respawnSeed;
     SDL_Window* window;
-    SDL_Renderer* renderer;
     Background* background1;
     Background* background2;
 	Player* character;
@@ -43,10 +46,9 @@ private:
 	InputState* input_state;
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
-    
-    World* worlds[10];
-    
-    World* world;
+  
+  World* worlds[10];
+  World* world;
 
     // GameState gameState;
     StateData* gameStateData;
