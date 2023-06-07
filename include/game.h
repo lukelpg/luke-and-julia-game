@@ -65,6 +65,8 @@ private:
     Button* respawnButton;
     Button* newWorldButton;
 
+    void updateCamera();
+
     bool quit;
 };
 

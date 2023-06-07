@@ -1,7 +1,8 @@
 #include "world.h"
 
 World::World(){
-    
+    positionX = 0;
+    positionY = 0;
 }
 
 void World::generateTileMap(int seed, SDL_Renderer* renderer){
@@ -76,13 +77,20 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 } 
 
 void World::update(InputState* input_state, SDL_Renderer* renderer){
+
+    if(input_state->mouseData.middle == true){
+        updateBlocks(1, 0);
+        positionX += 1;
+    }
     
 
     if(input_state->mouseData.left){
         int x = std::floor((input_state->mouseData.x)/50);
         int y = std::floor((input_state->mouseData.y)/50);
 
+        
         if(!tilemap[x][y] && isBesideBlock(x, y)){
+
             Block* block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
             blocks.push_back(block);
             tilemap[x][y] = 1;
@@ -93,15 +101,22 @@ void World::update(InputState* input_state, SDL_Renderer* renderer){
         int x = std::floor((input_state->mouseData.x)/50);
         int y = std::floor((input_state->mouseData.y)/50);
         
-        if(tilemap[x][y]){
-            for (int i = 0; i < blocks.size(); ++i) {
-                if((x == std::floor((blocks[i]->position.x)/50)) && (y == std::floor((blocks[i]->position.y)/50))){
-                    blocks.erase(blocks.begin() + i);
-                }
+
+        for (int i = 0; i < blocks.size(); ++i) {
+            if(blocks[i]->isClicked(input_state->mouseData.x, input_state->mouseData.y)){
+                blocks.erase(blocks.begin() + i);
+                std::cout << "Removed block at "<< input_state->mouseData.x/50 << ", " << input_state->mouseData.y/50 << " on the screen." << std::endl;
+
+                tilemap[x][y] = 0;
             }
-            tilemap[x][y] = 0;
-            std::cout << "Removed block at "<< x << ", " << y <<std::endl;
         }
+    }
+}
+
+void World::updateBlocks(int cameraPosX, int cameraPosY){
+    for (const auto& block : blocks) {
+        block->position.x = block->position.x + cameraPosX;
+        block->position.y = block->position.y + cameraPosY;
     }
 }
 

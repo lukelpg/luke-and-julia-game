@@ -148,6 +148,25 @@ int Game::run(){
     }
 }
 
+void Game::updateCamera() {
+    // Calculate screen center
+    int screenCenterX = SCREEN_WIDTH / 2;
+    int screenCenterY = SCREEN_HEIGHT / 2;
+
+    // Calculate the offset
+    int offsetX = character->position.x - screenCenterX;
+    int offsetY = character->position.y - screenCenterY;
+
+    // Apply the offset to the camera or rendering position
+    int cameraX = character->position.x - offsetX;
+    int cameraY = character->position.y - offsetY;
+
+    // std::cout << offsetX  << ", " << offsetY << std::endl;
+
+    // Use the camera position to render the game or update the camera in your engine
+    // ...
+}
+
 
 void Game::start(){
 
@@ -285,7 +304,7 @@ void Game::render(){
 void Game::update(){
     //update state
    
-    gameStateData->updateState(input_state, character->health);
+    
 
     if(gameStateData->gameState == GameState::START_MENU){ 
         
@@ -296,7 +315,11 @@ void Game::update(){
         background1->update(input_state);
         background2->update(input_state);
         bad_kat->update();
+        
+        updateCamera();
     } 
+    
+    gameStateData->updateState(input_state, character->health);
 }
 
 Game::~Game(){

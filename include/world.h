@@ -16,6 +16,8 @@ public:
 
     void generateTileMap(int seed, SDL_Renderer* renderer);
     bool isBesideBlock(int x, int y);
+
+    void updateBlocks(int cameraPosX, int cameraPosY);
     
     std::vector<Block*> blocks;
 
@@ -23,6 +25,9 @@ public:
     SDL_Rect select_tile;
     int tilemap[13][10];
     int heights[13];
+
+    int positionX;
+    int positionY;
 };
 
 #endif

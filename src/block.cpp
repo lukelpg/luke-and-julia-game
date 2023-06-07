@@ -17,6 +17,11 @@ Block::Block(SDL_Renderer* renderer, const char* file_path, int col, int row, in
     SDL_FreeSurface(surface);
 }
 
+bool Block::isClicked(int mouseX, int mouseY) {
+    return (mouseX >= position.x && mouseX <= position.x + position.w &&
+            mouseY >= position.y && mouseY <= position.y + position.h);
+}
+
 void Block::update(InputState* input_state) {
 }
 
