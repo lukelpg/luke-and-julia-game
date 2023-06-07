@@ -50,12 +50,19 @@ Game::Game(){
 
     //start menu
     gameStateData->startMenu = new StartMenu();
-    gameStateData->startMenu->startButton = new Button(renderer, "res/startButton.png", 120, 300, 200, 75);
+    gameStateData->startMenu->startButton = new Button(renderer, "res/myWorlds.png", 120, 300, 200, 75);
+
+    //my Worlds Menu
+    gameStateData->myWorldMenu = new MyWorldMenu();
+    gameStateData->myWorldMenu->myWorldButton = new Button(renderer, "res/yogabagaba.png", 200, 100, 200, 75);
+    gameStateData->myWorldMenu->worldOne = new Button(renderer, "res/one.png", 200, 150, 200, 75);
+    gameStateData->myWorldMenu->worldTwo = new Button(renderer, "res/two.png", 200, 200, 200, 75);
+    gameStateData->myWorldMenu->worldThree = new Button(renderer, "res/three.png", 200, 250, 200, 75);
 
     //respawn menu 
     gameStateData->respawnMenu = new RespawnMenu();
     gameStateData->respawnMenu->respawnButton = new Button(renderer, "res/diarrhea.png", 250, 200, 200, 75);   
-    gameStateData->respawnMenu->newWorldButton = new Button(renderer, "res/yogabagaba.png", 250, 300, 200, 75); 
+    gameStateData->respawnMenu->newWorldButton = new Button(renderer, "res/myWorlds.png", 250, 300, 200, 75); 
 
     // Create tiles surface
     tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
@@ -103,9 +110,11 @@ int Game::run(){
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
+    count = 0;
 
     //game loop
     while (!quit) {
+
         this->getInput();
 
 		// Get the elapsed time since the last frame
@@ -122,17 +131,33 @@ int Game::run(){
                 // code to set character's position to starting point once it has respawned 
                 character->position.x = 0; 
                 character->position.y = 0;
+                //code to set cat's position to starting point once it has respawned 
+                bad_kat->position.x = 600;
+                bad_kat->position.y= 0;
+            }
+            // initialzing count variable 
+            
 
-                if(gameStateData->respawnMenu->newWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left){  
+            if(gameStateData->gameState == GameState::MY_WORLD_MENU){
+
+                // generating a new world when user clicks new world 
+                if(count<3 && (gameStateData->myWorldMenu->myWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left)){  
+
                     //generate a new value for the respawn seed 
                     respawnSeed = std::rand(); 
 
                     //update the world with the new seed 
-                    worlds[5] = new World();
-                    world = worlds[5];
-                    world->generateTileMap(respawnSeed, renderer);
+                    worlds[count] = new World();
+                    worlds[count]->generateTileMap(respawnSeed, renderer);
 
-                    std::cout << "bruegn" << std::endl;
+                    // putting the current generated world into an array 
+                    world = worlds[count];  
+
+
+                    std::cout << "count is: " << count << std::endl;
+
+                    //increment count by 1 
+                    count++;
                 }
 
             }
@@ -140,7 +165,7 @@ int Game::run(){
             if(gameStateData->gameState == GameState::GAMEPLAY){
                 this->collisionChecks();
             }
-            
+
 			this->update();
             this->render();
 			
@@ -167,13 +192,6 @@ void Game::updateCamera() {
     // ...
 }
 
-
-void Game::start(){
-
-}
-
-void Game::endGame(){
-}
 
 void Game::getInput(){
     SDL_Event event;
@@ -207,66 +225,6 @@ void Game::collisionChecks(){
         std::cout << character->health << std::endl;
         character->health--;
         
-        // checkCollisionDirection(character->position, bad_kat->position, character->speed_x, character->speed_y, bad_kat->speed_x, bad_kat->speed_y);
-    }else{
-        // std::cout << character->health << std::endl;
-    }
-
-    //check for collisions with blocks
-    // character->findPlayerPosition();
-    // checkCollisionDirection(character, blockGrid[character->playerCol][character->playerRow-1]);
-
-    // for(int x=0; x < 13; x++){
-    //     for(int y=0; y < 10; y++){
-    //         switch (this->tilemap[x][y]){
-    //             case 1:
-    //                 checkCollisionDirection(character, blockGrid[x][y]);
-    //                 break;
-    //         }
-    //     }
-    // }   
-}
-
-void Game::checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby) {
-   
-    // Previous positions
-    int prevAX = objectA.x - Vax;
-    int prevAY = objectA.y - Vay;
-    int prevBX = objectB.x - Vbx;
-    int prevBY = objectB.y - Vby;
-
-    // Check x-axis collision
-    bool collisionX = (prevAX + objectA.w >= prevBX) && (prevAX <= prevBX + objectB.w);
-
-    // Check y-axis collision
-    bool collisionY = (prevAY + objectA.h >= prevBY) && (prevAY <= prevBY + objectB.h);
-
-    // Determine collision direction
-    if (collisionX && collisionY) {
-        // std::cout << "here" << std::endl;
-        if (prevAX + objectA.w < prevBX + objectB.w) {
-            // Collision from the left
-            objectA.x = prevBX - objectA.w;
-            std::cout << "from left" << std::endl;
-          
-        } else if (prevAX > prevBX) {
-            // Collision from the right
-            objectA.x = prevBX + objectB.w;
-
-            std::cout << "from right" << std::endl;
-        }
-
-        if (prevAY + objectA.h < prevBY + objectB.h) {
-            // Collision from above
-            objectA.y = prevBY - objectA.h;
-
-            std::cout << "from above" << std::endl;
-        } else if (prevAY > prevBY) {
-            // Collision from below
-            objectA.y = prevBY + objectB.h;
-
-            std::cout << "from below" << std::endl;
-        }
     }
 }
 
@@ -279,6 +237,24 @@ void Game::render(){
     if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
         gameStateData->startMenu->startButton->render(renderer);
+    }
+    if(gameStateData->gameState == GameState::MY_WORLD_MENU){
+        background1->render(renderer);
+
+        gameStateData->myWorldMenu->myWorldButton->render(renderer);
+
+        // if(){
+            gameStateData->myWorldMenu->worldOne->render(renderer);
+        // }
+
+        // if(){
+            gameStateData->myWorldMenu->worldTwo->render(renderer);
+        // }
+
+        // if(){
+            gameStateData->myWorldMenu->worldThree->render(renderer);
+        // }
+
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
         //render background
@@ -318,8 +294,18 @@ void Game::update(){
         
         updateCamera();
     } 
+
+
+    if(gameStateData->worldState == WorldState::WORLD_1){
+        world = worlds[0];
+    }else if(gameStateData->worldState == WorldState::WORLD_2){
+        world = worlds[1];
+    }else if(gameStateData->worldState == WorldState::WORLD_3){
+        world = worlds[2];
+    }
     
     gameStateData->updateState(input_state, character->health);
+
 }
 
 Game::~Game(){

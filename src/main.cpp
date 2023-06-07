@@ -11,7 +11,5 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    game->endGame();
-
     return 0;
 };
