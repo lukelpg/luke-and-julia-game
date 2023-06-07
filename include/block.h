@@ -18,6 +18,8 @@ public:
     int speed_x;
     int speed_y;
 
+    bool isClicked(int mouseX, int mouseY);
+
     std::string name;
 
 private:
