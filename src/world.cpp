@@ -48,7 +48,6 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
                 tilemap[x][y] = 1;
             }else if(stoneHeight >= y && y > stackHeight){
                 tilemap[x][y] = 2;
-                std::cout << "here" << std::endl;
             }else if(y > stoneHeight){
                 tilemap[x][y] = 3;
             }else{
