@@ -2,6 +2,8 @@
 #define INPUT_STATE_H
 
 #include <SDL2/SDL.h>
+#include <chrono>
+#include <thread>
 
 typedef struct MouseData {
     bool left;
@@ -10,6 +12,8 @@ typedef struct MouseData {
 
     int x;
     int y;
+
+    std::chrono::steady_clock::time_point lastClickTime = std::chrono::steady_clock::now();
 }MouseData;
 
 class InputState {

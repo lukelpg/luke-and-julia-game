@@ -19,13 +19,25 @@ void InputState::handleMouseDown(SDL_MouseButtonEvent& mouseEvent) {
 	mouseData.y = mouseEvent.y;
 	std::cout << mouseData.x << ", " << mouseData.y << std::endl;
 
-	if (mouseEvent.button == SDL_BUTTON_LEFT) {
-		handleLeftClick();
-	} else if (mouseEvent.button == SDL_BUTTON_RIGHT) {
-		handleRightClick();
-	} else if (mouseEvent.button == SDL_BUTTON_MIDDLE) {
-		handleMiddleClick();
-	}
+
+	auto currentTime = std::chrono::steady_clock::now();
+	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - mouseData.lastClickTime).count();
+
+	// Check if enough time has passed since the last click
+	// if (elapsedTime > 200) { // Set the desired cooldown period (in milliseconds)
+		if (mouseEvent.button == SDL_BUTTON_LEFT) {
+			handleLeftClick();
+		} else if (mouseEvent.button == SDL_BUTTON_RIGHT) {
+			handleRightClick();
+		} else if (mouseEvent.button == SDL_BUTTON_MIDDLE) {
+			handleMiddleClick();
+		}
+
+		mouseData.lastClickTime = currentTime;
+	// }
+
+
+	
 }
 
 void InputState::handleMouseUp(){
@@ -45,6 +57,7 @@ void InputState::handleRightClick() {
 
 void InputState::handleMiddleClick() {
 	mouseData.middle = true;
+	std::cout << "rubugobudocan" << std::endl;
 }
 
 
