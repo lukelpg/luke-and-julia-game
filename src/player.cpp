@@ -65,11 +65,11 @@ void Player::findPlayerPosition() {
 }
 
 void Player::update(InputState* input_state) {
-  Sprite::update(input_state);
-  applyInputState(input_state);
-  simple_physics();
+    Sprite::update(input_state);
+    applyInputState(input_state);
+    simple_physics();
   
-  // updating the number of hearts 
+    // updating the number of hearts 
     heartNum = health/10;
 
 	std::vector<Block*> blocks = game->world->blocks;
