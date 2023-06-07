@@ -1,7 +1,8 @@
 #include "world.h"
 
 World::World(){
-    
+    positionX = 0;
+    positionY = 0;
 }
 
 void World::generateTileMap(int seed, SDL_Renderer* renderer){
@@ -25,7 +26,7 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 			heights[x] = heights[x-1] + 1; 
 
 		} else {
-			heights [x] = heights[x-1]- 1; 
+			heights [x] = heights[x-1] - 1; 
 			if (heights[x] < 0 ){
 				heights[x] = 0; 
             }
@@ -39,12 +40,19 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 	}
 
 	for(int x = 0; x < 13; x++) {
-        int stackHeight = heights[x];
+        int stackHeight = heights[x]+1;
+        int diff = rand()%3+1;
+        int stoneHeight = stackHeight+diff;
+
         for(int y=0; y <15; y++){
-            if(y > stackHeight){
+            if(y == stackHeight){
                 tilemap[x][y] = 1;
+            }else if(stoneHeight >= y && y > stackHeight){
+                tilemap[x][y] = 2;
+            }else if(y > stoneHeight){
+                tilemap[x][y] = 3;
             }else{
-                tilemap[x][y] = 0; 
+                tilemap[x][y] = 0;
             }
         }
     }
@@ -52,7 +60,14 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     //add blocks to spots function next
     for(int x=0; x < 13; x++){
         for(int y=0; y < 10; y++){
-            if(tilemap[x][y]){
+            //potential bug here
+            if(tilemap[x][y] == 2){
+                Block* block = new Block(renderer, "res/dirtBlock.jpg" , x, y, 50);
+                blocks.push_back(block);
+            }else if(tilemap[x][y] == 3){
+                Block* block = new Block(renderer, "res/stoneBlock.jpg" , x, y, 50);
+                blocks.push_back(block);
+            }else if(tilemap[x][y]){
                 Block* block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
                 blocks.push_back(block);
             }
@@ -62,13 +77,20 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 } 
 
 void World::update(InputState* input_state, SDL_Renderer* renderer){
+
+    if(input_state->mouseData.middle == true){
+        updateBlocks(1, 0);
+        positionX += 1;
+    }
     
 
     if(input_state->mouseData.left){
         int x = std::floor((input_state->mouseData.x)/50);
         int y = std::floor((input_state->mouseData.y)/50);
 
+        
         if(!tilemap[x][y] && isBesideBlock(x, y)){
+
             Block* block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
             blocks.push_back(block);
             tilemap[x][y] = 1;
@@ -79,15 +101,22 @@ void World::update(InputState* input_state, SDL_Renderer* renderer){
         int x = std::floor((input_state->mouseData.x)/50);
         int y = std::floor((input_state->mouseData.y)/50);
         
-        if(tilemap[x][y]){
-            for (int i = 0; i < blocks.size(); ++i) {
-                if((x == std::floor((blocks[i]->position.x)/50)) && (y == std::floor((blocks[i]->position.y)/50))){
-                    blocks.erase(blocks.begin() + i);
-                }
+
+        for (int i = 0; i < blocks.size(); ++i) {
+            if(blocks[i]->isClicked(input_state->mouseData.x, input_state->mouseData.y)){
+                blocks.erase(blocks.begin() + i);
+                std::cout << "Removed block at "<< input_state->mouseData.x/50 << ", " << input_state->mouseData.y/50 << " on the screen." << std::endl;
+
+                tilemap[x][y] = 0;
             }
-            tilemap[x][y] = 0;
-            std::cout << "Removed block at "<< x << ", " << y <<std::endl;
         }
+    }
+}
+
+void World::updateBlocks(int cameraPosX, int cameraPosY){
+    for (const auto& block : blocks) {
+        block->position.x = block->position.x + cameraPosX;
+        block->position.y = block->position.y + cameraPosY;
     }
 }
 

@@ -33,6 +33,11 @@ Game::Game(){
     //create new World called world
     world = new World();
 
+    //what is the best way to achive something like this
+    imageList[0] = "res/grassBlock.png";
+    imageList[1] = "res/dirtBlock.jpg";
+    imageList[2] = "res/stoneBlock.jpg";
+
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
@@ -168,6 +173,26 @@ int Game::run(){
     }
 }
 
+void Game::updateCamera() {
+    // Calculate screen center
+    int screenCenterX = SCREEN_WIDTH / 2;
+    int screenCenterY = SCREEN_HEIGHT / 2;
+
+    // Calculate the offset
+    int offsetX = character->position.x - screenCenterX;
+    int offsetY = character->position.y - screenCenterY;
+
+    // Apply the offset to the camera or rendering position
+    int cameraX = character->position.x - offsetX;
+    int cameraY = character->position.y - offsetY;
+
+    // std::cout << offsetX  << ", " << offsetY << std::endl;
+
+    // Use the camera position to render the game or update the camera in your engine
+    // ...
+}
+
+
 void Game::getInput(){
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -255,7 +280,7 @@ void Game::render(){
 void Game::update(){
     //update state
    
-    gameStateData->updateState(input_state, character->health);
+    
 
     if(gameStateData->gameState == GameState::START_MENU){ 
         
@@ -266,7 +291,10 @@ void Game::update(){
         background1->update(input_state);
         background2->update(input_state);
         bad_kat->update();
+        
+        updateCamera();
     } 
+
 
     if(gameStateData->worldState == WorldState::WORLD_1){
         world = worlds[0];
@@ -275,6 +303,9 @@ void Game::update(){
     }else if(gameStateData->worldState == WorldState::WORLD_3){
         world = worlds[2];
     }
+    
+    gameStateData->updateState(input_state, character->health);
+
 }
 
 Game::~Game(){
