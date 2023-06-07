@@ -33,6 +33,11 @@ Game::Game(){
     //create new World called world
     world = new World();
 
+    //what is the best way to achive something like this
+    imageList[0] = "res/grassBlock.png";
+    imageList[1] = "res/dirtBlock.jpg";
+    imageList[2] = "res/stoneBlock.jpg";
+
     //create characters and backgrounds(for now)
     background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
     background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);

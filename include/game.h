@@ -33,6 +33,8 @@ public:
     void checkCollisionDirection(SDL_Rect objectA, SDL_Rect objectB, int Vax, int Vay, int Vbx, int Vby);
 
     World* world;
+    Block* blockList[3];
+    std::string imageList[3];
     SDL_Renderer* renderer;
 
 private:

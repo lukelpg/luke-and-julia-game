@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
 #include "input_state.h"
 #include "game_state.h"
@@ -17,7 +18,8 @@ public:
     int speed_x;
     int speed_y;
 
-    // void addBlock(int row, int col, int size);
+    std::string name;
+
 private:
     SDL_Texture* texture;
     
