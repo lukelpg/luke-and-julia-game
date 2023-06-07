@@ -34,6 +34,12 @@ public:
 
     World* world;
     SDL_Renderer* renderer;
+    int count;
+
+    // saving and loading world function 
+
+    void loadWorld();
+    void saveWorld();
 
 private:
     int error;
@@ -47,7 +53,7 @@ private:
     SDL_Surface* tile_map_surface;
     SDL_Texture* tile_texture;
   
-    World* worlds[10];
+    World* worlds[3];
 
     // GameState gameState;
     StateData* gameStateData;
@@ -56,6 +62,11 @@ private:
 
     StartMenu* startMenu;
     Button* startButton;
+
+    // new world menu 
+
+    MyWorldMenu* myWorldMenu; 
+    Button* myWorldButton; 
 
     // respawn menu 
     
