@@ -25,7 +25,7 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 			heights[x] = heights[x-1] + 1; 
 
 		} else {
-			heights [x] = heights[x-1]- 1; 
+			heights [x] = heights[x-1] - 1; 
 			if (heights[x] < 0 ){
 				heights[x] = 0; 
             }
@@ -39,12 +39,20 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
 	}
 
 	for(int x = 0; x < 13; x++) {
-        int stackHeight = heights[x];
+        int stackHeight = heights[x]+1;
+        int diff = rand()%3+1;
+        int stoneHeight = stackHeight+diff;
+
         for(int y=0; y <15; y++){
-            if(y > stackHeight){
+            if(y == stackHeight){
                 tilemap[x][y] = 1;
+            }else if(stoneHeight >= y && y > stackHeight){
+                tilemap[x][y] = 2;
+                std::cout << "here" << std::endl;
+            }else if(y > stoneHeight){
+                tilemap[x][y] = 3;
             }else{
-                tilemap[x][y] = 0; 
+                tilemap[x][y] = 0;
             }
         }
     }
@@ -52,7 +60,14 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     //add blocks to spots function next
     for(int x=0; x < 13; x++){
         for(int y=0; y < 10; y++){
-            if(tilemap[x][y]){
+            //potential bug here
+            if(tilemap[x][y] == 2){
+                Block* block = new Block(renderer, "res/dirtBlock.jpg" , x, y, 50);
+                blocks.push_back(block);
+            }else if(tilemap[x][y] == 3){
+                Block* block = new Block(renderer, "res/stoneBlock.jpg" , x, y, 50);
+                blocks.push_back(block);
+            }else if(tilemap[x][y]){
                 Block* block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
                 blocks.push_back(block);
             }
