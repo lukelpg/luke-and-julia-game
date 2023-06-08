@@ -15,10 +15,10 @@ public:
     void update(InputState* input_state);
 
 private:
-    // TexturedRectangle background;
+    TexturedRectangle* background;
 
-    SDL_Texture* texture;
-    SDL_Rect position;
+    // SDL_Texture* texture;
+    // SDL_Rect position;
     void applyInputState(InputState* input_state);
 };
 
