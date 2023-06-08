@@ -15,6 +15,16 @@ void TexturedRectangle::setRectangleProperties(int x, int y, int w, int h){
     position.y = y;
 	position.w = w;
 	position.h = h;
+
+    screenPosition.w = w;
+	screenPosition.h = h;
+    screenPosition.x = x;
+    screenPosition.y = y;
+}
+
+void TexturedRectangle::setScreenPosition(int x, int y){
+    screenPosition.x = x;
+    screenPosition.y = y;
 }
 
     
@@ -30,7 +40,7 @@ void TexturedRectangle::update(InputState* input_state) {
 
 
 void TexturedRectangle::render(SDL_Renderer* renderer) {
-    SDL_RenderCopy(renderer, texture, NULL, &position);
+    SDL_RenderCopy(renderer, texture, NULL, &screenPosition);
 }
 
 

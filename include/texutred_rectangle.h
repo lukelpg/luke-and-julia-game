@@ -12,14 +12,17 @@ public:
     TexturedRectangle(SDL_Renderer* renderer, const char* file_path);
     ~TexturedRectangle();
     void setRectangleProperties(int x, int y, int w, int h);
+    void setScreenPosition(int x, int y);
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state);
 
     bool isClicked(int mouseX, int mouseY);
-    
+
+    SDL_Rect position;
+    SDL_Rect screenPosition;
 private:
     SDL_Texture* texture;
-    SDL_Rect position;
+    
 };
 
 #endif

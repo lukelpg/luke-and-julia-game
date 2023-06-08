@@ -43,6 +43,9 @@ public:
     void loadWorld();
     void saveWorld();
 
+    int gamePositionX;
+    int gamePositionY;
+
 private:
     int error;
     int respawnSeed;

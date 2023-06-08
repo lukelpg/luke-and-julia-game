@@ -116,6 +116,7 @@ int Game::run(){
     while (!quit) {
 
         this->getInput();
+       
 
 		// Get the elapsed time since the last frame
 		Uint32 current_time = SDL_GetTicks();
@@ -150,7 +151,6 @@ int Game::run(){
                     worlds[count] = new World();
                     worlds[count]->generateTileMap(respawnSeed, renderer);
 
-                    // putting the current generated world into an array 
                     world = worlds[count];  
 
 
@@ -187,6 +187,8 @@ void Game::updateCamera() {
     int cameraY = character->position.y - offsetY;
 
     // std::cout << offsetX  << ", " << offsetY << std::endl;
+
+    // entiyPos-playerPos+halfScreen
 
     // Use the camera position to render the game or update the camera in your engine
     // ...
@@ -236,6 +238,7 @@ void Game::render(){
 
     if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
+
         gameStateData->startMenu->startButton->render(renderer);
     }
     if(gameStateData->gameState == GameState::MY_WORLD_MENU){
@@ -259,7 +262,7 @@ void Game::render(){
     if(gameStateData->gameState == GameState::GAMEPLAY){
         //render background
         background1->render(renderer);
-        background2->render(renderer);
+        // background2->render(renderer);
 
         world->render(renderer);
 
@@ -283,13 +286,18 @@ void Game::update(){
     
 
     if(gameStateData->gameState == GameState::START_MENU){ 
-        
+        gamePositionX = 0;
+        gamePositionY = 0;
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
+        
+        gamePositionX = character->position.x-SCREEN_WIDTH/2;
+        gamePositionY = character->position.y-SCREEN_HEIGHT/2;
+
         world->update(input_state, renderer, character->position.x, character->position.x);
         character->update(input_state);
-        background1->update(input_state);
-        background2->update(input_state);
+        background1->update(input_state, gamePositionX, gamePositionY);
+        // background2->update(input_state, gamePositionX);
         bad_kat->update();
         
         updateCamera();
