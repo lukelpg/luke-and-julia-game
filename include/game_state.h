@@ -11,6 +11,13 @@ typedef struct StartMenu {
     Button* startButton;
 }StartMenu;
 
+typedef struct MyWorldMenu{
+    Button* worldOne; 
+    Button* worldTwo; 
+    Button* worldThree; 
+    Button* myWorldButton; 
+}MyWorldMenu;
+
 typedef struct Gameplay {
 }Gameplay;
 
@@ -23,9 +30,15 @@ typedef struct RespawnMenu {
 
 }RespawnMenu;
 
+enum class WorldState {
+    WORLD_1,
+    WORLD_2,
+    WORLD_3
+};
 
 enum class GameState {
     START_MENU,
+    MY_WORLD_MENU,
     GAMEPLAY,
     RESPAWN,
     PAUSE
@@ -43,11 +56,16 @@ public:
     // Start Menu  
     StartMenu* startMenu;
 
+    //My world menu
+    MyWorldMenu* myWorldMenu; 
+
     // Respawn Menu
     RespawnMenu* respawnMenu; 
+
     Gameplay* gameplay;
     // Pause* Pause;
 
+    WorldState worldState;
     GameState gameState;
 private:
     
