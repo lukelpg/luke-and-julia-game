@@ -12,7 +12,7 @@ public:
     World();
     ~World();
     void render(SDL_Renderer* renderer);
-    void update(InputState* input_state, SDL_Renderer* renderer);
+    void update(InputState* input_state, SDL_Renderer* renderer, int playerPosX, int playerPosY);
 
     void generateTileMap(int seed, SDL_Renderer* renderer);
     bool isBesideBlock(int x, int y);

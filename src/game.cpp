@@ -286,7 +286,7 @@ void Game::update(){
         
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
-        world->update(input_state, renderer);
+        world->update(input_state, renderer, character->position.x, character->position.x);
         character->update(input_state);
         background1->update(input_state);
         background2->update(input_state);
