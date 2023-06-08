@@ -8,7 +8,7 @@ Background::Background(SDL_Renderer* renderer, const char* file_path, int x, int
 }
 
 void Background::update(InputState* input_state, int gamePositionX, int gamePositionY) {
-    background->update(input_state);
+    //background->update(input_state);
 
     int screenPosX = background->position.x - gamePositionX;
     int screenPosY = background->position.y - gamePositionY;

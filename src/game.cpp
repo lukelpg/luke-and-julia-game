@@ -294,7 +294,7 @@ void Game::update(){
         gamePositionX = character->position.x-SCREEN_WIDTH/2;
         gamePositionY = character->position.y-SCREEN_HEIGHT/2;
 
-        world->update(input_state, renderer, character->position.x, character->position.x);
+        world->update(input_state, renderer, gamePositionX, gamePositionY);
         character->update(input_state);
         background1->update(input_state, gamePositionX, gamePositionY);
         // background2->update(input_state, gamePositionX);

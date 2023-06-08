@@ -75,20 +75,20 @@ void Player::update(InputState* input_state) {
 	std::vector<Block*> blocks = game->world->blocks;
      
  	for (const auto& block : blocks) {
-		CollisionResult result = rectangle_collision(position, block->position);
+		CollisionResult result = rectangle_collision(position, block->block->position);
 		if (result == CollisionResult::Left) {
-			position.x = block->position.x - position.w;
+			position.x = block->block->position.x - position.w;
 			speed_x = 0;
 		} else if (result == CollisionResult::Right) {
-			position.x = block->position.x + block->position.w;
+			position.x = block->block->position.x + block->block->position.w;
 			speed_x = 0;
 		} else if (result == CollisionResult::Top) {
 			// TODO: fix scuffed code
-			position.y = block->position.y - position.h + 6;
+			position.y = block->block->position.y - position.h + 6;
 			speed_y = 0;
 			can_jump = true;
 		} else if (result == CollisionResult::Bottom) {
-			position.y = block->position.y + block->position.h + 6;
+			position.y = block->block->position.y + block->block->position.h + 6;
 			speed_y = -speed_y;
 		}
     }
