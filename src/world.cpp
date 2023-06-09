@@ -76,7 +76,7 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     
 } 
 
-void World::update(InputState* input_state, SDL_Renderer* renderer){
+void World::update(InputState* input_state, SDL_Renderer* renderer, int playerPosX, int playerPosY){
 
     if(input_state->mouseData.middle == true){
         updateBlocks(1, 0);
