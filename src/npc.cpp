@@ -3,12 +3,12 @@
 #include "input_state.h"
 #include "physics.h"
 #include "block.h"
-#include "game.h"
+#include "game_info.h"
 #include <iostream>
 
 const int GRAVITY = 1;
 
-Npc::Npc(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
+Npc::Npc(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
     speed_x = 1;
     speed_y = 1;
 }
@@ -32,7 +32,8 @@ void Npc::update() {
 
     // simple_physics();
 
-	std::vector<Block*> blocks = game->world->blocks;
+    //Todo add blocks to gameInfo, right now you are trying to get it from game, but you don't have game no more
+	std::vector<Block*> blocks = gameInfo->world->blocks;
      
  	for (const auto& block : blocks) {
 		CollisionResult result = rectangle_collision(position, block->block->position);

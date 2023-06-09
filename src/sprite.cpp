@@ -5,8 +5,8 @@
 
 const int GRAVITY = 1;
 
-Sprite::Sprite(Game* parent_game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
-    game = parent_game;
+Sprite::Sprite(GameInfo* inputGameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
+    gameInfo = inputGameInfo;
     SDL_Surface* surface = IMG_Load(file_path);
 	if (surface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;

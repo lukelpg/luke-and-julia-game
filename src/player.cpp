@@ -2,13 +2,13 @@
 #include "sprite.h"
 #include "player.h"
 #include "input_state.h"
-#include "game.h"
 #include "block.h"
+#include "game_info.h"
 #include "physics.h"
 
 const int GRAVITY = 1;
 
-Player::Player(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
+Player::Player(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
 
 
     // health code 
@@ -75,20 +75,20 @@ void Player::update(InputState* input_state) {
 	std::vector<Block*> blocks = game->world->blocks;
      
  	for (const auto& block : blocks) {
-		CollisionResult result = rectangle_collision(position, block->block->screenPosition);
+		CollisionResult result = rectangle_collision(position, block->block->position);
 		if (result == CollisionResult::Left) {
-			position.x = block->block->screenPosition.x - position.w;
+			position.x = block->block->position.x - position.w;
 			speed_x = 0;
 		} else if (result == CollisionResult::Right) {
-			position.x = block->block->screenPosition.x + block->block->screenPosition.w;
+			position.x = block->block->position.x + block->block->position.w;
 			speed_x = 0;
 		} else if (result == CollisionResult::Top) {
 			// TODO: fix scuffed code
-			position.y = block->block->screenPosition.y - position.h + 6;
+			position.y = block->block->position.y - position.h + 6;
 			speed_y = 0;
 			can_jump = true;
 		} else if (result == CollisionResult::Bottom) {
-			position.y = block->block->screenPosition.y + block->block->screenPosition.h + 6;
+			position.y = block->block->position.y + block->block->position.h + 6;
 			speed_y = -speed_y;
 		}
     }

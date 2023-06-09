@@ -38,11 +38,13 @@ Game::Game(){
     imageList[1] = "res/dirtBlock.jpg";
     imageList[2] = "res/stoneBlock.jpg";
 
+    gameInfo = new GameInfo();
+
     //create characters and backgrounds(for now)
-    background1 = new Background(renderer, "res/basicBackground.png", 0, 0, 650, 480);
-    background2 = new Background(renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	character = new Player(this, renderer, "res/me.png", 288, 100 , 48, 64);
-    bad_kat = new Npc(this, renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
+    background1 = new Background(gameInfo, renderer, "res/basicBackground.png", 0, 0, 650, 480);
+    background2 = new Background(gameInfo, renderer, "res/basicBackground.png", 640, 0, 650, 480);
+	character = new Player(gameInfo, renderer, "res/me.png", 288, 100 , 48, 64);
+    bad_kat = new Npc(gameInfo, renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
     
     //create all state data
@@ -110,7 +112,7 @@ int Game::run(){
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
-    count = 0;
+    gameInfo->count = 0;
 
     //game loop
     while (!quit) {
@@ -142,22 +144,22 @@ int Game::run(){
             if(gameStateData->gameState == GameState::MY_WORLD_MENU){
 
                 // generating a new world when user clicks new world 
-                if(count<3 && (gameStateData->myWorldMenu->myWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left)){  
+                if(count()<3 && (gameStateData->myWorldMenu->myWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left)){  
 
                     //generate a new value for the respawn seed 
                     respawnSeed = std::rand(); 
 
                     //update the world with the new seed 
-                    worlds[count] = new World();
-                    worlds[count]->generateTileMap(respawnSeed, renderer);
+                    worlds[count()] = new World();
+                    worlds[count()]->generateTileMap(respawnSeed, renderer);
 
-                    world = worlds[count];  
+                    world = worlds[count()];  
 
 
-                    std::cout << "count is: " << count << std::endl;
+                    std::cout << "count is: " << count() << std::endl;
 
                     //increment count by 1 
-                    count++;
+                    gameInfo->count++;
                 }
 
             }
@@ -286,17 +288,17 @@ void Game::update(){
     
 
     if(gameStateData->gameState == GameState::START_MENU){ 
-        gamePositionX = 0;
-        gamePositionY = 0;
+        gameInfo->gamePositionX = 0;
+        gameInfo->gamePositionY = 0;
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
         
-        gamePositionX = character->position.x-SCREEN_WIDTH/2;
-        gamePositionY = character->position.y-SCREEN_HEIGHT/2;
+        gameInfo->gamePositionX = character->position.x-SCREEN_WIDTH/2;
+        gameInfo->gamePositionY = character->position.y-SCREEN_HEIGHT/2;
 
-        world->update(input_state, renderer, gamePositionX, gamePositionY);
+        world->update(input_state, renderer, gamePositionX(), gamePositionY());
         character->update(input_state);
-        background1->update(input_state, gamePositionX, gamePositionY);
+        background1->update(input_state, gamePositionX(), gamePositionY());
         // background2->update(input_state, gamePositionX);
         bad_kat->update();
         
@@ -314,6 +316,18 @@ void Game::update(){
     
     gameStateData->updateState(input_state, character->health);
 
+}
+
+int Game::count() {
+    return gameInfo->count;
+}
+
+int Game::gamePositionX() {
+    return gameInfo->gamePositionX;
+}
+
+int Game::gamePositionY() {
+    return gameInfo->gamePositionY;
 }
 
 Game::~Game(){

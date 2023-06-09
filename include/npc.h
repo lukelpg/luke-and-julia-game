@@ -6,10 +6,11 @@
 #include <vector>
 #include "input_state.h"
 #include "sprite.h"
+#include "game_info.h"
 
 class Npc : public Sprite {
 public:
-    Npc(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+    Npc(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Npc();
     // void render(SDL_Renderer* renderer);
     void update();

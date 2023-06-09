@@ -15,18 +15,7 @@ void TexturedRectangle::setRectangleProperties(int x, int y, int w, int h){
     position.y = y;
 	position.w = w;
 	position.h = h;
-
-    screenPosition.w = w;
-	screenPosition.h = h;
-    screenPosition.x = x;
-    screenPosition.y = y;
 }
-
-void TexturedRectangle::setScreenPosition(int x, int y){
-    screenPosition.x = x;
-    screenPosition.y = y;
-}
-
     
 bool TexturedRectangle::isClicked(int mouseX, int mouseY) {
     return (mouseX >= position.x && mouseX <= position.x + position.w &&
@@ -39,7 +28,10 @@ void TexturedRectangle::update(InputState* input_state) {
 }
 
 
-void TexturedRectangle::render(SDL_Renderer* renderer) {
+void TexturedRectangle::render(SDL_Renderer* renderer, GameInfo* gameInfo) {
+    SDL_Rect screenPosition = position;
+    position.x += gameInfo->gamePositionX;
+    position.y += gameInfo->gamePositionY;
     SDL_RenderCopy(renderer, texture, NULL, &screenPosition);
 }
 
