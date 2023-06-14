@@ -1,5 +1,8 @@
 #include <SDL2/SDL.h>
 #include "physics.h"
+#include "player.h"
+#include "world.h"
+#include "npc.h"
 
 CollisionResult rectangle_collision(const SDL_Rect& a, const SDL_Rect& b) {
     int hitbox_h_sum = a.h / 2 + b.h / 2;
@@ -27,4 +30,49 @@ CollisionResult rectangle_collision(const SDL_Rect& a, const SDL_Rect& b) {
     }
 
     return CollisionResult::None;
+}
+
+void player_physics(Player* player, World* world) {
+    std::vector<Block*> blocks = world->blocks;
+     
+ 	for (const auto& block : blocks) {
+		CollisionResult result = rectangle_collision(player->position, block->block->position);
+		if (result == CollisionResult::Left) {
+			player->position.x = block->block->position.x - player->position.w;
+			player->speed_x = 0;
+		} else if (result == CollisionResult::Right) {
+			player->position.x = block->block->position.x + block->block->position.w;
+			player->speed_x = 0;
+		} else if (result == CollisionResult::Top) {
+			// TODO: fix scuffed code
+			player->position.y = block->block->position.y - player->position.h + 6;
+			player->speed_y = 0;
+			player->can_jump = true;
+		} else if (result == CollisionResult::Bottom) {
+			player->position.y = block->block->position.y + block->block->position.h + 6;
+			player->speed_y = -player->speed_y;
+		}
+    }
+}
+
+void npc_physics(Npc* npc, World* world) {
+    std::vector<Block*> blocks = world->blocks;
+     
+ 	for (const auto& block : blocks) {
+		CollisionResult result = rectangle_collision(npc->position, block->block->position);
+		if (result == CollisionResult::Left) {
+			npc->position.x = block->block->position.x - npc->position.w;
+			npc->speed_x = -5;
+		} else if (result == CollisionResult::Right) {
+			npc->position.x = block->block->position.x + block->block->position.w;
+			npc->speed_x = 5;
+		} else if (result == CollisionResult::Top) {
+			// TODO: fix scuffed code
+			npc->position.y = block->block->position.y - npc->position.h + 6;
+			npc->speed_y = -5;
+		} else if (result == CollisionResult::Bottom) {
+			npc->position.y = block->block->position.y + block->block->position.h;
+			npc->speed_y = 5;
+		}
+    }
 }

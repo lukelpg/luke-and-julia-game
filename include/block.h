@@ -7,13 +7,14 @@
 
 #include "input_state.h"
 #include "game_state.h"
+#include "game_info.h"
 #include "texutred_rectangle.h"
 
 class Block {
 public:
     Block(SDL_Renderer* renderer, const char* file_path, int col, int row, int size);
     ~Block();
-    void render(SDL_Renderer* renderer);
+    void render(SDL_Renderer* renderer, GameInfo* gameInfo);
     void update(int gamePositionX, int gamePositionY);
 
     bool isClicked(int mouseX, int mouseY);

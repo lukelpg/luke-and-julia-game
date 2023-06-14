@@ -17,12 +17,12 @@ public:
     SDL_Rect position;
     int speed_x;
     int speed_y;
+    bool can_jump;
 protected:
     SDL_Texture* texture;
     
     GameInfo* gameInfo;
     
-    bool can_jump;
     void applyInputState(InputState* input_state);
     void simple_physics();
     void bounds_detection();

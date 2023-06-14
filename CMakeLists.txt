@@ -15,6 +15,7 @@ add_executable(luke_game
 	src/game.cpp
 	src/world.cpp
 	src/game_state.cpp
+	src/game_info.cpp
 	src/button.cpp
 	src/player.cpp
 	src/block.cpp

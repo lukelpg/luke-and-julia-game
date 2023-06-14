@@ -1,4 +1,5 @@
 #include "block.h"
+#include "game_info.h"
 #include <iostream>
 
 Block::Block(SDL_Renderer* renderer, const char* file_path, int col, int row, int size) {
@@ -26,9 +27,9 @@ bool Block::isClicked(int mouseX, int mouseY) {
 }
 
 void Block::update(int gamePositionX, int gamePositionY) {
-    int screenPosX = block->position.x - gamePositionX;
-    int screenPosY = block->position.y - gamePositionY;
-    block->setScreenPosition(screenPosX, screenPosY);
+    // int screenPosX = block->position.x - gamePositionX;
+    // int screenPosY = block->position.y - gamePositionY;
+    // block->setScreenPosition(screenPosX, screenPosY);
 }
 
 Block::~Block() {
@@ -37,8 +38,8 @@ Block::~Block() {
     // SDL_DestroyTexture(texture);
 }
 
-void Block::render(SDL_Renderer* renderer) {
-    block->render(renderer);
+void Block::render(SDL_Renderer* renderer, GameInfo* gameInfo) {
+    block->render(renderer, gameInfo);
 
     // SDL_RenderCopy(renderer, texture, NULL, &position);
 }

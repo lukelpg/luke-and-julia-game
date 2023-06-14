@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "block.h"
+#include "game_info.h"
 #include <vector>
 
 class World {
@@ -28,6 +29,8 @@ public:
 
     int positionX;
     int positionY;
+private:
+    GameInfo* gameInfo;
 };
 
 #endif

@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "game.h"
+#include "physics.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480; 
@@ -156,7 +157,7 @@ int Game::run(){
                     world = worlds[count()];  
 
 
-                    std::cout << "count is: " << count() << std::endl;
+                    std::cout << "hi count is: " << count() << std::endl;
 
                     //increment count by 1 
                     gameInfo->count++;
@@ -298,9 +299,11 @@ void Game::update(){
 
         world->update(input_state, renderer, gamePositionX(), gamePositionY());
         character->update(input_state);
+        player_physics(character, world);
         background1->update(input_state, gamePositionX(), gamePositionY());
         // background2->update(input_state, gamePositionX);
         bad_kat->update();
+        npc_physics(bad_kat, world);
         
         updateCamera();
     } 

@@ -136,7 +136,7 @@ bool World::isBesideBlock(int x, int y){
 
 void World::render(SDL_Renderer* renderer){
     for (const auto& block : blocks) {
-        block->render(renderer);
+        block->render(renderer, gameInfo);
     }
 }
 
