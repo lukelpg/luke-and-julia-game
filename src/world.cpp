@@ -135,8 +135,17 @@ bool World::isBesideBlock(int x, int y){
 }
 
 void World::render(SDL_Renderer* renderer){
+    std::cout << "rub the bub 1" << std::endl;
+
     for (const auto& block : blocks) {
+        std::cout << "mhm" << std::endl;
+    }
+
+    for (const auto& block : blocks) {
+        std::cout << "rub the bub 2" << std::endl;
+
         block->render(renderer, gameInfo);
+        std::cout << "rub the bub 3" << std::endl;
     }
 }
 

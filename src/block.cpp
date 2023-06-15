@@ -39,7 +39,13 @@ Block::~Block() {
 }
 
 void Block::render(SDL_Renderer* renderer, GameInfo* gameInfo) {
+
+
+    std::cout << "tap the bap 1" << std::endl;
+    
     block->render(renderer, gameInfo);
+
+    std::cout << "tap the bap 1" << std::endl;
 
     // SDL_RenderCopy(renderer, texture, NULL, &position);
 }

@@ -1,4 +1,5 @@
 #include "texutred_rectangle.h"
+#include "game_info.h"
 
 TexturedRectangle::TexturedRectangle(SDL_Renderer* renderer, const char* file_path) {
     SDL_Surface* surface = IMG_Load(file_path);
@@ -7,6 +8,9 @@ TexturedRectangle::TexturedRectangle(SDL_Renderer* renderer, const char* file_pa
     }
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+
+    gamePositionX = 0;
+    gamePositionY = 0;
 }
 
 
@@ -30,8 +34,13 @@ void TexturedRectangle::update(InputState* input_state) {
 
 void TexturedRectangle::render(SDL_Renderer* renderer, GameInfo* gameInfo) {
     SDL_Rect screenPosition = position;
-    position.x += gameInfo->gamePositionX;
+
+    // THE ISSUE IS HERE
+    std::cout << " rrright here 1 " << std::endl;
+    position.x += gameInfo->gamePositionX; 
     position.y += gameInfo->gamePositionY;
+    std::cout << " rrright here 2 " << std::endl;
+
     SDL_RenderCopy(renderer, texture, NULL, &screenPosition);
 }
 

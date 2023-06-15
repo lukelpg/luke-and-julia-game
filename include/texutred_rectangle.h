@@ -18,6 +18,13 @@ public:
 
     bool isClicked(int mouseX, int mouseY);
 
+
+    //added this for seg falut
+    GameInfo* gameInfo;
+    int gamePositionX;
+    int gamePositionY;
+
+
     SDL_Rect position;
     // SDL_Rect screenPosition;
 private:

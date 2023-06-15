@@ -41,6 +41,9 @@ Game::Game(){
 
     gameInfo = new GameInfo();
 
+    gameInfo->gamePositionX = 0;
+    gameInfo->gamePositionY = 0;
+
     //create characters and backgrounds(for now)
     background1 = new Background(gameInfo, renderer, "res/basicBackground.png", 0, 0, 650, 480);
     background2 = new Background(gameInfo, renderer, "res/basicBackground.png", 640, 0, 650, 480);
@@ -145,23 +148,23 @@ int Game::run(){
             if(gameStateData->gameState == GameState::MY_WORLD_MENU){
 
                 // generating a new world when user clicks new world 
-                if(count()<3 && (gameStateData->myWorldMenu->myWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left)){  
+                // if((gameStateData->myWorldMenu->myWorldButton->isClicked(input_state->mouseData.x, input_state->mouseData.y) && input_state->mouseData.left)){  
 
-                    //generate a new value for the respawn seed 
-                    respawnSeed = std::rand(); 
+                //     // //generate a new value for the respawn seed 
+                //     // respawnSeed = std::rand(); 
 
-                    //update the world with the new seed 
-                    worlds[count()] = new World();
-                    worlds[count()]->generateTileMap(respawnSeed, renderer);
+                //     // //update the world with the new seed 
+                //     // worlds[count()] = new World();
+                //     // worlds[count()]->generateTileMap(respawnSeed, renderer);
 
-                    world = worlds[count()];  
+                //     // world = worlds[count()];  
 
 
-                    std::cout << "hi count is: " << count() << std::endl;
+                //     // std::cout << "hi count is: " << count() << std::endl;
 
-                    //increment count by 1 
-                    gameInfo->count++;
-                }
+                //     // //increment count by 1 
+                //     // gameInfo->count++;
+                // }
 
             }
 
@@ -247,31 +250,41 @@ void Game::render(){
     if(gameStateData->gameState == GameState::MY_WORLD_MENU){
         background1->render(renderer);
 
+        
+    
+        
         gameStateData->myWorldMenu->myWorldButton->render(renderer);
+        
+        // // if(){
+        //     gameStateData->myWorldMenu->worldOne->render(renderer);
+        // // }
 
-        // if(){
-            gameStateData->myWorldMenu->worldOne->render(renderer);
-        // }
+        // // if(){
+        //     gameStateData->myWorldMenu->worldTwo->render(renderer);
+        // // }
 
-        // if(){
-            gameStateData->myWorldMenu->worldTwo->render(renderer);
-        // }
-
-        // if(){
-            gameStateData->myWorldMenu->worldThree->render(renderer);
+        // // if(){
+        //     gameStateData->myWorldMenu->worldThree->render(renderer);
         // }
 
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
+        
+        std::cout << "found ya 1" << std::endl;
         //render background
         background1->render(renderer);
         // background2->render(renderer);
+        std::cout << "found ya 2" << std::endl;
 
+        //ISSUE IS IN HERE
         world->render(renderer);
-
+        
+        std::cout << "found ya 3" << std::endl;
         //render sprites
         character->render(renderer);
+
         bad_kat->render(renderer);
+        
     }
     if(gameStateData->gameState == GameState::RESPAWN){
         background1->render(renderer);
@@ -305,18 +318,19 @@ void Game::update(){
         bad_kat->update();
         npc_physics(bad_kat, world);
         
-        updateCamera();
+        // updateCamera();
     } 
 
 
-    if(gameStateData->worldState == WorldState::WORLD_1){
-        world = worlds[0];
-    }else if(gameStateData->worldState == WorldState::WORLD_2){
-        world = worlds[1];
-    }else if(gameStateData->worldState == WorldState::WORLD_3){
-        world = worlds[2];
-    }
+    // if(gameStateData->worldState == WorldState::WORLD_1){
+    //     world = worlds[0];
+    // }else if(gameStateData->worldState == WorldState::WORLD_2){
+    //     world = worlds[1];
+    // }else if(gameStateData->worldState == WorldState::WORLD_3){
+    //     world = worlds[2];
+    // }
     
+
     gameStateData->updateState(input_state, character->health);
 
 }

@@ -20,8 +20,8 @@ void InputState::handleMouseDown(SDL_MouseButtonEvent& mouseEvent) {
 	std::cout << mouseData.x << ", " << mouseData.y << std::endl;
 
 
-	auto currentTime = std::chrono::steady_clock::now();
-	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - mouseData.lastClickTime).count();
+	// auto currentTime = std::chrono::steady_clock::now();
+	// auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - mouseData.lastClickTime).count();
 
 	// Check if enough time has passed since the last click
 	// if (elapsedTime > 200) { // Set the desired cooldown period (in milliseconds)
@@ -33,7 +33,7 @@ void InputState::handleMouseDown(SDL_MouseButtonEvent& mouseEvent) {
 			handleMiddleClick();
 		}
 
-		mouseData.lastClickTime = currentTime;
+		// mouseData.lastClickTime = currentTime;
 	// }
 
 
