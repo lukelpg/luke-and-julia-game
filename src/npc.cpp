@@ -1,14 +1,13 @@
 #include "npc.h"
 #include "sprite.h"
 #include "input_state.h"
-#include "physics.h"
 #include "block.h"
-#include "game.h"
+#include "game_info.h"
 #include <iostream>
 
 const int GRAVITY = 1;
 
-Npc::Npc(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
+Npc::Npc(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(gameInfo, renderer, file_path, x, y, w, h) {
     speed_x = 1;
     speed_y = 1;
 }
@@ -31,26 +30,6 @@ void Npc::update() {
 
 
     // simple_physics();
-
-	std::vector<Block*> blocks = game->world->blocks;
-     
- 	for (const auto& block : blocks) {
-		CollisionResult result = rectangle_collision(position, block->position);
-		if (result == CollisionResult::Left) {
-			position.x = block->position.x - position.w;
-			speed_x = -5;
-		} else if (result == CollisionResult::Right) {
-			position.x = block->position.x + block->position.w;
-			speed_x = 5;
-		} else if (result == CollisionResult::Top) {
-			// TODO: fix scuffed code
-			position.y = block->position.y - position.h + 6;
-			speed_y = -5;
-		} else if (result == CollisionResult::Bottom) {
-			position.y = block->position.y + block->position.h;
-			speed_y = 5;
-		}
-    }
     bounds_detection();
 }
 

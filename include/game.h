@@ -1,6 +1,5 @@
 #ifndef GAME_H
 #define GAME_H
-#pragma once
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -14,6 +13,7 @@
 #include "game_state.h"
 #include "block.h"
 #include "world.h"
+#include "game_info.h"
 
 class Game {
 public:
@@ -36,12 +36,19 @@ public:
     Block* blockList[3];
     std::string imageList[3];
     SDL_Renderer* renderer;
-    int count;
 
     // saving and loading world function 
 
     void loadWorld();
     void saveWorld();
+
+    // int count;
+    // int gamePositionX;
+    // int gamePositionY;
+    GameInfo* gameInfo;
+    int count();
+    int gamePositionX();
+    int gamePositionY();
 
 private:
     int error;

@@ -76,13 +76,8 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     
 } 
 
-void World::update(InputState* input_state, SDL_Renderer* renderer, int playerPosX, int playerPosY){
-
-    if(input_state->mouseData.middle == true){
-        updateBlocks(1, 0);
-        positionX += 1;
-    }
-    
+void World::update(InputState* input_state, SDL_Renderer* renderer, int gamePosX, int gamePosY){
+    updateBlocks(gamePosX, gamePosY);
 
     if(input_state->mouseData.left){
         int x = std::floor((input_state->mouseData.x)/50);
@@ -115,8 +110,7 @@ void World::update(InputState* input_state, SDL_Renderer* renderer, int playerPo
 
 void World::updateBlocks(int cameraPosX, int cameraPosY){
     for (const auto& block : blocks) {
-        block->position.x = block->position.x + cameraPosX;
-        block->position.y = block->position.y + cameraPosY;
+        block->update(cameraPosX, cameraPosY);
     }
 }
 
@@ -141,8 +135,17 @@ bool World::isBesideBlock(int x, int y){
 }
 
 void World::render(SDL_Renderer* renderer){
+    std::cout << "rub the bub 1" << std::endl;
+
     for (const auto& block : blocks) {
-        block->render(renderer);
+        std::cout << "mhm" << std::endl;
+    }
+
+    for (const auto& block : blocks) {
+        std::cout << "rub the bub 2" << std::endl;
+
+        block->render(renderer, gameInfo);
+        std::cout << "rub the bub 3" << std::endl;
     }
 }
 

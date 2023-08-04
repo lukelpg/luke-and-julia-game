@@ -27,7 +27,7 @@ private:
 
 class Player : public Sprite {
 public:
-	Player(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+	Player(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
 	~Player();
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state);

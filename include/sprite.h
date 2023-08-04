@@ -1,16 +1,14 @@
 #ifndef SPRITE_H
 #define SPRITE_H
-#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "input_state.h"
-
-class Game;
+#include "game_info.h"
 
 class Sprite {
 public:
-    Sprite(Game* game, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+    Sprite(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Sprite();
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state);
@@ -19,12 +17,12 @@ public:
     SDL_Rect position;
     int speed_x;
     int speed_y;
+    bool can_jump;
 protected:
     SDL_Texture* texture;
     
-    Game* game;
+    GameInfo* gameInfo;
     
-    bool can_jump;
     void applyInputState(InputState* input_state);
     void simple_physics();
     void bounds_detection();
