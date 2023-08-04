@@ -10,7 +10,7 @@
 
 class World {
 public:
-    World();
+    World(GameInfo* gameInfo);
     ~World();
     void render(SDL_Renderer* renderer);
     void update(InputState* input_state, SDL_Renderer* renderer, int playerPosX, int playerPosY);

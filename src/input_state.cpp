@@ -57,7 +57,6 @@ void InputState::handleRightClick() {
 
 void InputState::handleMiddleClick() {
 	mouseData.middle = true;
-	std::cout << "rubugobudocan" << std::endl;
 }
 
 

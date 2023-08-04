@@ -30,19 +30,16 @@ Game::Game(){
         SDL_Quit();
         error = 1;
     }
+    gameInfo = new GameInfo();
 
     //create new World called world
-    world = new World();
+    world = new World(gameInfo);
 
     //what is the best way to achive something like this
     imageList[0] = "res/grassBlock.png";
     imageList[1] = "res/dirtBlock.jpg";
     imageList[2] = "res/stoneBlock.jpg";
 
-    gameInfo = new GameInfo();
-
-    gameInfo->gamePositionX = 0;
-    gameInfo->gamePositionY = 0;
 
     //create characters and backgrounds(for now)
     background1 = new Background(gameInfo, renderer, "res/basicBackground.png", 0, 0, 650, 480);
@@ -118,6 +115,7 @@ int Game::run(){
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
     gameInfo->count = 0;
 
+
     //game loop
     while (!quit) {
 
@@ -127,6 +125,7 @@ int Game::run(){
 		// Get the elapsed time since the last frame
 		Uint32 current_time = SDL_GetTicks();
 		Uint32 elapsed_time = current_time - last_time;
+
 
 		// Check if it's time to render the next frame
 		if (elapsed_time >= ticks_per_frame) {
@@ -269,17 +268,13 @@ void Game::render(){
 
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
-        
-        std::cout << "found ya 1" << std::endl;
         //render background
         background1->render(renderer);
         // background2->render(renderer);
-        std::cout << "found ya 2" << std::endl;
 
         //ISSUE IS IN HERE
         world->render(renderer);
-        
-        std::cout << "found ya 3" << std::endl;
+    
         //render sprites
         character->render(renderer);
 

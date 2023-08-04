@@ -3,10 +3,9 @@
 #include "input_state.h"
 #include "game_info.h"
 
-Background::Background(GameInfo* inputGameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
-    background = new TexturedRectangle(renderer, file_path);
+Background::Background(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): gameInfo(gameInfo) {
+    background = new TexturedRectangle(renderer, file_path, gameInfo);
     background->setRectangleProperties(x, y, w, h);
-    gameInfo = inputGameInfo;
 }
 
 void Background::update(InputState* input_state, int gamePositionX, int gamePositionY) {
@@ -21,5 +20,5 @@ Background::~Background() {
 }
 
 void Background::render(SDL_Renderer* renderer) {
-    background->render(renderer, gameInfo);
+    background->render(renderer);
 }

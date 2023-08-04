@@ -2,8 +2,8 @@
 #include "game_info.h"
 #include <iostream>
 
-Block::Block(SDL_Renderer* renderer, const char* file_path, int col, int row, int size) {
-    block = new TexturedRectangle(renderer, file_path);
+Block::Block(SDL_Renderer* renderer, GameInfo* gameInfo, const char* file_path, int col, int row, int size) {
+    block = new TexturedRectangle(renderer, file_path, gameInfo);
     block->setRectangleProperties(col*size, row*size, size, size);
 
     // SDL_Surface* surface = IMG_Load(file_path);
@@ -38,14 +38,9 @@ Block::~Block() {
     // SDL_DestroyTexture(texture);
 }
 
-void Block::render(SDL_Renderer* renderer, GameInfo* gameInfo) {
-
-
-    std::cout << "tap the bap 1" << std::endl;
+void Block::render(SDL_Renderer* renderer) {
     
-    block->render(renderer, gameInfo);
-
-    std::cout << "tap the bap 1" << std::endl;
+    block->render(renderer);
 
     // SDL_RenderCopy(renderer, texture, NULL, &position);
 }

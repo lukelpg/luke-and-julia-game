@@ -10,10 +10,10 @@
 
 class TexturedRectangle {
 public:
-    TexturedRectangle(SDL_Renderer* renderer, const char* file_path);
+    TexturedRectangle(SDL_Renderer* renderer, const char* file_path, GameInfo* gameInfo);
     ~TexturedRectangle();
     void setRectangleProperties(int x, int y, int w, int h);
-    void render(SDL_Renderer* renderer, GameInfo* gameInfo);
+    void render(SDL_Renderer* renderer);
     void update(InputState* input_state);
 
     bool isClicked(int mouseX, int mouseY);
@@ -21,8 +21,6 @@ public:
 
     //added this for seg falut
     GameInfo* gameInfo;
-    int gamePositionX;
-    int gamePositionY;
 
 
     SDL_Rect position;

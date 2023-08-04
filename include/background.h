@@ -6,7 +6,7 @@
 
 #include "game_info.h"
 #include "input_state.h"
-#include "texutred_rectangle.h"
+#include "textured_rectangle.h"
 
 class Background {
 public:

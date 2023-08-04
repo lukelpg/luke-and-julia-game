@@ -1,9 +1,6 @@
 #include "world.h"
 
-World::World(){
-    positionX = 0;
-    positionY = 0;
-}
+World::World(GameInfo* gameInfo) : gameInfo(gameInfo) {}
 
 void World::generateTileMap(int seed, SDL_Renderer* renderer){
     //get random number from seed
@@ -62,13 +59,13 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
         for(int y=0; y < 10; y++){
             //potential bug here
             if(tilemap[x][y] == 2){
-                Block* block = new Block(renderer, "res/dirtBlock.jpg" , x, y, 50);
+                Block* block = new Block(renderer, gameInfo, "res/dirtBlock.jpg" , x, y, 50);
                 blocks.push_back(block);
             }else if(tilemap[x][y] == 3){
-                Block* block = new Block(renderer, "res/stoneBlock.jpg" , x, y, 50);
+                Block* block = new Block(renderer, gameInfo, "res/stoneBlock.jpg" , x, y, 50);
                 blocks.push_back(block);
             }else if(tilemap[x][y]){
-                Block* block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
+                Block* block = new Block(renderer, gameInfo, "res/grassBlock.png" , x, y, 50);
                 blocks.push_back(block);
             }
         }
@@ -86,7 +83,7 @@ void World::update(InputState* input_state, SDL_Renderer* renderer, int gamePosX
         
         if(!tilemap[x][y] && isBesideBlock(x, y)){
 
-            Block* block = new Block(renderer, "res/grassBlock.png" , x, y, 50);
+            Block* block = new Block(renderer, gameInfo, "res/grassBlock.png" , x, y, 50);
             blocks.push_back(block);
             tilemap[x][y] = 1;
             std::cout << "Placed block at "<< x << ", " << y <<std::endl;
@@ -135,17 +132,13 @@ bool World::isBesideBlock(int x, int y){
 }
 
 void World::render(SDL_Renderer* renderer){
-    std::cout << "rub the bub 1" << std::endl;
 
     for (const auto& block : blocks) {
-        std::cout << "mhm" << std::endl;
+        // std::cout << "mhm" << std::endl;
     }
 
     for (const auto& block : blocks) {
-        std::cout << "rub the bub 2" << std::endl;
-
-        block->render(renderer, gameInfo);
-        std::cout << "rub the bub 3" << std::endl;
+        block->render(renderer);
     }
 }
 
