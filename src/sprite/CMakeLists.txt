@@ -1,0 +1,9 @@
+add_library(
+	sprite
+	npc.h
+	npc.cpp
+	player.h
+	player.cpp
+	sprite.h
+	sprite.cpp
+)

@@ -4,15 +4,16 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "input_state.h"
+#include "../input/input_state.h"
 #include "sprite.h"
-#include "game_info.h"
+
+class Game;
 
 class Npc : public Sprite {
 public:
-    Npc(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+    Npc(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Npc();
-    // void render(SDL_Renderer* renderer);
+    // void render(Renderer* renderer);
     void update();
     SDL_bool isColliding(Sprite& obj);
     SDL_Rect GetRectangle();

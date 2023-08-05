@@ -1,8 +1,9 @@
 #include "world.h"
+#include "../game/game.h"
 
-World::World(GameInfo* gameInfo) : gameInfo(gameInfo) {}
+World::World(Game* game) : game(game) {}
 
-void World::generateTileMap(int seed, SDL_Renderer* renderer){
+void World::generateTileMap(int seed, Renderer* renderer){
     //get random number from seed
     srand(seed);
 
@@ -59,13 +60,13 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
         for(int y=0; y < 10; y++){
             //potential bug here
             if(tilemap[x][y] == 2){
-                Block* block = new Block(renderer, gameInfo, "res/dirtBlock.jpg" , x, y, 50);
+                Block* block = new Block(renderer, game, "res/dirtBlock.jpg" , x, y, 50);
                 blocks.push_back(block);
             }else if(tilemap[x][y] == 3){
-                Block* block = new Block(renderer, gameInfo, "res/stoneBlock.jpg" , x, y, 50);
+                Block* block = new Block(renderer, game, "res/stoneBlock.jpg" , x, y, 50);
                 blocks.push_back(block);
             }else if(tilemap[x][y]){
-                Block* block = new Block(renderer, gameInfo, "res/grassBlock.png" , x, y, 50);
+                Block* block = new Block(renderer, game, "res/grassBlock.png" , x, y, 50);
                 blocks.push_back(block);
             }
         }
@@ -73,7 +74,7 @@ void World::generateTileMap(int seed, SDL_Renderer* renderer){
     
 } 
 
-void World::update(InputState* input_state, SDL_Renderer* renderer, int gamePosX, int gamePosY){
+void World::update(InputState* input_state, Renderer* renderer, int gamePosX, int gamePosY){
     updateBlocks(gamePosX, gamePosY);
 
     if(input_state->mouseData.left){
@@ -83,7 +84,7 @@ void World::update(InputState* input_state, SDL_Renderer* renderer, int gamePosX
         
         if(!tilemap[x][y] && isBesideBlock(x, y)){
 
-            Block* block = new Block(renderer, gameInfo, "res/grassBlock.png" , x, y, 50);
+            Block* block = new Block(renderer, game, "res/grassBlock.png" , x, y, 50);
             blocks.push_back(block);
             tilemap[x][y] = 1;
             std::cout << "Placed block at "<< x << ", " << y <<std::endl;
@@ -131,7 +132,7 @@ bool World::isBesideBlock(int x, int y){
     return false;
 }
 
-void World::render(SDL_Renderer* renderer){
+void World::render(Renderer* renderer){
 
     for (const auto& block : blocks) {
         // std::cout << "mhm" << std::endl;

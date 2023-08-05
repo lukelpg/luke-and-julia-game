@@ -3,16 +3,15 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "sprite.h"
-#include "input_state.h"
-#include <iostream>
+#include "../sprite/sprite.h"
+#include "../input/input_state.h"
 #include <vector>
 
 typedef struct Item {
     std::string name;
     std::string description;
     int quantity;
-}Item;
+} Item;
 
 class Inventory {
 public:
@@ -25,11 +24,13 @@ private:
     
 };
 
+class Game;
+
 class Player : public Sprite {
 public:
-	Player(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+	Player(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h);
 	~Player();
-    void render(SDL_Renderer* renderer);
+    void render(Renderer* renderer);
     void update(InputState* input_state);
     void findPlayerPosition();
     int playerRow;

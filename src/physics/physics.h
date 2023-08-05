@@ -3,9 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include "physics.h"
-#include "player.h"
-#include "world.h"
-#include "npc.h"
+#include "../sprite/player.h"
+#include "../world/world.h"
+#include "../sprite/npc.h"
 
 enum class CollisionResult {
 	None,

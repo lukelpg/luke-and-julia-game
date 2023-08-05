@@ -1,10 +1,9 @@
 #include "background.h"
 #include <iostream>
-#include "input_state.h"
-#include "game_info.h"
+#include "../game/game.h"
 
-Background::Background(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): gameInfo(gameInfo) {
-    background = new TexturedRectangle(renderer, file_path, gameInfo);
+Background::Background(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h): game(game) {
+    background = new TexturedRectangle(renderer, file_path, game);
     background->setRectangleProperties(x, y, w, h);
 }
 
@@ -19,6 +18,6 @@ Background::~Background() {
     background->~TexturedRectangle();
 }
 
-void Background::render(SDL_Renderer* renderer) {
+void Background::render(Renderer* renderer) {
     background->render(renderer);
 }

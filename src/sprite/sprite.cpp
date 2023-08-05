@@ -1,12 +1,12 @@
 #include "sprite.h"
 #include "npc.h"
-#include "input_state.h"
+#include "../input/input_state.h"
 #include <iostream>
+#include "../game/game.h"
 
 const int GRAVITY = 1;
 
-Sprite::Sprite(GameInfo* inputGameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h) {
-    gameInfo = inputGameInfo;
+Sprite::Sprite(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h) : game(game) {
     SDL_Surface* surface = IMG_Load(file_path);
 	if (surface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
@@ -83,6 +83,6 @@ Sprite::~Sprite() {
     SDL_DestroyTexture(texture);
 }
 
-void Sprite::render(SDL_Renderer* renderer) {
+void Sprite::render(Renderer* renderer) {
     SDL_RenderCopy(renderer, texture, NULL, &position);
 }

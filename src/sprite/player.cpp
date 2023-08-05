@@ -1,13 +1,13 @@
 #include <SDL2/SDL.h>
 #include "sprite.h"
 #include "player.h"
-#include "input_state.h"
-#include "block.h"
-#include "game_info.h"
+#include "../input/input_state.h"
+#include "../world/block.h"
+#include "../game/game.h"
 
 const int GRAVITY = 1;
 
-Player::Player(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(gameInfo, renderer, file_path, x, y, w, h) {
+Player::Player(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
 
 
     // health code 
@@ -136,7 +136,7 @@ Item* Inventory::getItem(const std::string& itemName) {
 
 
 
-void Player::render(SDL_Renderer* renderer) {
+void Player::render(Renderer* renderer) {
 	Sprite::render(renderer);
 
     // render heart stuff

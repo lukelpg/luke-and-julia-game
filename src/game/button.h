@@ -1,15 +1,14 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "../render/renderer.h"
 
 class Button {
 public:
-    Button(SDL_Renderer* renderer, const char* file_path, int x, int y, int width, int height);
+    Button(Renderer* renderer, const char* file_path, int x, int y, int width, int height);
 
     bool isClicked(int mouseX, int mouseY);
-    void render(SDL_Renderer* renderer);
+    void render(Renderer* renderer);
 
 private:
     SDL_Surface* surface;

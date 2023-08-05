@@ -5,17 +5,18 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "block.h"
-#include "game_info.h"
 #include <vector>
+
+class Game;
 
 class World {
 public:
-    World(GameInfo* gameInfo);
+    World(Game* game);
     ~World();
-    void render(SDL_Renderer* renderer);
-    void update(InputState* input_state, SDL_Renderer* renderer, int playerPosX, int playerPosY);
+    void render(Renderer* renderer);
+    void update(InputState* input_state, Renderer* renderer, int playerPosX, int playerPosY);
 
-    void generateTileMap(int seed, SDL_Renderer* renderer);
+    void generateTileMap(int seed, Renderer* renderer);
     bool isBesideBlock(int x, int y);
 
     void updateBlocks(int cameraPosX, int cameraPosY);
@@ -30,7 +31,7 @@ public:
     int positionX;
     int positionY;
 private:
-    GameInfo* gameInfo;
+    Game* game;
 };
 
 #endif

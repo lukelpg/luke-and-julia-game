@@ -3,21 +3,22 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "../render/renderer.h"
+#include "../input/input_state.h"
+#include "../game/textured_rectangle.h"
 
-#include "game_info.h"
-#include "input_state.h"
-#include "textured_rectangle.h"
+class Game;
 
 class Background {
 public:
-    Background(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h);
+    Background(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h);
     ~Background();
-    void render(SDL_Renderer* renderer);
+    void render(Renderer* renderer);
     void update(InputState* input_state, int gamePositionX, int gamePositionY);
 
 private:
     TexturedRectangle* background;
-    GameInfo* gameInfo;
+    Game* game;
 };
 
 #endif

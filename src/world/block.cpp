@@ -1,9 +1,9 @@
 #include "block.h"
-#include "game_info.h"
 #include <iostream>
+#include "../game/game.h"
 
-Block::Block(SDL_Renderer* renderer, GameInfo* gameInfo, const char* file_path, int col, int row, int size) {
-    block = new TexturedRectangle(renderer, file_path, gameInfo);
+Block::Block(Renderer* renderer, Game* game, const char* file_path, int col, int row, int size) {
+    block = new TexturedRectangle(renderer, file_path, game);
     block->setRectangleProperties(col*size, row*size, size, size);
 
     // SDL_Surface* surface = IMG_Load(file_path);
@@ -38,7 +38,7 @@ Block::~Block() {
     // SDL_DestroyTexture(texture);
 }
 
-void Block::render(SDL_Renderer* renderer) {
+void Block::render(Renderer* renderer) {
     
     block->render(renderer);
 

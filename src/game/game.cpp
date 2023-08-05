@@ -2,50 +2,22 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "game.h"
-#include "physics.h"
+#include "../physics/physics.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480; 
 
 Game::Game(){
-    // Initialize SDL2
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL_Init error: " << SDL_GetError() << std::endl;
-        error = 1;
-    }
-
-    // Create a window
-    window = SDL_CreateWindow("SDL2 Window with Image", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        error = 1;
-    }
-
-    // Create a renderer for the window
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        error = 1;
-    }
-    gameInfo = new GameInfo();
+    renderer = new Renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     //create new World called world
-    world = new World(gameInfo);
-
-    //what is the best way to achive something like this
-    imageList[0] = "res/grassBlock.png";
-    imageList[1] = "res/dirtBlock.jpg";
-    imageList[2] = "res/stoneBlock.jpg";
-
+    world = new World(this);
 
     //create characters and backgrounds(for now)
-    background1 = new Background(gameInfo, renderer, "res/basicBackground.png", 0, 0, 650, 480);
-    background2 = new Background(gameInfo, renderer, "res/basicBackground.png", 640, 0, 650, 480);
-	character = new Player(gameInfo, renderer, "res/me.png", 288, 100 , 48, 64);
-    bad_kat = new Npc(gameInfo, renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
+    background1 = new Background(this, renderer, "res/basicBackground.png", 0, 0, 650, 480);
+    background2 = new Background(this, renderer, "res/basicBackground.png", 640, 0, 650, 480);
+	character = new Player(this, renderer, "res/me.png", 288, 100 , 48, 64);
+    bad_kat = new Npc(this, renderer, "res/AKITKIT.png", 200, 200 , 48, 64);
 	input_state = new InputState();
     
     //create all state data
@@ -68,8 +40,9 @@ Game::Game(){
     gameStateData->respawnMenu->newWorldButton = new Button(renderer, "res/myWorlds.png", 250, 300, 200, 75); 
 
     // Create tiles surface
-    tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
-    tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
+    // TODO
+    // tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
+    // tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
     SDL_FreeSurface(tile_map_surface);
 
     quit = false;
@@ -113,7 +86,7 @@ int Game::run(){
     // Wait for a key press
 	Uint32 last_time = SDL_GetTicks();
 	const Uint32 ticks_per_frame = 1000 / 60; // 60 FPS
-    gameInfo->count = 0;
+    count = 0;
 
 
     //game loop
@@ -162,7 +135,7 @@ int Game::run(){
                 //     // std::cout << "hi count is: " << count() << std::endl;
 
                 //     // //increment count by 1 
-                //     // gameInfo->count++;
+                //     // count++;
                 // }
 
             }
@@ -297,18 +270,18 @@ void Game::update(){
     
 
     if(gameStateData->gameState == GameState::START_MENU){ 
-        gameInfo->gamePositionX = 0;
-        gameInfo->gamePositionY = 0;
+        gamePositionX = 0;
+        gamePositionY = 0;
     }
     if(gameStateData->gameState == GameState::GAMEPLAY){
         
-        gameInfo->gamePositionX = character->position.x-SCREEN_WIDTH/2;
-        gameInfo->gamePositionY = character->position.y-SCREEN_HEIGHT/2;
+        gamePositionX = character->position.x-SCREEN_WIDTH/2;
+        gamePositionY = character->position.y-SCREEN_HEIGHT/2;
 
-        world->update(input_state, renderer, gamePositionX(), gamePositionY());
+        world->update(input_state, renderer, gamePositionX, gamePositionY);
         character->update(input_state);
         player_physics(character, world);
-        background1->update(input_state, gamePositionX(), gamePositionY());
+        background1->update(input_state, gamePositionX, gamePositionY);
         // background2->update(input_state, gamePositionX);
         bad_kat->update();
         npc_physics(bad_kat, world);
@@ -328,18 +301,6 @@ void Game::update(){
 
     gameStateData->updateState(input_state, character->health);
 
-}
-
-int Game::count() {
-    return gameInfo->count;
-}
-
-int Game::gamePositionX() {
-    return gameInfo->gamePositionX;
-}
-
-int Game::gamePositionY() {
-    return gameInfo->gamePositionY;
 }
 
 Game::~Game(){

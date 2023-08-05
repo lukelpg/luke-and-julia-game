@@ -1,13 +1,12 @@
 #include "npc.h"
 #include "sprite.h"
-#include "input_state.h"
-#include "block.h"
-#include "game_info.h"
+#include "../input/input_state.h"
+#include "../world/block.h"
 #include <iostream>
 
 const int GRAVITY = 1;
 
-Npc::Npc(GameInfo* gameInfo, SDL_Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(gameInfo, renderer, file_path, x, y, w, h) {
+Npc::Npc(Game* game, Renderer* renderer, const char* file_path, int x, int y, int w, int h): Sprite(game, renderer, file_path, x, y, w, h) {
     speed_x = 1;
     speed_y = 1;
 }

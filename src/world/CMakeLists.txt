@@ -1,0 +1,9 @@
+add_library(
+	world
+	background.h
+	background.cpp
+	block.h
+	block.cpp
+	world.h
+	world.cpp
+)

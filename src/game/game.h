@@ -5,22 +5,22 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "player.h"
-#include "background.h"
-#include "input_state.h"
-#include "npc.h"
 #include "button.h"
 #include "game_state.h"
-#include "block.h"
-#include "world.h"
-#include "game_info.h"
+#include "../input/input_state.h"
+#include "../sprite/player.h"
+#include "../sprite/npc.h"
+#include "../render/renderer.h"
+#include "../world/background.h"
+#include "../world/block.h"
+#include "../world/world.h"
 
 class Game {
 public:
     Game();
     ~Game();
     
-    void render();
+    int render();
     void update();
 
     int run();
@@ -35,32 +35,25 @@ public:
     World* world;
     Block* blockList[3];
     std::string imageList[3];
-    SDL_Renderer* renderer;
 
     // saving and loading world function 
 
     void loadWorld();
     void saveWorld();
 
-    // int count;
-    // int gamePositionX;
-    // int gamePositionY;
-    GameInfo* gameInfo;
-    int count();
-    int gamePositionX();
-    int gamePositionY();
+    int count;
+    int gamePositionX;
+    int gamePositionY;
 
 private:
+    Renderer* renderer;
     int error;
     int respawnSeed;
-    SDL_Window* window;
     Background* background1;
     Background* background2;
 	Player* character;
     Npc* bad_kat;
 	InputState* input_state;
-    SDL_Surface* tile_map_surface;
-    SDL_Texture* tile_texture;
   
     World* worlds[3];
 

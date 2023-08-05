@@ -5,16 +5,18 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 
-#include "input_state.h"
-#include "game_state.h"
-#include "game_info.h"
-#include "textured_rectangle.h"
+#include "../input/input_state.h"
+#include "../game/game_state.h"
+#include "../render/renderer.h"
+#include "../game/textured_rectangle.h"
+
+class Game;
 
 class Block {
 public:
-    Block(SDL_Renderer* renderer, GameInfo* gameInfo, const char* file_path, int col, int row, int size);
+    Block(Renderer* renderer, Game* game, const char* file_path, int col, int row, int size);
     ~Block();
-    void render(SDL_Renderer* renderer);
+    void render(Renderer* renderer);
     void update(int gamePositionX, int gamePositionY);
 
     bool isClicked(int mouseX, int mouseY);

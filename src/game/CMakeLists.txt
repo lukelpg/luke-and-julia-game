@@ -1,0 +1,11 @@
+add_library(
+	game
+	button.h
+	button.cpp
+	game_state.h
+	game_state.cpp
+	game.h
+	game.cpp
+	textured_rectangle.h
+	textured_rectangle.cpp
+)

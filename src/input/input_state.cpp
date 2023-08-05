@@ -1,5 +1,5 @@
 #include "input_state.h"
-#include "button.h"
+#include "../game/button.h"
 #include <SDL2/SDL.h>
 #include <iostream>
 
