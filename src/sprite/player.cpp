@@ -20,7 +20,7 @@ Player::Player(Game* game, Renderer* renderer, const char* file_path, int x, int
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
 
-    heartTexture = SDL_CreateTextureFromSurface(renderer, heartSurface);
+    heartTexture = renderer->CreateTextureFromSurface(heartSurface);
 
     heartPosition.x = 10;
     heartPosition.y = 10;
@@ -39,7 +39,7 @@ Player::Player(Game* game, Renderer* renderer, const char* file_path, int x, int
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
 
-    waterTexture = SDL_CreateTextureFromSurface(renderer, waterSurface);
+    waterTexture = renderer->CreateTextureFromSurface(waterSurface);
 
     waterPosition.x = 10;
     waterPosition.y = 50;
@@ -143,13 +143,13 @@ void Player::render(Renderer* renderer) {
 
     
     for(int i = 0; i < heartNum; i++) {
-        SDL_RenderCopy(renderer, heartTexture, NULL, &arrayHeart[i]);
+        renderer->copy(heartTexture, &arrayHeart[i]);
     }
 
     // render water stuff
 
     for(int i = 0; i < heartNum; i++) {
-        SDL_RenderCopy(renderer, waterTexture, NULL, &arrayWater[i]);
+        renderer->copy(waterTexture, &arrayWater[i]);
     }
 
 

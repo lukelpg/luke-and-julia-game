@@ -11,7 +11,11 @@ public:
     ~Renderer();
     
     void render();
-    void copy(SDL_Texture*, SDL_Rect&);
+    void copy(SDL_Texture*, SDL_Rect*);
+    SDL_Texture* CreateTextureFromSurface(SDL_Surface*);
+
+    void clear();
+    void present();
 
     SDL_Renderer* sdl_renderer;
 

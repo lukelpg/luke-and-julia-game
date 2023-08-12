@@ -43,7 +43,7 @@ Game::Game(){
     // TODO
     // tile_map_surface = SDL_LoadBMP("res/grassBlock.bmp");
     // tile_texture = SDL_CreateTextureFromSurface(renderer, tile_map_surface);
-    SDL_FreeSurface(tile_map_surface);
+    // SDL_FreeSurface(tile_map_surface);
 
     quit = false;
 }
@@ -149,6 +149,7 @@ int Game::run(){
 			
 		}
     }
+    return 0;
 }
 
 void Game::updateCamera() {
@@ -211,8 +212,7 @@ void Game::collisionChecks(){
 
 void Game::render(){
     // Clear the renderer
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderClear(renderer);
+    renderer->clear();
 
     if(gameStateData->gameState == GameState::START_MENU){
         background1->render(renderer);
@@ -261,7 +261,7 @@ void Game::render(){
     }
 
     // Update the renderer
-	SDL_RenderPresent(renderer);
+	renderer->present();
 }
 
 void Game::update(){
@@ -309,8 +309,7 @@ Game::~Game(){
     delete background1;
     delete background2;
     delete bad_kat;
-    SDL_DestroyTexture(tile_texture);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    // SDL_DestroyTexture(tile_texture);
+    delete renderer;
     SDL_Quit();
 }

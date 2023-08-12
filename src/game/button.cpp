@@ -10,7 +10,7 @@ Button::Button(Renderer* renderer, const char* file_path, int x, int y, int w, i
 	if (surface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = renderer->CreateTextureFromSurface(surface);
 
     position.x = x;
     position.y = y;
@@ -29,7 +29,7 @@ bool Button::isClicked(int mouseX, int mouseY) {
 // }
 
 void Button::render(Renderer* renderer) {
-    renderer.copy(texture, &position)
+    renderer->copy(texture, &position);
 }
 
 

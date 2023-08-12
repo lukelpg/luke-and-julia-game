@@ -26,13 +26,27 @@ Renderer::Renderer(int width, int height) {
 }
 
 Renderer::~Renderer() {
+    SDL_DestroyRenderer(sdl_renderer);
+    SDL_DestroyWindow(window);
+}
 
+void Renderer::clear() {
+    SDL_SetRenderDrawColor(sdl_renderer, 255, 255, 255, 255);
+    SDL_RenderClear(sdl_renderer);
+}
+
+void Renderer::present() {
+    SDL_RenderPresent(sdl_renderer);
 }
 
 void Renderer::render() {
 
 }
 
-void Renderer::copy(SDL_Texture* texture, SDL_Rect& position){
-    SDL_RenderCopy(sdl_renderer, texture, NULL, &position);
+void Renderer::copy(SDL_Texture* texture, SDL_Rect* position){
+    SDL_RenderCopy(sdl_renderer, texture, NULL, position);
+}
+
+SDL_Texture* Renderer::CreateTextureFromSurface(SDL_Surface* surface) {
+    return SDL_CreateTextureFromSurface(sdl_renderer, surface);
 }

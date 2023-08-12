@@ -20,7 +20,7 @@ public:
     Game();
     ~Game();
     
-    int render();
+    void render();
     void update();
 
     int run();

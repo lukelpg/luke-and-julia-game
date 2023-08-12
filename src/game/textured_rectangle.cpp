@@ -6,7 +6,7 @@ TexturedRectangle::TexturedRectangle(Renderer* renderer, const char* file_path, 
 	if (surface == nullptr) {
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
     }
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = renderer->CreateTextureFromSurface(surface);
     SDL_FreeSurface(surface);
 }
 
@@ -37,7 +37,7 @@ void TexturedRectangle::render(Renderer* renderer) {
     position.x += game->gamePositionX; 
     position.y += game->gamePositionY;
 
-    SDL_RenderCopy(renderer, texture, NULL, &screenPosition);
+    renderer->copy(texture, &screenPosition);
 }
 
 

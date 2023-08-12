@@ -12,7 +12,7 @@ Sprite::Sprite(Game* game, Renderer* renderer, const char* file_path, int x, int
         std::cerr << "IMG_Load error: " << IMG_GetError() << std::endl;
         throw std::runtime_error("IMG_Load error");
     }
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = renderer->CreateTextureFromSurface(surface);
     speed_x = 0;
     speed_y = 0;
     can_jump = false;
@@ -84,5 +84,5 @@ Sprite::~Sprite() {
 }
 
 void Sprite::render(Renderer* renderer) {
-    SDL_RenderCopy(renderer, texture, NULL, &position);
+    renderer->copy(texture, &position);
 }
