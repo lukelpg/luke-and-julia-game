@@ -6,6 +6,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
+set(SDL2_LIBRARIES "/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so")
 
 add_subdirectory(src/game)
 add_subdirectory(src/input)
@@ -25,10 +26,7 @@ add_executable(luke_game src/main.cpp)
 
 target_link_libraries(
 	luke_game 
-	SDL2 
-	SDL2_image 
-	SDL2_ttf 
-	SDL2_mixer
+	${SDL2_LIBRARIES}
 )
 
 target_link_libraries(

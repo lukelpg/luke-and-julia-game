@@ -1,6 +1,6 @@
 #include "input_state.h"
 #include "../game/button.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <iostream>
 
 InputState::InputState() {

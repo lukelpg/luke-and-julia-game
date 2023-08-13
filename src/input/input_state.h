@@ -1,7 +1,7 @@
 #ifndef INPUT_STATE_H
 #define INPUT_STATE_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <chrono>
 #include <thread>
 

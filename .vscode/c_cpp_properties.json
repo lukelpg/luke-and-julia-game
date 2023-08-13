@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/opt/homebrew/Cellar/**",
+                "/usr/include/**",
                 "${workspaceFolder}/src/SDL2/include"
             ],
             "defines": [],

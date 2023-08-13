@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "sprite.h"
 #include "player.h"
 #include "../input/input_state.h"

@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "physics.h"
 
 CollisionResult rectangle_collision(const SDL_Rect& a, const SDL_Rect& b) {

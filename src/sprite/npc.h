@@ -1,8 +1,8 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <vector>
 #include "../input/input_state.h"
 #include "sprite.h"

@@ -1,7 +1,7 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "physics.h"
 #include "../sprite/player.h"
 #include "../world/world.h"

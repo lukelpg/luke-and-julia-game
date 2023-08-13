@@ -1,8 +1,8 @@
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include "../input/input_state.h"
 #include "button.h"
